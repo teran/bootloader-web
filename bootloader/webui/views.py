@@ -1,5 +1,8 @@
 from django.shortcuts import render_to_response
-from django.shortcuts import render
+
+from core.models import Server
 
 def index(request):
-    return render_to_response('webui/index.html.j2')
+    servers = Server.objects.all()
+
+    return render_to_response('webui/index.html.j2', context={'servers': servers})

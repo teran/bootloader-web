@@ -51,6 +51,11 @@
       </div>
 
     </div><!-- /.container -->
+    <div>
+      {% for i in servers %}
+      {{ i.fqdn }}
+      {% endfor %}
+    </div>
 
     <script src="{% static "js/jquery/1.12.4/jquery.min.js" %}" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
     <script src="{% static "js/bootstrap/3.3.7/bootstrap.min.js" %}" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
