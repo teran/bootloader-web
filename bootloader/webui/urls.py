@@ -4,4 +4,5 @@ from webui import views
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^locations\.html$', views.locations),
 ]
