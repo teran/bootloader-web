@@ -21,3 +21,8 @@ class ServerSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+class LocationSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
