@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir --upgrade \
       ipython && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
-ENTRYPOINT ["/usr/bin/ipython"]
+ENTRYPOINT ["./manage.py", "runserver", "0.0.0.0:8000"]
