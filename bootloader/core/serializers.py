@@ -10,6 +10,7 @@ class ServerSerializer(serializers.Serializer):
     mac = serializers.CharField(
         required=True, allow_blank=False, max_length=255)
     location = serializers.PrimaryKeyRelatedField(queryset=Location.objects.all())
+    serial = serializers.CharField(allow_blank=True, max_length=255)
 
     def create(self, validated_data):
         return Server.objects.create(**validated_data)
@@ -18,6 +19,7 @@ class ServerSerializer(serializers.Serializer):
         instance.fqdn = validated_data.get('fqdn', instance.fqdn)
         instance.mac = validated_data.get('mac', instance.mac)
         instance.location = validated_data.get('location', instance.location)
+        instance.serial = validated_data.get('serial', instance.serial)
         instance.save()
 
         return instance
