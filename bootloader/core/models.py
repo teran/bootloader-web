@@ -16,3 +16,4 @@ class Server(models.Model):
     mac = models.CharField(max_length=15, unique=True)
     location = models.ForeignKey(Location, related_name='servers')
     groups = models.ManyToManyField(Group, related_name='servers')
+    serial = models.CharField(max_length=255, null=True)
