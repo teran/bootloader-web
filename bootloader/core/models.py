@@ -4,8 +4,9 @@ from django.db import models
 
 
 IPMI_BROWSER_PROTO_CHOICES = (
+    (None, 'None'),
     (1, 'http'),
-    (2, 'https')
+    (2, 'https'),
 )
 
 
@@ -20,10 +21,10 @@ class Location(models.Model):
 class Server(models.Model):
     fqdn = models.CharField(max_length=255, unique=True)
     mac = models.CharField(max_length=15, unique=True)
-    location = models.ForeignKey(Location, related_name='servers')
+    location = models.ForeignKey(Location, null=True, blank=True, related_name='servers')
     groups = models.ManyToManyField(Group, related_name='servers')
     serial = models.CharField(max_length=255, null=True)
-    ipmi_host = models.CharField(max_length=255, unique=True, null=True)
+    ipmi_host = models.CharField(max_length=255)
     ipmi_username = models.CharField(max_length=255, null=True)
     ipmi_password = models.CharField(max_length=255, null=True)
     ipmi_browser_proto = models.IntegerField(
