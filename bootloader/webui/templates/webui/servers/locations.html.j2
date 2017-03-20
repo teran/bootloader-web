@@ -4,14 +4,12 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <table class="table">
             <tr>
-              <th>Server FQDN</th>
-              <th>Location</th>
+              <th>Name</th>
               <th>Controls</th>
             </tr>
-            {% for server in servers %}
+            {% for location in locations %}
             <tr>
-              <td><a href="/servers/{{ server.pk }}/{{ server.fqdn }}.html">{{ server.fqdn }}</a></td>
-              <td>{{ server.location.name }}</td>
+              <td><a href="#">{{ location }}</a></td>
               <td>
                 <button type="button" class="btn btn-info btn-xs">
                   <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span> IPMI

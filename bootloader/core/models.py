@@ -17,10 +17,15 @@ class Group(models.Model):
 class Location(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.__str__()
+
 
 class Server(models.Model):
     fqdn = models.CharField(max_length=255, unique=True)
-    mac = models.CharField(max_length=15, unique=True)
     location = models.ForeignKey(Location, null=True, blank=True, related_name='servers')
     groups = models.ManyToManyField(Group, related_name='servers')
     serial = models.CharField(max_length=255, null=True)
@@ -30,6 +35,12 @@ class Server(models.Model):
     ipmi_browser_proto = models.IntegerField(
         choices=IPMI_BROWSER_PROTO_CHOICES, null=True)
 
+    def __str__(self):
+        return self.fqdn
+
+    def __unicode__(self):
+        return self.__str__()
+
     def link_webui(self):
         return '/server/%s/%s.html' % (self.pk, self.fqdn)
 
@@ -38,3 +49,15 @@ class Server(models.Model):
 
     def link_api(self):
         return '/api/servers/%s' % (self.pk)
+
+
+class Interface(models.Model):
+    name = models.CharField(max_length=16)
+    mac = models.CharField(max_length=15, unique=True)
+    server = models.ForeignKey(Server, related_name='interfaces')
+
+    def __str__(self):
+        return '%s@%s' % (self.name, self.server.fqdn)
+
+    def __unicode__(self):
+        return self.__str__()

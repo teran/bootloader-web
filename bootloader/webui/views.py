@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404, render_to_response
 
-from core.models import Server
+from core.models import Location, Server
 
 def index(request):
     servers = Server.objects.all()
 
     return render_to_response(
-        'webui/servers/index.html.j2',
+        'webui/servers/servers.html.j2',
         context={
             'servers': servers,
             'view': 'servers'
@@ -14,12 +14,12 @@ def index(request):
 
 
 def locations(request):
-    servers = Server.objects.all()
+    servers = Location.objects.all()
 
     return render_to_response(
-        'webui/servers/index.html.j2',
+        'webui/servers/locations.html.j2',
         context={
-            'servers': servers,
+            'locations': locations,
             'view': 'locations'
         })
 
