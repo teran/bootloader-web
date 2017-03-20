@@ -11,6 +11,9 @@ $(".delete-server").click(function() {
         if(postActionURL) {
           $(location).attr("href", postActionURL);
         }
+      },
+      error: function(result, status, error) {
+        alert("Error performing an action: "+status)
       }
     });
   }
