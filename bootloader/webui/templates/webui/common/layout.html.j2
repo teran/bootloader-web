@@ -1,4 +1,5 @@
 {% load static %}
+{% load gravatar %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,7 +41,21 @@
             <li><a href="/servers/index.html">Servers</a></li>
             <li><a href="/servers/profiles.html">Profiles</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+          {% if user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                {{ user.username }} {% autoescape off %}{% gravatar user.email 17 %}{% endautoescape %}
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/user/profile.html">Profile</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/user/logout.html">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+          {% endif %}
+        </div>
       </div>
     </nav>
 

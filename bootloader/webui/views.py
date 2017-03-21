@@ -9,7 +9,8 @@ from core.models import Location, Server
 def index(request):
     servers = Server.objects.all()
 
-    return render_to_response(
+    return render(
+        request,
         'webui/servers/servers.html.j2',
         context={
             'servers': servers,
@@ -21,7 +22,8 @@ def index(request):
 def locations(request):
     servers = Location.objects.all()
 
-    return render_to_response(
+    return render(
+        request,
         'webui/servers/locations.html.j2',
         context={
             'locations': locations,
@@ -41,12 +43,14 @@ def server(request, pk, fqdn):
                 'view': 'servers',
             })
     else:
-        return render_to_response(
+        return render(
+            request,
             'webui/servers/server.html.j2',
             context={
                 'server': server,
                 'view': 'servers',
             })
+
 
 def user_login(request):
     if request.method == "POST":
@@ -67,5 +71,8 @@ def user_login(request):
         return render(request,
             'webui/user/login.html.j2')
 
+
+@login_required
 def user_logout(request):
-    return logout(request)
+    logout(request)
+    return redirect('/')

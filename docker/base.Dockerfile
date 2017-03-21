@@ -22,4 +22,7 @@ RUN pip install --no-cache-dir --upgrade Django && \
 RUN pip install --no-cache-dir --upgrade djangorestframework && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
+RUN pip install --no-cache-dir --upgrade django-gravatar-tags && \
+    find / -name '*.pyc' -or -name '*.pyo' -delete
+
 ENTRYPOINT ["/srv/bootloader/manage.py", "runserver", "0.0.0.0:8000"]
