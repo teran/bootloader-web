@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 
 from core.models import Location, Server
@@ -76,3 +77,30 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('/')
+
+
+def user_register(request):
+    template = 'webui/user/register.html.j2'
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
+        if not username or not email or not firstname or not lastname or not password or not password2:
+            return render(request, template, context={'message': 'All of the fields are required'})
+
+        if password != password2:
+            return render(request, template, context={'message': 'Passwords are not the same'})
+
+        user = User.objects.create_user(username, email, password)
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save()
+
+        return redirect('/')
+    else:
+        return render(request, template)
