@@ -34,6 +34,7 @@ class Server(models.Model):
     ipmi_password = models.CharField(max_length=255, null=True)
     ipmi_browser_proto = models.IntegerField(
         choices=IPMI_BROWSER_PROTO_CHOICES, null=True)
+    ipmi_browser_port = models.IntegerField(default=80)
 
     def __str__(self):
         return self.fqdn
