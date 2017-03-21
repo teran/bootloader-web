@@ -40,8 +40,6 @@ $('document').ready(function() {
 
     $("#formModalTitle").html("Sure?");
     $("#formModalBody").html("Are you sure you really want to "+objectAction+" "+objectType+" "+objectName+"?");
-    $("#formModalSubmitButton").addClass("btn-success btn-default");
-    $("#formModalSubmitButton").html("Yes!");
     $("#formModal").modal('show');
 
     $("#formModalSubmitButton").click(function() {
