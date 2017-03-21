@@ -1,7 +1,11 @@
-from django.shortcuts import get_object_or_404, render_to_response
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 
 from core.models import Location, Server
 
+
+@login_required
 def index(request):
     servers = Server.objects.all()
 
@@ -13,6 +17,7 @@ def index(request):
         })
 
 
+@login_required
 def locations(request):
     servers = Location.objects.all()
 
@@ -24,6 +29,7 @@ def locations(request):
         })
 
 
+@login_required
 def server(request, pk, fqdn):
     server = get_object_or_404(Server, pk=pk, fqdn=fqdn)
 
@@ -41,3 +47,25 @@ def server(request, pk, fqdn):
                 'server': server,
                 'view': 'servers',
             })
+
+def user_login(request):
+    if request.method == "POST":
+        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            return render(
+                request,
+                'webui/user/login.html.j2',
+                context={
+                    'message': 'Authentication data is invalid',
+                    'username': request.POST.get('username'),
+                    'password': request.POST.get('password'),
+                })
+    else:
+        return render(request,
+            'webui/user/login.html.j2')
+
+def user_logout(request):
+    return logout(request)
