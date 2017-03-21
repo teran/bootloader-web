@@ -1,0 +1,25 @@
+{% extends 'webui/common/layout.html.j2' %}
+{% load gravatar %}
+
+{% block content %}
+          <div class="col-sm-10 col-sm-offset-4 col-md-6 col-md-offset-3 main">
+            <table class="table">
+              <tr>
+                <td><a href="http://gravatar.com" target="_blank">Gravatar</a></td>
+                <td>{% autoescape off %}{% gravatar user.email 250 %}{% endautoescape %}
+              </tr>
+              <tr>
+                <td>Username</td>
+                <td>{{ user.username }}</td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{{ user.email }}</td>
+              </tr>
+            </table>
+          </div>
+{% endblock %}

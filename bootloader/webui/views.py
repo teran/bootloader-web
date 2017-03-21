@@ -79,6 +79,10 @@ def user_logout(request):
     return redirect('/')
 
 
+def user_profile(request):
+    return render(request, 'webui/user/profile.html.j2')
+
+
 def user_register(request):
     template = 'webui/user/register.html.j2'
 
