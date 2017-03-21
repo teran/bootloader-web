@@ -1,4 +1,4 @@
-{% extends 'webui/servers/layout.html.j2' %}
+"PATCH"{% extends 'webui/servers/layout.html.j2' %}
 
 {% block content %}
         <input type="hidden" id="post-action-url" name="post-action-url" value="/servers/index.html">
@@ -22,21 +22,21 @@
               <td>{{ u.is_staff }}</td>
               <td>{% if user.pk != u.pk %}
                   {% if u.is_active %}
-                  <button type="button" class="btn btn-danger btn-xs deactivate-user" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user">
+                  <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user" object-action="deactivate" action-method="PATCH" post-action-url="/user/events.html" action-data='{"is_active": false}'>
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> deactivate
                   </button>
                   {% else %}
-                  <button type="button" class="btn btn-success btn-xs activate-user" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user">
+                  <button type="button" class="btn btn-success btn-xs object-action-button" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user" object-action="activate" action-method="PATCH" post-action-url="/user/events.html" action-data='{"is_active": true}'>
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> activate
                   </button>
                   {% endif %}
                   {% if u.is_staff %}
-                  <button type="button" class="btn btn-danger btn-xs destaff-user" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user">
+                  <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user" object-action="destaff" action-method="PATCH" post-action-url="/user/events.html" action-data='{"is_staff": false}'>
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> destaff
                   </button>
                   {% else %}
-                  <button type="button" class="btn btn-warning btn-xs staff-user" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> set staff
+                  <button type="button" class="btn btn-warning btn-xs object-action-button" object-id="{{ u.pk }}" object-name="{{ u.username }}" object-type="user" object-action="staff" action-method="PATCH" post-action-url="/user/events.html" action-data='{"is_staff": true}'>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> staff
                   </button>
                   {% endif %}
                   {% endif %}
