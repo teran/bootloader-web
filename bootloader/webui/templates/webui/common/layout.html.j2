@@ -40,6 +40,9 @@
           <ul class="nav navbar-nav">
             <li><a href="/servers/index.html">Servers</a></li>
             <li><a href="/servers/profiles.html">Profiles</a></li>
+            {% if user.is_staff %}
+            <li><a href="/user/events.html">Users</a>
+            {% endif %}
           </ul>
           {% if user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">

@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -103,8 +104,15 @@ def user_register(request):
         user = User.objects.create_user(username, email, password)
         user.first_name = firstname
         user.last_name = lastname
+        user.is_active = False
         user.save()
 
         return redirect('/')
     else:
         return render(request, template)
+
+@login_required
+@staff_member_required
+def user_events(request):
+    users = User.objects.all()
+    return render(request, 'webui/user/events.html.j2', context={'users': users})
