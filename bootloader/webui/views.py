@@ -27,9 +27,17 @@ def locations(request):
 def server(request, pk, fqdn):
     server = get_object_or_404(Server, pk=pk, fqdn=fqdn)
 
-    return render_to_response(
-        'webui/servers/server.html.j2',
-        context={
-            'server': server,
-            'view': 'servers',
-        })
+    if request.GET.get('action') == 'edit':
+        return render_to_response(
+            'webui/servers/server-edit.html.j2',
+            context={
+                'server': server,
+                'view': 'servers',
+            })
+    else:
+        return render_to_response(
+            'webui/servers/server.html.j2',
+            context={
+                'server': server,
+                'view': 'servers',
+            })

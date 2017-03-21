@@ -43,10 +43,10 @@ class Server(models.Model):
         return self.__str__()
 
     def link_webui(self):
-        return '/server/%s/%s.html' % (self.pk, self.fqdn)
+        return '/servers/%s/%s.html' % (self.pk, self.fqdn)
 
     def link_webui_edit(self):
-        return '/server/%s/%s/edit.html' % (self.pk, self.fqdn)
+        return '/servers/%s/%s.html?action=edit' % (self.pk, self.fqdn)
 
     def link_api(self):
         return '/api/servers/%s' % (self.pk)
