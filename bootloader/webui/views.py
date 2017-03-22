@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 
+from rest_framework.authtoken.models import Token
+
 from core.models import Location, Server
 
 
@@ -116,3 +118,22 @@ def user_register(request):
 def user_events(request):
     users = User.objects.all()
     return render(request, 'webui/user/events.html.j2', context={'users': users})
+
+@login_required
+def user_tokens(request):
+    if request.method == 'POST':
+        token = Token.objects.filter(user=request.user)
+        if token:
+            token[0].delete()
+        token = Token.objects.create(user=request.user)
+
+        return redirect('/user/tokens.html')
+    else:
+        tokens = Token.objects.filter(user=request.user)
+
+        return render(
+            request,
+            'webui/user/tokens.html.j2',
+            context={
+                'tokens': tokens
+            })

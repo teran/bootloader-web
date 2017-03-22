@@ -31,6 +31,7 @@ class ServerSerializer(serializers.Serializer):
 
 class InterfaceSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=16)
+    mac = serializers.CharField(max_length=15)
     server = serializers.SlugRelatedField(queryset=Server.objects.all(), slug_field='fqdn')
 
     class Meta:
