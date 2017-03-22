@@ -12,6 +12,11 @@ from rest_framework.authtoken.models import Token
 from core.models import Location, Server
 
 
+def deployment_profiles(request):
+    return render(
+        request,
+        'webui/deployments/profiles.html.j2')
+
 @login_required
 def index(request):
     servers = Server.objects.all()

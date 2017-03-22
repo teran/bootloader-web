@@ -19,6 +19,7 @@ urlpatterns = [
     # url(r'^api/', include('api.urls')),
     url(r'^$', include('webui.urls')),
     url(r'^servers/', include('webui.urls')),
+    url(r'^deployments/', include('webui.urls')),
     url(r'^api/', include('api.urls')),
     url(r'^user/', include('webui.urls')),
 ]

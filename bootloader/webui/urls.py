@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^profile\.html$', views.user_profile),
     url(r'^register\.html$', views.user_register),
     url(r'^tokens\.html$', views.user_tokens),
+    url(r'^profiles\.html$', views.deployment_profiles),
 ]
