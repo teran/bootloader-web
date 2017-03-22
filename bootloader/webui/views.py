@@ -2,7 +2,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.shortcuts import render_to_response
+from django.shortcuts import redirect
 
 from rest_framework.authtoken.models import Token
 
@@ -24,7 +27,7 @@ def index(request):
 
 @login_required
 def locations(request):
-    servers = Location.objects.all()
+    locations = Location.objects.all()
 
     return render(
         request,
@@ -58,7 +61,9 @@ def server(request, pk, fqdn):
 
 def user_login(request):
     if request.method == "POST":
-        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+        user = authenticate(
+            username=request.POST.get('username'),
+            password=request.POST.get('password'))
         if user is not None:
             login(request, user)
             return redirect('/')
@@ -72,8 +77,7 @@ def user_login(request):
                     'password': request.POST.get('password'),
                 })
     else:
-        return render(request,
-            'webui/user/login.html.j2')
+        return render(request, 'webui/user/login.html.j2')
 
 
 @login_required
@@ -97,11 +101,18 @@ def user_register(request):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
-        if not username or not email or not firstname or not lastname or not password or not password2:
-            return render(request, template, context={'message': 'All of the fields are required'})
+        if not username or not email or not firstname or not lastname \
+           or not password or not password2:
+            return render(
+                request,
+                template,
+                context={'message': 'All of the fields are required'})
 
         if password != password2:
-            return render(request, template, context={'message': 'Passwords are not the same'})
+            return render(
+                request,
+                template,
+                context={'message': 'Passwords are not the same'})
 
         user = User.objects.create_user(username, email, password)
         user.first_name = firstname
@@ -113,11 +124,16 @@ def user_register(request):
     else:
         return render(request, template)
 
+
 @login_required
 @staff_member_required
 def user_events(request):
     users = User.objects.all()
-    return render(request, 'webui/user/events.html.j2', context={'users': users})
+    return render(
+        request,
+        'webui/user/events.html.j2',
+        context={'users': users})
+
 
 @login_required
 def user_tokens(request):
