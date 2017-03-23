@@ -6,6 +6,16 @@ from django.db import models
 from servers.models import Server
 
 
+DEPLOYMENT_STATUSES = (
+    (1, 'Unknown',),
+    (2, 'Waiting for PXEBoot',),
+    (3, 'Waiting for configuration request',),
+    (4, 'Installation',),
+    (5, 'Configuring',),
+    (6, 'OS boot',),
+    (7, 'Post actions',),
+)
+
 class Profile(models.Model):
     name = models.CharField(max_length=255)
 
@@ -19,6 +29,7 @@ class Profile(models.Model):
 class Deployment(models.Model):
     server = models.ForeignKey(Server, related_name='deployments')
     profile = models.ForeignKey(Profile, related_name='deployments')
+    status = models.IntegerField(choices=DEPLOYMENT_STATUSES, default=1)
     parameters = JSONField()
 
     def __str__(self):
