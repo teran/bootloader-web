@@ -52,6 +52,9 @@ class Server(models.Model):
     def link_api(self):
         return '/api/servers/%s' % (self.pk)
 
+    def link_ipmi_web(self):
+        return '%s://%s' % (IPMI_BROWSER_PROTO_CHOICES[self.ipmi_browser_proto][1], self.ipmi_host)
+
 
 class Interface(models.Model):
     name = models.CharField(max_length=16)

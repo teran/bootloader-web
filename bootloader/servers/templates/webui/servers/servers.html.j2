@@ -14,7 +14,7 @@
               <td>{{ server.location.name }}</td>
               <td>
                 {% if server.ipmi_host and server.ipmi_browser_proto %}
-                <a href="{{ server.ipmi_browser_proto }}://{{ server.fqdn }}" class="btn btn-info" target="_blank">
+                <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
                   <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
                   IPMI
                 </a>
