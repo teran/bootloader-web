@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 
+import servers.views
+
 urlpatterns = [
     url(r'^api/', include('api.urls')),
-    # url(r'^$', include('webui.urls')),
+    url(r'^$', servers.views.index),
     url(r'^servers/', include('servers.urls')),
     # url(r'^api/', include('api.urls')),
     url(r'^user/', include('users.urls')),
