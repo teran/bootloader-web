@@ -9,59 +9,7 @@ from django.shortcuts import redirect
 
 from rest_framework.authtoken.models import Token
 
-from core.models import Location, Server
-
-
-def deployment_profiles(request):
-    return render(
-        request,
-        'webui/deployments/profiles.html.j2')
-
-@login_required
-def index(request):
-    servers = Server.objects.all()
-
-    return render(
-        request,
-        'webui/servers/servers.html.j2',
-        context={
-            'servers': servers,
-            'view': 'servers'
-        })
-
-
-@login_required
-def locations(request):
-    locations = Location.objects.all()
-
-    return render(
-        request,
-        'webui/servers/locations.html.j2',
-        context={
-            'locations': locations,
-            'view': 'locations'
-        })
-
-
-@login_required
-def server(request, pk, fqdn):
-    server = get_object_or_404(Server, pk=pk, fqdn=fqdn)
-
-    if request.GET.get('action') == 'edit':
-        return render_to_response(
-            'webui/servers/server-edit.html.j2',
-            context={
-                'server': server,
-                'view': 'servers',
-            })
-    else:
-        return render(
-            request,
-            'webui/servers/server.html.j2',
-            context={
-                'server': server,
-                'view': 'servers',
-            })
+from servers.models import Location, Server
 
 
 def user_login(request):
@@ -75,14 +23,14 @@ def user_login(request):
         else:
             return render(
                 request,
-                'webui/user/login.html.j2',
+                'webui/users/login.html.j2',
                 context={
                     'message': 'Authentication data is invalid',
                     'username': request.POST.get('username'),
                     'password': request.POST.get('password'),
                 })
     else:
-        return render(request, 'webui/user/login.html.j2')
+        return render(request, 'webui/users/login.html.j2')
 
 
 @login_required
@@ -92,11 +40,11 @@ def user_logout(request):
 
 
 def user_profile(request):
-    return render(request, 'webui/user/profile.html.j2')
+    return render(request, 'webui/users/profile.html.j2')
 
 
 def user_register(request):
-    template = 'webui/user/register.html.j2'
+    template = 'webui/users/register.html.j2'
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -136,7 +84,7 @@ def user_events(request):
     users = User.objects.all()
     return render(
         request,
-        'webui/user/events.html.j2',
+        'webui/users/events.html.j2',
         context={'users': users})
 
 
@@ -154,7 +102,7 @@ def user_tokens(request):
 
         return render(
             request,
-            'webui/user/tokens.html.j2',
+            'webui/users/tokens.html.j2',
             context={
                 'tokens': tokens
             })

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from core.models import Interface, Server, Location
+from servers.models import Interface, Server, Location
 
 from rest_framework import serializers
 

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 
 from rest_framework import viewsets
 
-from core.models import Interface, Location, Server
+from servers.models import Interface, Location, Server
 from api.serializers import InterfaceSerializer
 from api.serializers import LocationSerializer
 from api.serializers import ServerSerializer

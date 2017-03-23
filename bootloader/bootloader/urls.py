@@ -16,10 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 
 urlpatterns = [
-    # url(r'^api/', include('api.urls')),
-    url(r'^$', include('webui.urls')),
-    url(r'^servers/', include('webui.urls')),
-    url(r'^deployments/', include('webui.urls')),
     url(r'^api/', include('api.urls')),
-    url(r'^user/', include('webui.urls')),
+    # url(r'^$', include('webui.urls')),
+    url(r'^servers/', include('servers.urls')),
+    # url(r'^api/', include('api.urls')),
+    url(r'^user/', include('users.urls')),
 ]
