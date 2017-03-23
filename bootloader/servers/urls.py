@@ -1,7 +1,6 @@
 from django.conf.urls import url
 
 import servers.views
-import users.views
 
 urlpatterns = [
     url(r'^$', servers.views.index),

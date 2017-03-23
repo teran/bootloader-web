@@ -15,6 +15,7 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.__str__()
 
+
 class Deployment(models.Model):
     server = models.ForeignKey(Server, related_name='deployments')
     profile = models.ForeignKey(Profile, related_name='deployments')

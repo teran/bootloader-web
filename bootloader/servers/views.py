@@ -1,13 +1,6 @@
-from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.shortcuts import redirect
-
-from rest_framework.authtoken.models import Token
 
 from servers.models import Location, Server
 
@@ -16,6 +9,7 @@ def deployment_profiles(request):
     return render(
         request,
         'webui/deployments/profiles.html.j2')
+
 
 @login_required
 def index(request):
@@ -48,7 +42,8 @@ def server(request, pk, fqdn):
     server = get_object_or_404(Server, pk=pk, fqdn=fqdn)
 
     if request.GET.get('action') == 'edit':
-        return render_to_response(
+        return render(
+            request,
             'webui/servers/server-edit.html.j2',
             context={
                 'server': server,
