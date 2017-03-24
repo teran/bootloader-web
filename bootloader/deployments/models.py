@@ -18,6 +18,7 @@ DEPLOYMENT_STATUSES = (
 
 class Profile(models.Model):
     name = models.CharField(max_length=255)
+    profile = JSONField(default={})
 
     def __str__(self):
         return self.name
@@ -30,7 +31,7 @@ class Deployment(models.Model):
     server = models.ForeignKey(Server, related_name='deployments')
     profile = models.ForeignKey(Profile, related_name='deployments')
     status = models.IntegerField(choices=DEPLOYMENT_STATUSES, default=1)
-    parameters = JSONField()
+    parameters = JSONField(default={})
 
     def __str__(self):
         return '%s@%s' % (self.profile, self.server)

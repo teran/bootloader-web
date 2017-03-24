@@ -59,6 +59,10 @@ class LocationSerializer(serializers.Serializer):
         return Location.objects.create(**validated_data)
 
 
+class ProfileSerializer(serializers.Serializer):
+    pass
+
+
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
     email = serializers.CharField(max_length=255)

@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import re
 
 from django.db import models
 
@@ -66,3 +67,6 @@ class Interface(models.Model):
 
     def __unicode__(self):
         return self.__str__()
+
+    def mac_address_dashed(self):
+        return re.sub(':', '-', self.mac.lower())
