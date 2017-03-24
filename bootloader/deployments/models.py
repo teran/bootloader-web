@@ -16,6 +16,7 @@ DEPLOYMENT_STATUSES = (
     (7, 'Post actions',),
 )
 
+
 class Profile(models.Model):
     name = models.CharField(max_length=255)
     profile = JSONField(default={})

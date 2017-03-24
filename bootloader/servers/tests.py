@@ -61,7 +61,6 @@ class ServerTestCase(TestCase):
         self.assertEqual(s.fqdn, 'myserver.local')
         self.assertEqual(s.location, self.location)
 
-
     def test_server_fqdn_uniqueness(self):
         s1 = Server.objects.create(fqdn='myserver.local')
         s1.save()

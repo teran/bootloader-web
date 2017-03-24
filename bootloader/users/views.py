@@ -84,7 +84,7 @@ def user_events(request):
         context={
             'users': users,
             'view': 'users',
-    })
+        })
 
 
 @login_required

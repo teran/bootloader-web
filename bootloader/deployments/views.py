@@ -13,7 +13,9 @@ def deployments(request):
         context={
             'view': 'deployments',
             'subview': 'deployments',
+            'deployments': deployments,
         })
+
 
 def profiles(request):
     profiles = Profile.objects.all()
@@ -23,5 +25,6 @@ def profiles(request):
         'webui/deployments/profiles.html.j2',
         context={
             'view': 'deployments',
-            'subview': 'profiles'
+            'subview': 'profiles',
+            'profiles': profiles,
         })
