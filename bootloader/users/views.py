@@ -81,7 +81,10 @@ def user_events(request):
     return render(
         request,
         'webui/users/events.html.j2',
-        context={'users': users})
+        context={
+            'users': users,
+            'view': 'users',
+    })
 
 
 @login_required

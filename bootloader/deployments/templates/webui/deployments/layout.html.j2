@@ -3,8 +3,8 @@
 {% block navigation %}
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li{% if view == "deployments" %} class="active"{% endif %}><a href="/deployments/deployments.html">Deployments</a></li>
-            <li{% if view == "profiles" %} class="active"{% endif %}><a href="/deployments/profiles.html">Profiles</a></li>
+            <li{% if subview == "deployments" %} class="active"{% endif %}><a href="/deployments/deployments.html">Deployments</a></li>
+            <li{% if subview == "profiles" %} class="active"{% endif %}><a href="/deployments/profiles.html">Profiles</a></li>
           </ul>
         </div>
 {% endblock %}

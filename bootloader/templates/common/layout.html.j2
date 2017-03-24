@@ -38,10 +38,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/servers/index.html">Servers</a></li>
-            <li><a href="/deployments/deployments.html">Deployments</a></li>
+            <li{% if view == "servers" %} class="active"{% endif %}><a href="/servers/index.html">Servers</a></li>
+            <li{% if view == "deployments" %} class="active"{% endif %}><a href="/deployments/deployments.html">Deployments</a></li>
             {% if user.is_staff %}
-            <li><a href="/user/events.html">Users</a>
+            <li{% if view == "users" %} class="active"{% endif %}><a href="/user/events.html">Users</a>
             {% endif %}
           </ul>
           {% if user.is_authenticated %}

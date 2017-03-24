@@ -12,5 +12,16 @@ def deployments(request):
         'webui/deployments/deployments.html.j2',
         context={
             'view': 'deployments',
-        }
-    )
+            'subview': 'deployments',
+        })
+
+def profiles(request):
+    profiles = Profile.objects.all()
+
+    return render(
+        request,
+        'webui/deployments/profiles.html.j2',
+        context={
+            'view': 'deployments',
+            'subview': 'profiles'
+        })

@@ -20,7 +20,8 @@ def index(request):
         'webui/servers/servers.html.j2',
         context={
             'servers': servers,
-            'view': 'servers'
+            'view': 'servers',
+            'subview': 'servers',
         })
 
 
@@ -33,7 +34,8 @@ def locations(request):
         'webui/servers/locations.html.j2',
         context={
             'locations': locations,
-            'view': 'locations'
+            'view': 'servers',
+            'subview': 'locations'
         })
 
 
@@ -48,6 +50,7 @@ def server(request, pk, fqdn):
             context={
                 'server': server,
                 'view': 'servers',
+                'subview': 'servers',
             })
     else:
         return render(
@@ -56,4 +59,5 @@ def server(request, pk, fqdn):
             context={
                 'server': server,
                 'view': 'servers',
+                'subview': 'servers',
             })
