@@ -26,7 +26,7 @@ SECRET_KEY = 'dqg1c_%*v8-tr$(j5)=_ik6b%xpv$p^yecoj&hhm0rnc3dxe7u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

@@ -10,10 +10,10 @@ class ServerSerializer(serializers.Serializer):
         required=True, allow_blank=False, max_length=255)
     location = serializers.SlugRelatedField(
         queryset=Location.objects.all(), slug_field='name')
-    serial = serializers.CharField(allow_blank=True, max_length=255)
-    ipmi_host = serializers.CharField(allow_blank=True, max_length=255)
+    serial = serializers.CharField(required=False, allow_blank=True, max_length=255)
+    ipmi_host = serializers.CharField(required=False, allow_blank=True, max_length=255)
     interfaces = serializers.SlugRelatedField(
-        read_only=True, many=True, slug_field='name')
+        required=False, read_only=True, many=True, slug_field='name')
 
     class Meta:
         model = Server
@@ -33,8 +33,9 @@ class ServerSerializer(serializers.Serializer):
 
 
 class InterfaceSerializer(serializers.Serializer):
+    pk = serializers.IntegerField(required=False)
     name = serializers.CharField(max_length=16)
-    mac = serializers.CharField(max_length=15)
+    mac = serializers.CharField(max_length=17)
     server = serializers.SlugRelatedField(
         queryset=Server.objects.all(), slug_field='fqdn')
 
@@ -68,10 +69,6 @@ class ProfileSerializer(serializers.Serializer):
         model = Profile
 
     def create(self, validated_data):
-        #for file in validated_get['profile'].get('files', []):
-        #    File.objects.create(
-        #
-        #    )
         return Profile.objects.create(**validated_data)
 
 

@@ -61,7 +61,7 @@ class Server(models.Model):
 
 class Interface(models.Model):
     name = models.CharField(max_length=16)
-    mac = models.CharField(max_length=15, unique=True)
+    mac = models.CharField(max_length=17, unique=True)
     server = models.ForeignKey(Server, related_name='interfaces')
 
     def __str__(self):
