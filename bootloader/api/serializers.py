@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from servers.models import Interface, Server, Location
-
+from deployments.models import Profile, File
 from rest_framework import serializers
 
 
@@ -60,7 +60,19 @@ class LocationSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.Serializer):
-    pass
+    name = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
+    profile = serializers.JSONField(binary=True)
+
+    class Meta:
+        model = Profile
+
+    def create(self, validated_data):
+        #for file in validated_get['profile'].get('files', []):
+        #    File.objects.create(
+        #
+        #    )
+        return Profile.objects.create(**validated_data)
 
 
 class UserSerializer(serializers.Serializer):

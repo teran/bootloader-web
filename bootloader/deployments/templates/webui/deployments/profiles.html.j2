@@ -2,16 +2,46 @@
 
 {% block content %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div class="modal fade" tabindex="-1" role="dialog" id="profile-add-form-modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Add profile</h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="profile-file">Profile YAML file</label>
+                        <input type="file" id="profile-file" name="profile-file">
+                        <p class="help-block">Profile will be linted and added automatically</p>
+                      </div>
+                    </form>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-success btn-xs modal-action-button" modal-id="profile-add-form-modal" modal-action="show">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add profile
+            </button>
+          </div>
           <table class="table">
             <tr>
-              <th>Server</th>
-              <th>Profile</th>
+              <th>Name</th>
               <th>Controls</th>
             </tr>
-            {% for server in servers %}
+            {% for profile in profiles %}
             <tr>
-              <td><a href="{{ server.link_webui }}">{{ deployments.server }}</a></td>
-              <td>{{ deployments.profile }}</td>
+              <td><a href="{{ server.link_webui }}">{{ profile.name }}</a></td>
               <td>
                 {% if server.ipmi_host and server.ipmi_browser_proto %}
                 <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
@@ -22,7 +52,7 @@
                 <a class="btn btn-warning btn-xs" href="{{ server.link_webui_edit }}">
                   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> edit
                 </a>
-                <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ server.pk }}" object-name="{{ server.fqdn }}" object-type="server" object-action="delete" action-method="DELETE" post-action-url="/servers/index.html">
+                <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ profile.pk }}" object-name="{{ profile.name }}" object-type="profile" object-action="delete" action-method="DELETE" post-action-url="/deployments/profiles.html">
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
                 </button>
               </td>

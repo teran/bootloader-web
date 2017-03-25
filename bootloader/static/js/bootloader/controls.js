@@ -58,4 +58,10 @@ $('document').ready(function() {
       });
     });
   });
+  $(".modal-action-button").click(function() {
+    var modalID = $(this).attr("modal-id");
+    var modalAction = $(this).attr("modal-action");
+
+    $("#"+modalID).modal(modalAction);
+  });
 });

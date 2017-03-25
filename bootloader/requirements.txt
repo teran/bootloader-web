@@ -2,3 +2,4 @@ Django
 djangorestframework
 django-gravatar-tags
 psycopg2
+PyYAML
