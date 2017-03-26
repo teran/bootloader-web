@@ -24,5 +24,16 @@
                 JSON data
               </a>
             </div>
+            <table class="table">
+              <tr>
+                <th>Interface name</th>
+                <th>MAC address</th>
+              </tr>
+              {% for interface in server.interfaces.all %}
+              <tr>
+                <td>{{ interface.name }}</td>
+                <td>{{ interface.mac }}</td>
+              </tr>
+              {% endfor %}
           </div>
 {% endblock %}
