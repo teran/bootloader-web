@@ -63,6 +63,8 @@ class LocationSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.Serializer):
     name = serializers.CharField(
         required=True, allow_blank=False, max_length=255)
+    version = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
     profile = serializers.JSONField(binary=True)
 
     class Meta:
