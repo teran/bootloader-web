@@ -36,7 +36,7 @@ class Profile(models.Model):
         unique_together = (('name', 'version'),)
 
     def __str__(self):
-        return self.name
+        return '%s==%s' % (self.name, self.version)
 
     def __unicode__(self):
         return self.__str__()
@@ -65,7 +65,7 @@ class File(models.Model):
         choices=FILE_ACCESS_TYPES, default=FILE_ACCESS_TYPES[0][0])
 
     def __str__(self):
-        return self.name
+        return '%s@%s' % (self.name, self.profile)
 
     def __unicode__(self):
         return self.__str__
