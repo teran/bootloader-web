@@ -5,9 +5,8 @@ RUN apk --update --no-cache add \
       freetype-dev \
       g++ \
       gcc \
-      kernel-headers \
+      linux-headers \
       pkgconfig \
-      postgresql-dev \
       python \
       python-dev \
       py2-pip \
@@ -15,4 +14,11 @@ RUN apk --update --no-cache add \
     rm -vf /var/cache/apk/* && \
     update-ca-certificates
 
-RUN pip install --update -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    find / -name '*.pyc' -or -name '*.pyo' -delete
+
+COPY bootloader-agent.py /srv/
+COPY requirements.txt /srv/
+
+RUN pip install --no-cache-dir --upgrade -r /srv/requirements.txt && \
+    find / -name '*.pyc' -or -name '*.pyo' -delete
