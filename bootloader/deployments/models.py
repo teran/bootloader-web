@@ -29,7 +29,11 @@ FILE_ACCESS_TYPES = (
 
 class Profile(models.Model):
     name = models.CharField(max_length=255)
+    version = models.CharField(max_length=255)
     profile = JSONField(default={})
+
+    class Meta:
+        unique_together = (('name', 'version'),)
 
     def __str__(self):
         return self.name
