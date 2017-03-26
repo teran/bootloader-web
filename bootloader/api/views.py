@@ -6,12 +6,12 @@ from rest_framework import viewsets
 from servers.models import Interface, Location, Server
 from deployments.models import File, Profile
 
-from api.serializers import InterfaceSerializer
-from api.serializers import LocationSerializer
-from api.serializers import ServerSerializer
-from api.serializers import UserSerializer
-from api.serializers import ProfileSerializer
-from api.serializers import FileSerializer
+from servers.serializers import InterfaceSerializer
+from servers.serializers import LocationSerializer
+from servers.serializers import ServerSerializer
+from users.serializers import UserSerializer
+from deployments.serializers import ProfileSerializer
+from deployments.serializers import FileSerializer
 
 
 class InterfaceViewSet(viewsets.ModelViewSet):
@@ -30,6 +30,7 @@ class InterfaceViewSet(viewsets.ModelViewSet):
             queryset = Interface.objects.filter(server=server.pk)
 
         return queryset
+
 
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
@@ -58,6 +59,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()

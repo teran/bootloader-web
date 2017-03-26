@@ -2,7 +2,6 @@
 
 import copy
 import json
-import os
 import re
 import requests
 import socket
@@ -23,7 +22,8 @@ headers = {
 
 interfaceRegex = re.compile(r'eth([0-9]{,2})')
 
-serversUrl = 'http://bootloader:8000/api/servers/' # os.path.join(bootloaderUrl, 'servers/'),
+# os.path.join(bootloaderUrl, 'servers/'),
+serversUrl = 'http://bootloader:8000/api/servers/'
 interfacesURL = 'http://bootloader:8000/api/interfaces/'
 
 r = requests.get(
@@ -37,7 +37,7 @@ else:
     print "Server is not registered. Registering"
     r = requests.post(
         serversUrl,
-        data=json.dumps({'fqdn': hostname,'location': location}),
+        data=json.dumps({'fqdn': hostname, 'location': location}),
         headers=headers)
 
     print r.json()
@@ -52,7 +52,8 @@ interfaces = []
 for interface in netifaces.interfaces():
     if interfaceRegex.match(interface):
         hwaddr = netifaces.ifaddresses(interface)[netifaces.AF_LINK][0]['addr']
-        interfaces.append({'name': interface, 'mac': hwaddr, 'server': hostname})
+        interfaces.append({
+            'name': interface, 'mac': hwaddr, 'server': hostname})
 
 if len(api_interfaces) > 0:
     print "More than 1 interface, not bad."
@@ -66,7 +67,8 @@ if len(api_interfaces) > 0:
         print 'Interfaces: No changes requred'
     else:
         for interface in api_interfaces:
-            requests.delete(interfacesURL+str(interface['pk'])+'/',headers=headers)
+            requests.delete(
+                interfacesURL+str(interface['pk'])+'/', headers=headers)
         for interface in interfaces:
                 r = requests.post(
                     interfacesURL,

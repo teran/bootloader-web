@@ -27,6 +27,7 @@ FILE_ACCESS_TYPES = (
     (2, 'Local',),
 )
 
+
 class Profile(models.Model):
     name = models.CharField(max_length=255)
     version = models.CharField(max_length=255)
