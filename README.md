@@ -3,6 +3,11 @@ Bootloader
 
 Servers inventory & deployment solution
 
+Licence
+=======
+
+The code is licenced under GPLv2 licence.
+
 TODO
 ====
 - [ ] Custom authentication for API handlers used in deployment(short-life tokens linked to installation)
