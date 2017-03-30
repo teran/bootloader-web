@@ -2,10 +2,50 @@
 
 {% block content %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <button class="btn btn-success btn-xs modal-action-button" modal-id="deployment-add-form-modal" modal-action="show">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Create deployment
-          </button>
+          <div class="modal fade" tabindex="-1" role="dialog" id="deployment-create-form-modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Add profile</h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    <form method="post">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="server-field">Server</label>
+                        <select name="server-field" id="server-field">
+                          {% for server in servers %}
+                          <option value="{{ server.pk }}">{{ server }}</option>
+                          {% endfor %}
+                        </select>
+                        <p class="help-block">Server to setup deployment on</p>
+
+                        <label for="profile-field">Profile</label>
+                        <select name="profile-field" id="profile-field">
+                          {% for profile in profiles %}
+                          <option value="{{ profile.pk }}">{{ profile }}</option>
+                          {% endfor %}
+                        </select>
+                        <p class="help-block">Profile to use</p>
+                      </div>
+                    </form>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Create deployment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-success btn-xs modal-action-button" modal-id="deployment-create-form-modal" modal-action="show">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Create deployment
+            </button>
+          </div>
           <table class="table">
             <tr>
               <th>Server</th>
