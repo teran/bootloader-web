@@ -16,17 +16,6 @@ DEPLOYMENT_STATUSES = (
     (7, 'Post actions',),
 )
 
-FILE_TYPES = (
-    (1, 'Static',),
-    (2, 'Template',),
-    (3, 'Binary',),
-)
-
-FILE_ACCESS_TYPES = (
-    (1, 'API',),
-    (2, 'Local',),
-)
-
 
 class Profile(models.Model):
     name = models.CharField(max_length=255)
