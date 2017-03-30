@@ -4,14 +4,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 
 from servers.models import Interface, Location, Server
-from deployments.models import File, Profile
+from deployments.models import Profile
 
 from servers.serializers import InterfaceSerializer
 from servers.serializers import LocationSerializer
 from servers.serializers import ServerSerializer
 from users.serializers import UserSerializer
 from deployments.serializers import ProfileSerializer
-from deployments.serializers import FileSerializer
 
 
 class InterfaceViewSet(viewsets.ModelViewSet):
@@ -59,8 +58,3 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-
-
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer

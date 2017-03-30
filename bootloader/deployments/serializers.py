@@ -1,4 +1,4 @@
-from deployments.models import Profile, File, FILE_TYPES, FILE_ACCESS_TYPES
+from deployments.models import Profile, FILE_TYPES, FILE_ACCESS_TYPES
 from rest_framework import serializers
 
 
@@ -21,14 +21,3 @@ class ProfileSerializer(serializers.Serializer):
                     contents=file.get('contents'),
                     profile=profile).save()
         return profile
-
-
-class FileSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255)
-    filetype = serializers.ChoiceField(FILE_TYPES)
-    accesstype = serializers.ChoiceField(FILE_ACCESS_TYPES)
-    profile = serializers.SlugRelatedField(
-        queryset=Profile.objects.all(), slug_field='pk')
-
-    def create(self, validated_data):
-        return File.objects.create(**validated_data)

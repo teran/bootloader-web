@@ -54,19 +54,3 @@ class Deployment(models.Model):
 
     def __unicode__(self):
         return self.__str__()
-
-
-class File(models.Model):
-    name = models.CharField(max_length=255)
-    profile = models.ForeignKey(Profile, related_name='files')
-    contents = models.BinaryField()
-    filetype = models.IntegerField(
-        choices=FILE_TYPES, default=FILE_TYPES[2][0])
-    accesstype = models.IntegerField(
-        choices=FILE_ACCESS_TYPES, default=FILE_ACCESS_TYPES[0][0])
-
-    def __str__(self):
-        return '%s@%s' % (self.name, self.profile)
-
-    def __unicode__(self):
-        return self.__str__
