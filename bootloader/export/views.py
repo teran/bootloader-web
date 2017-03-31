@@ -1,11 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.template import Context, Template
 
 from deployments.models import Deployment
 
 def file(request, deployment, token, profile, version, file):
-    deployment = Deployment.objects.get(pk=deployment, token=token)
+    deployment = get_object_or_404(Deployment, pk=deployment, token=token)
     profile = deployment.profile
 
     contents = None
