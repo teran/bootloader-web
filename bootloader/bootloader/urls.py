@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^$', servers.views.index),
     url(r'^api/', include('api.urls')),
     url(r'^deployments/', include('deployments.urls')),
+    url(r'^export/', include('export.urls')),
     url(r'^servers/', include('servers.urls')),
     url(r'^user/', include('users.urls')),
 ]

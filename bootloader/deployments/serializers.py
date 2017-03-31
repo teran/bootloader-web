@@ -4,10 +4,12 @@ from rest_framework import serializers
 
 
 class DeploymentSerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
     server = serializers.SlugRelatedField(
         queryset=Server.objects.all(), slug_field='fqdn')
     profile = serializers.SlugRelatedField(
         queryset=Profile.objects.all(), slug_field='pk')
+    token = serializers.CharField(max_length=64)
 
     class Meta:
         model = Deployment
