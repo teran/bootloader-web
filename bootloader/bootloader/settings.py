@@ -88,9 +88,10 @@ WSGI_APPLICATION = 'bootloader.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'postgresql',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'HOST': os.environ.get('DB_HOST', 'postgresql'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', None),
     }
 }
 
