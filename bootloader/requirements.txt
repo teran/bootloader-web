@@ -1,3 +1,4 @@
+Celery
 Django
 djangorestframework
 django-gravatar-tags
