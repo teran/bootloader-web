@@ -2,15 +2,17 @@ from django.conf.urls import url, include
 
 from rest_framework import routers
 
-from api import views
+import deployments.api
+import servers.api
+import users.api
 
 router = routers.DefaultRouter()
-router.register(r'deployments', views.DeploymentViewSet)
-router.register(r'interfaces', views.InterfaceViewSet)
-router.register(r'locations', views.LocationViewSet)
-router.register(r'profiles', views.ProfileViewSet)
-router.register(r'servers', views.ServerViewSet)
-router.register(r'users', views.UserViewSet)
+router.register(r'deployments', deployments.api.DeploymentViewSet)
+router.register(r'interfaces', servers.api.InterfaceViewSet)
+router.register(r'locations', servers.api.LocationViewSet)
+router.register(r'profiles', deployments.api.ProfileViewSet)
+router.register(r'servers', servers.api.ServerViewSet)
+router.register(r'users', users.api.UserViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

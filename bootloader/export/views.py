@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.template import Context, Template
 
 from deployments.models import Deployment
+
 
 def file(request, deployment, token, profile, version, file):
     deployment = get_object_or_404(Deployment, pk=deployment, token=token)

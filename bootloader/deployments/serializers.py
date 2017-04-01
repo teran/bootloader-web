@@ -18,6 +18,7 @@ class DeploymentSerializer(serializers.Serializer):
         deployment = Deployment.objects.create(**validated_data)
         return deployment
 
+
 class ProfileSerializer(serializers.Serializer):
     name = serializers.CharField(
         required=True, allow_blank=False, max_length=255)

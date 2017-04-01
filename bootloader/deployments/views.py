@@ -3,6 +3,7 @@ from django.shortcuts import render
 from deployments.models import Deployment, Profile
 from servers.models import Server
 
+
 def deployments(request):
     deployments = Deployment.objects.all()
     servers = Server.objects.all()

@@ -19,6 +19,7 @@ DEPLOYMENT_STATUSES = (
     (7, 'Post actions',),
 )
 
+
 def _generate_token():
     return hashlib.sha256(
         ''.join(random.choice(string.ascii_uppercase) for _ in range(1024))
