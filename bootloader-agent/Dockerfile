@@ -5,6 +5,7 @@ RUN apk --update --no-cache add \
       freetype-dev \
       g++ \
       gcc \
+      git \
       linux-headers \
       pkgconfig \
       python \
