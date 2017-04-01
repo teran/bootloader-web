@@ -109,7 +109,7 @@ CELERY_SETTINGS = {
     'CELERY_ROUTES': {
             'tasks.deployment_start': {
                 'queue': 'deployment',
-                'routing_key': 'deployment.start',
+                'routing_key': 'tasks.deployment_start',
             },
     }
 }

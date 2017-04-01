@@ -1,4 +1,6 @@
 from deployments.models import Deployment, Profile
+from deployments import tasks
+
 from servers.models import Server
 from rest_framework import serializers
 
@@ -16,6 +18,14 @@ class DeploymentSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
+
+        tasks.deployment_start.apply_async(
+            args=[
+                deployment.pk,
+                deployment.profile,
+                deployment.profile.version,
+                deployment.token])
+
         return deployment
 
 
