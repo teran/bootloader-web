@@ -25,6 +25,7 @@ def file(request, deployment, token, profile, version, file):
     context = Context({
         'profile': deployment.profile,
         'server': deployment.server,
+        'export_base': deployment.file_export_url,
     })
     template = Template(contents)
 

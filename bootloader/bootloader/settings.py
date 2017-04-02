@@ -29,6 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Url of bootloader web application
+BOOTLOADER_URL = os.environ.get('BOOTLOADER_URL', 'http://127.0.0.1:8000/')
 
 # Application definition
 

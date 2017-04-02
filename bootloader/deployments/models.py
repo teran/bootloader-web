@@ -3,6 +3,7 @@ import hashlib
 import random
 import string
 
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 
@@ -53,3 +54,11 @@ class Deployment(models.Model):
 
     def __unicode__(self):
         return self.__str__()
+
+    def file_export_url(self):
+        return '%sexport/file/%s/%s/%s/%s/' % (
+            settings.BOOTLOADER_URL,
+            self.pk,
+            self.token,
+            self.profile.name,
+            self.profile.version)
