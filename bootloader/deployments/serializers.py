@@ -18,7 +18,6 @@ class DeploymentSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
-        deployment.save()
 
         tasks.deployment_start.apply_async(
             args=[
