@@ -7,7 +7,7 @@ app.conf.update(**settings.CELERY_SETTINGS)
 
 
 @app.task
-def deployment_start(deployment, profile, version, token):
+def deployment_start(deployment):
     pass
 
 

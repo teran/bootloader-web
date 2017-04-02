@@ -19,12 +19,7 @@ class DeploymentSerializer(serializers.Serializer):
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
 
-        tasks.deployment_start.apply_async(
-            args=[
-                deployment.pk,
-                deployment.profile.name,
-                deployment.profile.version,
-                deployment.token])
+        tasks.deployment_start.apply_async(args=[deployment.pk])
 
         return deployment
 
