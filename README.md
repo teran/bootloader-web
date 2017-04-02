@@ -1,6 +1,9 @@
 Bootloader
 ==========
 
+[![Docker Automated build](https://img.shields.io/docker/automated/teran/bootloader-web.svg)]()
+[![License](https://img.shields.io/github/license/teran/bootloader-web.svg)]()
+
 Servers inventory & deployment solution
 
 Currently deep-deep alpha state.
