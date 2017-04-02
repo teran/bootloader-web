@@ -12,5 +12,5 @@ def deployment_start(deployment, profile, version, token):
 
 
 @app.task
-def deploy_pxe_files(server):
+def download_file(URL, target):
     pass

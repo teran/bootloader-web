@@ -16,10 +16,17 @@ def deployment_start(deployment, profile, version, token):
     fileBase = 'export/file/%s/%s/%s/%s' % (
         deployment, token, profile, version)
 
-    r = requests.get('http://bootloader:8000/%s/pxelinux' % fileBase)
-    print r.content
+    download_file.apply_async(args=[
+        'http://bootloader:8000/%s/pxelinux' % fileBase,
+        '/tmp/test'
+    ])
 
 
 @app.task
-def deploy_pxe_files(server):
-    print 'OK'
+def download_file(URL, target):
+    r = requests.get(URL)
+    fp = open(target, 'w')
+    for chunk in r.iter_content(chunk_size=512 * 1024):
+        if chunk:
+            fp.write(chunk)
+    fp.close()
