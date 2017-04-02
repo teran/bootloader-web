@@ -3,6 +3,7 @@
 import os
 
 from celery import Celery
+import requests
 
 import settings
 
@@ -12,9 +13,11 @@ app.conf.update(**settings.CELERY_SETTINGS)
 
 @app.task
 def deployment_start(deployment, profile, version, token):
-    import time
-    time.sleep(30)
-    print 'OK'
+    fileBase = 'export/file/%s/%s/%s/%s' % (
+        deployment, token, profile, version)
+
+    r = requests.get('http://bootloader:8000/%s/pxelinux' % fileBase)
+    print r.content
 
 
 @app.task

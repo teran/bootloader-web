@@ -1,1 +1,2 @@
 git+https://github.com/celery/celery.git@master
+requests
