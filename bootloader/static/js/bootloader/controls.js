@@ -25,6 +25,15 @@ $('document').ready(function() {
           }
       }
   });
+  function serializeFormToJSON(form) {
+    var formData = form.serializeArray();
+    var arrangedData = {};
+    $.each(formData, function(idx, el) {
+      arrangedData[el.name] = el.value;
+    });
+
+    return arrangedData
+  }
   $(".object-action-button").click(function() {
     var objectID = $(this).attr("object-id");
     var objectName = $(this).attr("object-name");
@@ -63,5 +72,22 @@ $('document').ready(function() {
     var modalAction = $(this).attr("modal-action");
 
     $("#"+modalID).modal(modalAction);
+  });
+  $(".send-form").click(function() {
+    var data = serializeFormToJSON($("#new-deployment-form"));
+    var postActionURL = "/deployments/deployments.html";
+
+    console.log(data);
+    $.ajax({
+      url: '/api/deployments/',
+      data: data,
+      type: 'POST',
+      success: function(result) {
+        $(location).attr("href", postActionURL)
+      },
+      error: function(result, status, error) {
+        alert("status: "+status+" ; "+JSON.stringify(result));
+      }
+    });
   });
 });

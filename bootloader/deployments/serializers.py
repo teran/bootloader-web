@@ -6,23 +6,24 @@ from rest_framework import serializers
 
 
 class DeploymentSerializer(serializers.Serializer):
-    pk = serializers.IntegerField()
+    pk = serializers.IntegerField(required=False)
     server = serializers.SlugRelatedField(
         queryset=Server.objects.all(), slug_field='fqdn')
     profile = serializers.SlugRelatedField(
         queryset=Profile.objects.all(), slug_field='pk')
-    token = serializers.CharField(max_length=64)
+    token = serializers.CharField(max_length=64, required=False)
 
     class Meta:
         model = Deployment
 
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
+        deployment.save()
 
         tasks.deployment_start.apply_async(
             args=[
                 deployment.pk,
-                deployment.profile,
+                deployment.profile.name,
                 deployment.profile.version,
                 deployment.token])
 
