@@ -1,7 +1,7 @@
 Bootloader
 ==========
 
-[![Docker Automated build](https://img.shields.io/docker/automated/teran/bootloader-web.svg)]()
+[![Docker Automated build](https://img.shields.io/docker/automated/teran/bootloader-web.svg)](https://hub.docker.com/r/teran/bootloader-web/)
 [![License](https://img.shields.io/github/license/teran/bootloader-web.svg)]()
 
 Servers inventory & deployment solution
