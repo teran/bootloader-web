@@ -3,6 +3,8 @@ Bootloader
 
 Servers inventory & deployment solution
 
+Currently deep-deep alpha state.
+
 Licence
 =======
 
