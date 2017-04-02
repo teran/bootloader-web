@@ -11,6 +11,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+import ast
 import os
 from kombu import Queue
 
@@ -25,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dqg1c_%*v8-tr$(j5)=_ik6b%xpv$p^yecoj&hhm0rnc3dxe7u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'False'))
 
 ALLOWED_HOSTS = ['*']
 
@@ -98,7 +99,8 @@ DATABASES = {
 }
 
 CELERY_SETTINGS = {
-    'BROKER_URL': os.environ.get('BROKER_URL', 'amqp://guest:guest@rabbitmq:5672//'),
+    'BROKER_URL': os.environ.get(
+        'BROKER_URL', 'amqp://guest:guest@rabbitmq:5672//'),
     'CELERY_CREATE_MISSING_QUEUES': True,
     'CELERY_DEFAULT_QUEUE': 'default',
     'CELERY_DEFAULT_EXCHANGE': 'tasks',
