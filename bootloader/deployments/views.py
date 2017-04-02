@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from deployments.models import Deployment, Profile
 from servers.models import Server
 
 
+@login_required
 def deployments(request):
     deployments = Deployment.objects.all()
     servers = Server.objects.all()
@@ -21,6 +23,7 @@ def deployments(request):
         })
 
 
+@login_required
 def profiles(request):
     profiles = Profile.objects.all()
 
