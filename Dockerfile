@@ -5,6 +5,8 @@ RUN apk --update --no-cache add \
       freetype-dev \
       g++ \
       gcc \
+      linux-headers \
+      mailcap \
       pkgconfig \
       postgresql-dev \
       python \
@@ -14,12 +16,18 @@ RUN apk --update --no-cache add \
     rm -vf /var/cache/apk/* && \
     update-ca-certificates
 
-RUN pip install --no-cache-dir --upgrade pip && \
+RUN pip install --no-cache-dir --upgrade pip uwsgi && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
-COPY bootloader /srv/bootloader
+ADD uwsgi.yaml /etc/bootloader/uwsgi.yaml
+
+ADD bootloader /srv/bootloader
 
 RUN pip install --no-cache-dir --upgrade -r /srv/bootloader/requirements.txt && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
-ENTRYPOINT ["/srv/bootloader/manage.py", "runserver", "0.0.0.0:8000"]
+WORKDIR "/srv/bootloader"
+
+EXPOSE 8000
+
+ENTRYPOINT ["uwsgi", "-y", "/etc/bootloader/uwsgi.yaml"]
