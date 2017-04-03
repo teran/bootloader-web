@@ -8,6 +8,11 @@ Servers inventory & deployment solution
 
 Currently deep-deep alpha state.
 
+Application arhitecture
+=======================
+
+[[https://github.com/teran/bootloader-web/blob/master/docs/static/images/arhitecture.png|alt=Arhitecture]]
+
 Configuration
 =============
 
