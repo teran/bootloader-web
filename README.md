@@ -11,7 +11,7 @@ Currently deep-deep alpha state.
 Application arhitecture
 =======================
 
-[[https://github.com/teran/bootloader-web/blob/master/docs/static/images/arhitecture.png|alt=Arhitecture]]
+![](https://raw.githubusercontent.com/teran/bootloader-web/master/docs/static/images/architecture.png|width=400)
 
 Configuration
 =============
