@@ -28,7 +28,15 @@ Currently there's the way to configure the agent via environment variables:
 Licence
 =======
 
-The code is licenced under GPLv2 licence.
+bootloader is licenced under GPLv2 licence.
+
+However some parts of the software uses third-part code, here's the list of JS
+libraries used in bootloader-web and their licenses:
+
+ * [Bootstrap](http://getbootstrap.com) - Licensed under the MIT license
+ * [html5shiv](https://github.com/aFarkas/html5shiv) - MIT/GPL2 Licensed
+ * [jQuery](https://jquery.com) - http://jquery.org/license
+ * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
 
 TODO
 ====
