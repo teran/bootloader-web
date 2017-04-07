@@ -7,27 +7,40 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Add profile</h4>
+                  <h4 class="modal-title">Create deployment</h4>
                 </div>
                 <div class="modal-body">
                   <p>
                     <form method="post" id="new-deployment-form">
                       <div class="form-group">
-                        <label for="server">Server</label>
-                        <select name="server" id="server-field">
-                          {% for server in servers %}
-                          <option value="{{ server.fqdn }}">{{ server }}</option>
-                          {% endfor %}
-                        </select>
-                        <p class="help-block">Server to setup deployment on</p>
-
-                        <label for="profile">Profile</label>
-                        <select name="profile" id="profile-field">
-                          {% for profile in profiles %}
-                          <option value="{{ profile.pk }}">{{ profile }}</option>
-                          {% endfor %}
-                        </select>
-                        <p class="help-block">Profile to use</p>
+                        <table class="table">
+                          <tr>
+                            <td>
+                              <label for="server">Server</label>
+                            </td>
+                            <td>
+                              <select name="server" id="server-field">
+                                {% for server in servers %}
+                                <option value="{{ server.fqdn }}">{{ server }}</option>
+                                {% endfor %}
+                              </select>
+                              <div class="help-block">Server to setup deployment on</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="profile">Profile</label>
+                            </td>
+                            <td>
+                              <select name="profile" id="profile-field">
+                                {% for profile in profiles %}
+                                <option value="{{ profile.pk }}">{{ profile }}</option>
+                                {% endfor %}
+                              </select>
+                              <div class="help-block">Profile to use</div>
+                            </td>
+                          </tr>
+                        </table>
                       </div>
                     </form>
                   </p>
