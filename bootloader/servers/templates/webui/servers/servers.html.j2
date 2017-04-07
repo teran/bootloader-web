@@ -2,6 +2,94 @@
 
 {% block content %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div class="modal fade" tabindex="-1" role="dialog" id="server-create-form-modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Add profile</h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    <form method="post" id="new-deployment-form">
+                      <div class="form-group">
+                        <table class="table">
+                          <tr>
+                            <td>
+                              <label for="server">FQDN</label>
+                            </td>
+                            <td>
+                              <input type="text" name="fqdn" id="fqdn">
+                              <p class="help-block">Server FQDN</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="profile">Location</label>
+                            </td>
+                            <td>
+                              <select name="profile" id="profile-field">
+                                {% for profile in profiles %}
+                                <option value="{{ location.name }}">{{ location }}</option>
+                                {% endfor %}
+                              </select>
+                              <p class="help-block">Hardware location</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="server">IPMI Host</label>
+                            </td>
+                            <td>
+                              <input type="text" name="fqdn" id="fqdn">
+                              <p class="help-block">IPMI host to use for links and access</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="server">IPMI username</label>
+                            </td>
+                            <td>
+                              <input type="text" name="fqdn" id="fqdn">
+                              <p class="help-block">Username to access IPMI</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="server">IPMI password</label>
+                            </td>
+                            <td>
+                              <input type="text" name="fqdn" id="fqdn">
+                              <p class="help-block">Password to access IPMI</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="server">Interfaces</label>
+                            </td>
+                            <td>
+                              <input type="text" name="fqdn" id="fqdn">
+                              <p class="help-block">In the form of name+mac</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </form>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary send-form">Create deployment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-success btn-xs modal-action-button" modal-id="server-create-form-modal" modal-action="show">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add server
+            </button>
+          </div>
           <table class="table">
             <tr>
               <th>Server FQDN</th>
