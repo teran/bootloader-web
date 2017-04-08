@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                   <p>
-                    <form method="post" id="new-deployment-form">
+                    <form method="post" id="new-server-form" onsubmit="return false;">
                       <div class="form-group">
                         <table class="table">
                           <tr>
@@ -25,11 +25,11 @@
                           </tr>
                           <tr>
                             <td>
-                              <label for="profile">Location</label>
+                              <label for="location">Location</label>
                             </td>
                             <td>
-                              <select name="profile" id="profile-field">
-                                {% for profile in profiles %}
+                              <select name="location" id="location-field">
+                                {% for location in locations %}
                                 <option value="{{ location.name }}">{{ location }}</option>
                                 {% endfor %}
                               </select>
@@ -41,7 +41,7 @@
                               <label for="server">IPMI Host</label>
                             </td>
                             <td>
-                              <input type="text" name="fqdn" id="fqdn">
+                              <input type="text" name="ipmi_host" id="ipmi_host">
                               <p class="help-block">IPMI host to use for links and access</p>
                             </td>
                           </tr>
@@ -50,7 +50,7 @@
                               <label for="server">IPMI username</label>
                             </td>
                             <td>
-                              <input type="text" name="fqdn" id="fqdn">
+                              <input type="text" name="ipmi_username" id="ipmi_username">
                               <p class="help-block">Username to access IPMI</p>
                             </td>
                           </tr>
@@ -59,17 +59,8 @@
                               <label for="server">IPMI password</label>
                             </td>
                             <td>
-                              <input type="text" name="fqdn" id="fqdn">
+                              <input type="text" name="ipmi_password" id="ipmi_password">
                               <p class="help-block">Password to access IPMI</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label for="server">Interfaces</label>
-                            </td>
-                            <td>
-                              <input type="text" name="fqdn" id="fqdn">
-                              <p class="help-block">In the form of name+mac</p>
                             </td>
                           </tr>
                         </table>
@@ -79,7 +70,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary send-form">Create deployment</button>
+                  <button type="button" class="btn btn-primary send-form" form-id="new-server-form" post-action-url="/servers/index.html" api-handler="/api/servers/">Add server</button>
                 </div>
               </div>
             </div>
@@ -87,7 +78,7 @@
           <div>
             <button class="btn btn-success btn-xs modal-action-button" modal-id="server-create-form-modal" modal-action="show">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              Add server
+              New server
             </button>
           </div>
           <table class="table">

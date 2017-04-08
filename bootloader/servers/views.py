@@ -14,11 +14,13 @@ def deployment_profiles(request):
 @login_required
 def index(request):
     servers = Server.objects.all()
+    locations = Location.objects.all()
 
     return render(
         request,
         'webui/servers/servers.html.j2',
         context={
+            'locations': locations,
             'servers': servers,
             'view': 'servers',
             'subview': 'servers',

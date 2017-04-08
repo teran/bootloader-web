@@ -32,6 +32,8 @@ $('document').ready(function() {
       arrangedData[el.name] = el.value;
     });
 
+    console.log(form);
+
     return arrangedData
   }
   $(".object-action-button").click(function() {
@@ -74,12 +76,14 @@ $('document').ready(function() {
     $("#"+modalID).modal(modalAction);
   });
   $(".send-form").click(function() {
-    var data = serializeFormToJSON($("#new-deployment-form"));
-    var postActionURL = "/deployments/deployments.html";
+    var formID = $(this).attr("form-id");
+    var data = serializeFormToJSON($("#"+formID));
+    var postActionURL = $(this).attr("post-action-url");
+    var apiHandler = $(this).attr('api-handler');
 
     console.log(data);
     $.ajax({
-      url: '/api/deployments/',
+      url: apiHandler,
       data: data,
       type: 'POST',
       success: function(result) {
@@ -89,5 +93,8 @@ $('document').ready(function() {
         alert("status: "+status+" ; "+JSON.stringify(result));
       }
     });
+  });
+  $("form").submit(function() {
+    $(this).preventDefault();
   });
 });
