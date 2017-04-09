@@ -13,7 +13,17 @@ def deployment_profiles(request):
 
 @login_required
 def index(request):
-    servers = Server.objects.all()
+    filter_options = {}
+    if request.GET.get('fqdn') is not None:
+        filter_options['fqdn__contains'] = request.GET.get('fqdn')
+    if request.GET.get('ipmi_host') is not None:
+        filter_options['ipmi_host'] = request.GET.get('ipmi_host')
+    if request.GET.get('location') is not None:
+        filter_options['location__name__contains'] = request.GET.get('location')
+    if request.GET.get('serial') is not None:
+        filter_options['serial'] = request.GET.get('serial')
+
+    servers = Server.objects.filter(**filter_options)
     locations = Location.objects.all()
 
     return render(
