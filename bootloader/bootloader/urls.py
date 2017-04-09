@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^deployments/', include('deployments.urls')),
     url(r'^export/', include('export.urls')),
     url(r'^servers/', include('servers.urls')),
+    url(r'^tools/', include('tools.urls')),
     url(r'^user/', include('users.urls')),
 ]

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'deployments',
     'export',
     'servers',
+    'tools',
     'users',
 ]
 
