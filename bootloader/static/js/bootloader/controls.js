@@ -97,4 +97,40 @@ $('document').ready(function() {
   $("form").submit(function() {
     $(this).preventDefault();
   });
+  $(".upload-profile-button").click(function() {
+    var formData = new FormData();
+    var profileName = $('#profile-name').val();
+    var profileVersion = $('#profile-version').val();
+    formData.append('profile', $('input[type=file]')[0].files[0]);
+
+    $.ajax({
+      url: '/tools/yaml2json',
+      data: formData,
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      success: function(data){
+          var profileObject = {
+            'name': profileName,
+            'version': profileVersion,
+            'profile': JSON.stringify(data),
+          };
+          console.log(profileObject);
+          $.ajax({
+            url: '/api/profiles/',
+            type: 'POST',
+            data: profileObject,
+            success: function(result) {
+              $(location).attr("href", "/deployments/profiles.html")
+            },
+            error: function(result, status, error) {
+              alert("status: "+status+" ; "+JSON.stringify(result));
+            }
+          });
+      },
+      error: function(result, status, error) {
+        alert("status: "+status+" ; "+JSON.stringify(result));
+      }
+    });
+  });
 });

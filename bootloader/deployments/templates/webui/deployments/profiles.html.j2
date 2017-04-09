@@ -13,17 +13,41 @@
                   <p>
                     <form method="post" enctype="multipart/form-data" onsubmit="return false;">
                       {% csrf_token %}
-                      <div class="form-group">
-                        <label for="profile-file">Profile YAML file</label>
-                        <input type="file" id="profile-file" name="profile-file">
-                        <p class="help-block">Profile will be linted and added automatically</p>
-                      </div>
+                      <table class="table">
+                        <tr>
+                          <td>
+                            <label for="name">Profile name</label>
+                          </td>
+                          <td>
+                            <input type="text" id="profile-name" name="name">
+                            <div class="help-block">Profile name</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label for="version">Profile version</label>
+                          </td>
+                          <td>
+                            <input type="text" id="profile-version" name="version">
+                            <div class="help-block">Profile will be linted and added automatically</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label for="profile">Profile YAML file</label>
+                          </td>
+                          <td>
+                            <input type="file" id="profile" name="profile">
+                            <div class="help-block">Profile will be linted and added automatically</div>
+                          </td>
+                        </tr>
+                      </table>
                     </form>
                   </p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-primary upload-profile-button">Add profile</button>
                 </div>
               </div>
             </div>
@@ -31,7 +55,7 @@
           <div>
             <button class="btn btn-success btn-xs modal-action-button" modal-id="profile-add-form-modal" modal-action="show">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              Add profile
+              New profile
             </button>
           </div>
           <table class="table">
