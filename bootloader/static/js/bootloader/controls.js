@@ -32,8 +32,6 @@ $('document').ready(function() {
       arrangedData[el.name] = el.value;
     });
 
-    console.log(form);
-
     return arrangedData
   }
   $(".object-action-button").click(function() {
@@ -81,7 +79,6 @@ $('document').ready(function() {
     var postActionURL = $(this).attr("post-action-url");
     var apiHandler = $(this).attr('api-handler');
 
-    console.log(data);
     $.ajax({
       url: apiHandler,
       data: data,
@@ -115,7 +112,6 @@ $('document').ready(function() {
             'version': profileVersion,
             'profile': JSON.stringify(data),
           };
-          console.log(profileObject);
           $.ajax({
             url: '/api/profiles/',
             type: 'POST',
