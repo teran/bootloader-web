@@ -4,6 +4,8 @@ from deployments import tasks
 from servers.models import Server
 from rest_framework import serializers
 
+from slugify import slugify
+
 
 class DeploymentSerializer(serializers.Serializer):
     pk = serializers.IntegerField(required=False)
@@ -19,7 +21,13 @@ class DeploymentSerializer(serializers.Serializer):
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
 
-        tasks.deployment_start.apply_async(args=[deployment.pk])
+        tasks.deployment_start.apply_async(
+            args=[deployment.pk],
+            queue=slugify(
+                'deployment_%s_%s' % (
+                    deployment.server.location.pk,
+                    deployment.server.location.name),
+                to_lower=True))
 
         return deployment
 

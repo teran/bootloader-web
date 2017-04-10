@@ -1,3 +1,4 @@
+awesome-slugify
 Celery
 Django
 djangorestframework
