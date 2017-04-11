@@ -1,10 +1,10 @@
+from django.utils.text import slugify
+
 from deployments.models import Deployment, Profile
 from deployments import tasks
 
 from servers.models import Server
 from rest_framework import serializers
-
-from slugify import slugify
 
 
 class DeploymentSerializer(serializers.Serializer):
@@ -26,8 +26,7 @@ class DeploymentSerializer(serializers.Serializer):
             queue=slugify(
                 'deployment_%s_%s' % (
                     deployment.server.location.pk,
-                    deployment.server.location.name),
-                to_lower=True))
+                    deployment.server.location.name)))
 
         return deployment
 
