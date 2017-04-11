@@ -19,7 +19,8 @@ def index(request):
     if request.GET.get('ipmi_host') is not None:
         filter_options['ipmi_host'] = request.GET.get('ipmi_host')
     if request.GET.get('location') is not None:
-        filter_options['location__name__contains'] = request.GET.get('location')
+        filter_options['location__name__contains'] = request.GET.get(
+            'location')
     if request.GET.get('serial') is not None:
         filter_options['serial'] = request.GET.get('serial')
 

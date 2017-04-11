@@ -6,6 +6,7 @@ import json
 
 from django.http import HttpResponse
 
+
 def yaml2json(request):
     try:
         data = yaml.load(request.FILES.get('profile'))
