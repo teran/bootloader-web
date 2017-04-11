@@ -11,7 +11,7 @@ IPMI_BROWSER_PROTO_CHOICES = (
 )
 
 
-class Group(models.Model):
+class Label(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
 
@@ -29,7 +29,8 @@ class Server(models.Model):
     fqdn = models.CharField(max_length=255, unique=True)
     location = models.ForeignKey(
         Location, null=True, blank=True, related_name='servers')
-    groups = models.ManyToManyField(Group, related_name='servers')
+    notes = models.CharField(max_length=255, null=True)
+    labels = models.ManyToManyField(Label, related_name='servers')
     serial = models.CharField(max_length=255, null=True)
     ipmi_host = models.CharField(max_length=255)
     ipmi_username = models.CharField(max_length=255, null=True)
