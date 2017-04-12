@@ -45,4 +45,4 @@ TODO
 - [ ] Client part to run some configuration gathering just after install
 - [X] WebUI to add servers
 - [ ] WebUI to edit servers
-- [ ] Create a way to get queue name from location UI
+- [X] Create a way to get queue name from location UI

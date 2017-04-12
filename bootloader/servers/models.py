@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import re
 
+from django.utils.text import slugify
 from django.db import models
 
 
@@ -23,6 +24,9 @@ class Location(models.Model):
 
     def __unicode__(self):
         return self.__str__()
+
+    def queue_name(self):
+        return slugify('deployment_%s_%s' % (self.pk, self.name))
 
 
 class Server(models.Model):

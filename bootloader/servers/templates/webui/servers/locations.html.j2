@@ -44,11 +44,13 @@
           <table class="table">
             <tr>
               <th>Name</th>
+              <th>Queue name</th>
               <th>Actions</th>
             </tr>
             {% for location in locations %}
             <tr>
               <td><a href="/servers/index.html?location={{ location }}">{{ location }}</a></td>
+              <td>{{ location.queue_name }}</td>
               <td>
                 <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ location.pk }}" object-name="{{ location.name }}" object-type="location" object-action="delete" action-method="DELETE" post-action-url="/servers/locations.html">
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
