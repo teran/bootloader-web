@@ -6,7 +6,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8000
+    - port: 80
+      targetPort: 8000
       protocol: TCP
       name: http
   selector:
@@ -26,22 +27,6 @@ spec:
         app: bootloader-web
     spec:
       containers:
-        - name: postgresql
-          image: postgres:latest
-          ports:
-            - containerPort: 5432
-              name: postgresql
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-data
-        - name: rabbitmq
-          image: rabbitmq-latest
-          ports:
-            - containerPort: 5672
-              name: rabbitmq
-          volumeMounts:
-            - mountPath: /var/lib/rabbitmq
-              name: rabbitmq-data
         - name: bootloader-web
           image: teran/bootloader-web:latest
           resources:
@@ -51,13 +36,34 @@ spec:
             limits:
               memory: '256Mi'
               cpu: '500m'
+          env:
+            - name: BOOTLOADER_URL
+              value: 'http://bootloader.services.svc.example.org/'
+            - name: BROKER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: bootloader-keys
+                  key: broker_url
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: bootloader-keys
+                  key: db_host
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: bootloader-keys
+                  key: db_name
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bootloader-keys
+                  key: db_password
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: bootloader-keys
+                  key: db_user
           ports:
             - containerPort: 8000
               name: http
-      volumes:
-        - name: postgres-data
-          hostPath:
-            path: /srv/postgres-data
-        - name: rabbitmq-data
-          hostPath:
-            path: /srv/rabbitmq-data
