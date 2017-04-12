@@ -46,3 +46,4 @@ TODO
 - [X] WebUI to add servers
 - [ ] WebUI to edit servers
 - [X] Create a way to get queue name from location UI
+- [ ] Update deployments to be able to set parameters to profiles
