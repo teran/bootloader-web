@@ -47,3 +47,4 @@ TODO
 - [ ] WebUI to edit servers
 - [X] Create a way to get queue name from location UI
 - [ ] Update deployments to be able to set parameters to profiles
+- [ ] Add working Kubernetes specs
