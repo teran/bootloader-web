@@ -14,12 +14,9 @@ def file(request, deployment, token, profile, version, file):
         profile__version=version)
     profile = deployment.profile
 
-    contents = None
-    for f in profile.profile.get('files'):
-        if f.get('name') == file:
-            contents = f.get('contents')
-
-    if contents is None:
+    try:
+        contents = profile.profile.get('files').get(file).get('contents')
+    except KeyError:
         raise Http404
 
     context = Context({
