@@ -7,18 +7,9 @@ from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 
+from django_fsm import FSMField, transition
+
 from servers.models import Server
-
-
-DEPLOYMENT_STATUSES = (
-    (1, 'Unknown',),
-    (2, 'Waiting for PXEBoot',),
-    (3, 'Waiting for configuration request',),
-    (4, 'Installation',),
-    (5, 'Configuring',),
-    (6, 'OS boot',),
-    (7, 'Post actions',),
-)
 
 
 def _generate_token():
@@ -45,7 +36,7 @@ class Profile(models.Model):
 class Deployment(models.Model):
     server = models.ForeignKey(Server, related_name='deployments')
     profile = models.ForeignKey(Profile, related_name='deployments')
-    status = models.IntegerField(choices=DEPLOYMENT_STATUSES, default=1)
+    status = FSMField(default='new')
     parameters = JSONField(default={})
     token = models.CharField(max_length=64, default=_generate_token)
 
@@ -62,3 +53,11 @@ class Deployment(models.Model):
             self.token,
             self.profile.name,
             self.profile.version)
+
+    @transition(field=status, source='*', target='error')
+    def set_error_state(self):
+        pass
+
+    @transition(field=status, source='new', target='preparing')
+    def set_preparing_state(self):
+        pass

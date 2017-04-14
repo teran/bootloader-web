@@ -1,19 +1,62 @@
 ---
 kind: Profile
+apiVersion: v1alpha1
 name: ubuntu-16.04-kubernetes
 version: 0.1-a
-files:
+workflow:
+  new: {}
+  preparing:
+    - action: serve_file
+      via: http
+      filename: 'images/ubuntu/16.04/kernel'
+      source:
+        type: url
+        contents: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/linux'
+    - action: serve_file
+      via: http
+      filename: 'images/ubuntu/16.04/initrd'
+      source:
+        type: url
+        contents: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/initrd.gz'
+    - action: serve_file
+      via: tftp
+      filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
+      source:
+        type: template
+        contents: pxelinux.cfg
+    - action: ipmi_command
+      command: reboot
+  installing:
+    - action: delete_file
+      on: tftp
+      filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
+    - action: serve_file
+      name: preseed_cfg
+      via: http
+      source:
+        type: template
+        contents: preseed.cfg
+  configuring:
+    - action: serve_file
+      via: http
+      source:
+        type: template
+        contents: rclocal
+  post-configuring:
+    - action: expect_callback
+      name: post_configuring_callback
+  cleanup: {}
+  error: {}
+templates:
   pxelinux.cfg:
     type: template
-    target: tftp
-    filename: 'pxelinux.cfg/01-{{ mac_address }}'
     contents: |
       DEFAULT ubuntu1604
       label ubuntu1604
         menu label ^Ubuntu 16.04 Kubernetes
-        kernel http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/linux
-        initrd http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/initrd.gz
-        append auto=true priority=critical languagechooser/language-name=English net.ifnames=0 countrychooser/shortlist=US consol-keymaps-at/keymap=en biosdevname=0 netcfg/choose_interface=eth0 hostname={{ server.fqdn }} preseed/url={{ export_base }}preseed.cfg
+        kernel {{ AGENT_URL }}images/ubuntu/16.04/kernel
+        initrd {{ AGENT_URL }}images/ubuntu/16.04/initrd
+        append auto=true priority=critical languagechooser/language-name=English net.ifnames=0 countrychooser/shortlist=US consol-keymaps-at/keymap=en biosdevname=0 netcfg/choose_interface=eth0 hostname={{ server.fqdn }} preseed/url={{ preseed_cfg_url }}
   preseed.cfg:
     type: template
     contents: |
@@ -501,5 +544,8 @@ files:
     type: template
     contents:
       #!/bin/bash
+
+      # Setting a mark on bootloader about step completion
+      curl -s '{{ post_configuring_callback_url }}'
 
       exit 0

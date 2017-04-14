@@ -21,13 +21,6 @@ class DeploymentSerializer(serializers.Serializer):
     def create(self, validated_data):
         deployment = Deployment.objects.create(**validated_data)
 
-        tasks.deployment_start.apply_async(
-            args=[deployment.pk],
-            queue=slugify(
-                'deployment_%s_%s' % (
-                    deployment.server.location.pk,
-                    deployment.server.location.name)))
-
         return deployment
 
 
