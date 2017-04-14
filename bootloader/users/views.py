@@ -35,6 +35,7 @@ def user_logout(request):
     return redirect('/')
 
 
+@login_required
 def user_profile(request):
     return render(request, 'webui/users/profile.html.j2')
 
