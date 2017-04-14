@@ -5,9 +5,7 @@ services:
   - postgresql
 
 env:
-  - DB_HOST=localhost
-  - DB_NAME=bootloader_web_test
-  - DB_USER=postgres
+  - DB_HOST=localhost DB_NAME=bootloader_web_test DB_USER=postgres
 
 python:
   - 2.7
