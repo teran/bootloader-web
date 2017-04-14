@@ -15,4 +15,4 @@ install:
     - pip install tox
 
 script:
-    - tox --skip-missing-interpreters
+    - tox -v
