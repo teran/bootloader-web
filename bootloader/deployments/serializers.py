@@ -1,7 +1,4 @@
-from django.utils.text import slugify
-
 from deployments.models import Deployment, Profile
-from deployments import tasks
 
 from servers.models import Server
 from rest_framework import serializers
