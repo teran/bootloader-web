@@ -53,7 +53,7 @@ $('document').ready(function() {
 
     $("#formModalSubmitButton").click(function() {
       $.ajax({
-        url: '/api/'+objectType+'s/'+objectID+"/",
+        url: '/api/v1alpha1/'+objectType+'s/'+objectID+"/",
         data: $.parseJSON(actionData),
         type: actionMethod,
         success: function(result) {
@@ -77,7 +77,7 @@ $('document').ready(function() {
     var formID = $(this).attr("form-id");
     var data = serializeFormToJSON($("#"+formID));
     var postActionURL = $(this).attr("post-action-url");
-    var apiHandler = $(this).attr('api-handler');
+    var apiHandler = '/api/v1alpha1/'+$(this).attr('api-handler');
 
     $.ajax({
       url: apiHandler,
@@ -113,7 +113,7 @@ $('document').ready(function() {
             'profile': JSON.stringify(data),
           };
           $.ajax({
-            url: '/api/profiles/',
+            url: '/api/v1alpha1/profiles/',
             type: 'POST',
             data: profileObject,
             success: function(result) {
