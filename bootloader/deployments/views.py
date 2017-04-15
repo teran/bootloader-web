@@ -7,6 +7,24 @@ from servers.models import Server
 
 
 @login_required
+def deployment(request, pk, fqdn, profile):
+    deployment = get_object_or_404(
+        Deployment,
+        pk=pk,
+        server__fqdn=fqdn,
+        profile__name=profile)
+
+    return render(
+        request,
+        'webui/deployments/deployment.html.j2',
+        context={
+            'view': 'deployments',
+            'subview': 'deployments',
+            'deployment': deployment,
+        })
+
+
+@login_required
 def deployments(request):
     deployments = Deployment.objects.all()
     servers = Server.objects.all()

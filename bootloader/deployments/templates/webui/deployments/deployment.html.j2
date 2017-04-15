@@ -1,0 +1,12 @@
+{% extends 'webui/deployments/layout.html.j2' %}
+
+{% block content %}
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h3>{{ deployment.profile }} @ {{ deployment.server }}</h3>
+            <div>
+              <div>Status: {{ deployment.status }}</div>
+              <div>Profile: <a href="{{ deployment.profile.link_webui }}">{{ deployment.profile }}</a></div>
+              <div>Server: <a href="{{ deployment.server.link_webui }}">{{ deployment.server }}</a></div>
+            </div>
+          </div>
+{% endblock %}

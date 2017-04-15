@@ -79,6 +79,12 @@ class Deployment(models.Model):
             self.profile.name,
             self.profile.version)
 
+    def link_webui(self):
+        return '/deployments/%s/%s/%s.html' % (
+            self.pk,
+            self.server.fqdn,
+            self.profile.name)
+
     @transition(field=status, source='*', target='error')
     def set_error_state(self):
         pass
