@@ -1,5 +1,4 @@
-Bootloader
-==========
+# Bootloader
 
 [![Build Status](https://travis-ci.org/teran/bootloader-web.svg?branch=master)](https://travis-ci.org/teran/bootloader-web)
 ![Layers size](https://images.microbadger.com/badges/image/teran/bootloader-web.svg)
@@ -10,13 +9,11 @@ Servers inventory & deployment solution
 
 Currently deep-deep alpha state.
 
-Application arhitecture
-=======================
+# Application arhitecture
 
 ![](https://raw.githubusercontent.com/teran/bootloader-web/master/docs/static/images/architecture.png)
 
-Configuration
-=============
+# Configuration
 
 Currently there's the way to configure the agent via environment variables:
 
@@ -27,8 +24,89 @@ Currently there's the way to configure the agent via environment variables:
  * `DB_PASSWORD` - Password to access the database, default is `None`
  * `DB_USER` - Username to access the database, default is `'postgres'`
 
-Licence
-=======
+# Compatibility and guarantees
+
+### Application status
+
+Current project state: Alpha
+Pending release number: 0.0.1-alpha
+
+All releases will be reflected as a git tag.
+
+### Build status
+
+Build for bootloader components would mean corresponding docker images.
+The most recent build is always tagged with `latest` no matter what version is it,
+so it's just time-related tag.
+Each branch have it's own tag, for `master` git-branch it's `master` tag in docker hub.
+Eeach release gonna be tagged accordingly.
+
+The most proper way for development purposes is to use `:master` docker tag.
+For testing and/or production - tag describes particular version.
+
+Update procedure between versions is not designed at the moment.
+But based on how application is developed it should work in proper way without any
+issues.
+
+### API status
+The most stable current API version: `v1alpha1`
+Any incompatible changes will be marked as dedicated API version.
+
+#### API Alpha versions
+
+Their main purpose is to be a trade off between stability and development speed.
+All of incompatible changes will be reflected in new version.
+Supported during current version lifecycle only.
+
+#### API Beta versions
+
+Served for stabilization, i.e. fixes only are accepted.
+Supported during current application version lifecycle only.
+
+#### API Stable versions
+
+A kind of LTS for API.
+Supported during two stable releases.
+
+#### API versions lifecycle
+
+Normally it should work the following way:
+v1alpha1 - the first initial version shows what could we need from API.
+It will become v1alpha2 as only it would have incompatible changes.
+
+In addition the most recent version of Alpha API will be forked to v1beta1 on first
+alpha-release, and the most recent beta-version to stable on stable application release.
+
+Legacy API versions could stay for some time for some reasons, but they are not going to be
+supported or verified for compatibility.
+
+### Dependencies status
+Python versions:
+ * 2.7,
+ * 3.6 (optional)
+
+Django versions:
+ * 1.6 (optional)
+ * 1.7 (optional)
+ * 1.8 (optional)
+ * 1.9 (optional)
+ * 1.10 (optional)
+ * 1.11
+
+Celery versions:
+ * 4.0
+
+PostgreSQL versions:
+ * 9.6
+
+RabbitMQ versions:
+ * 3.6
+
+This version list means bootloader-web tests against them but here are some "but":
+ * optional versions could be skipped if they're support would require too much
+   work
+
+# Licences
 
 bootloader is licenced under GPLv2 licence.
 
@@ -40,8 +118,8 @@ libraries used in bootloader-web and their licenses:
  * [jQuery](https://jquery.com) - http://jquery.org/license
  * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
 
-TODO
-====
+# TODO
+
 - [X] Custom authentication for API handlers used in deployment(short-life tokens linked to installation)
 - [ ] Client part to run some configuration gathering just after install
 - [X] WebUI to add servers
