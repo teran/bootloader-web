@@ -8,7 +8,7 @@ from django.test import Client, TestCase
 class Yaml2JsonTestCase(TestCase):
     def setUp(self):
         self.data = {'key': 'value'}
-        self.yaml = str('key: value')
+        self.yaml = b'key: value'
 
     def test_conversion(self):
         client = Client(enforce_csrf_checks=False)
