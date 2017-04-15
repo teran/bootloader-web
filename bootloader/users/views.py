@@ -9,13 +9,16 @@ from rest_framework.authtoken.models import Token
 
 
 def user_login(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         user = authenticate(
             username=request.POST.get('username'),
             password=request.POST.get('password'))
         if user is not None:
             login(request, user)
-            return redirect('/')
+            redirect_url = '/'
+            if request.GET.get('next') is not None:
+                redirect_url = request.GET.get('next')
+            return redirect(redirect_url)
         else:
             return render(
                 request,

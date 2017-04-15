@@ -1,10 +1,9 @@
+from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
 
-class TestUsersAndAuthentication(TestCase):
+class TestAuthentication(TestCase):
     def setUp(self):
-        self.client = Client()
-
         self.urls = {
             '/': 302,
             '/api/': 404,
@@ -23,8 +22,41 @@ class TestUsersAndAuthentication(TestCase):
         }
 
     def test_unauthorized_access(self):
+        client = Client()
         results = {
-            url: self.client.get(url).status_code for url in self.urls.keys()
+            url: client.get(url).status_code for url in self.urls.keys()
         }
 
         self.assertEqual(results, self.urls)
+
+
+class TestUserActions(TestCase):
+    def test_user_registration(self):
+        client = Client(enforce_csrf_checks=False)
+        client.post('/user/register.html', {
+            'firstname': 'Test',
+            'lastname': 'User',
+            'email': 'testuser@example.org',
+            'username': 'testuser',
+            'password': 'secret',
+            'password2': 'secret'})
+
+        u = User.objects.get(username='testuser')
+
+        self.assertEqual(u.username, 'testuser')
+        self.assertEqual(u.email, 'testuser@example.org')
+        self.assertEqual(u.first_name, 'Test')
+        self.assertEqual(u.last_name, 'User')
+
+    def test_user_login(self):
+        User.objects.create_user('testuser', 'testuser@example.org', 'secret')
+        client = Client(enforce_csrf_checks=False)
+        result = client.post('/user/login.html?next=/user/profile.html', {
+            'username': 'testuser',
+            'password': 'secret'})
+
+        self.assertRedirects(
+            result,
+            '/user/profile.html',
+            status_code=302,
+            target_status_code=200)
