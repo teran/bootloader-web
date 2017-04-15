@@ -98,7 +98,7 @@ $('document').ready(function() {
     var formData = new FormData();
     var profileName = $('#profile-name').val();
     var profileVersion = $('#profile-version').val();
-    formData.append('profile', $('input[type=file]')[0].files[0]);
+    formData.append('yaml', $('input[type=file]')[0].files[0]);
 
     $.ajax({
       url: '/tools/yaml2json',

@@ -15,6 +15,6 @@ class Yaml2JsonTestCase(TestCase):
         fileData = SimpleUploadedFile('test.yaml', self.yaml)
 
         result = client.post('/tools/yaml2json', {
-            'profile': fileData})
+            'yaml': fileData})
 
         self.assertEqual(result.json(), self.data)
