@@ -43,7 +43,7 @@
             {% if user.is_staff %}
             <li{% if view == "users" %} class="active"{% endif %}><a href="/user/events.html">Users</a>
             {% endif %}
-            <li><a href="/api/" target="_blank">API</a></li>
+            <li><a href="/api/v1alpha1/" target="_blank">API</a></li>
           </ul>
           {% if user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">
