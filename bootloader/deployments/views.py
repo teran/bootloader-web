@@ -24,6 +24,7 @@ def deployments(request):
         })
 
 
+@login_required
 def profile(request, name, version):
     profile = get_object_or_404(Profile, name=name, version=version)
 
