@@ -22,15 +22,11 @@ class DeploymentSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.Serializer):
-    name = serializers.CharField(
-        required=True, allow_blank=False, max_length=255)
-    version = serializers.CharField(
-        required=True, allow_blank=False, max_length=255)
     profile = serializers.JSONField(binary=True)
 
     class Meta:
         model = Profile
 
     def create(self, validated_data):
-        profile = Profile.objects.create(**validated_data)
+        profile = Profile.objects.create_profile(**validated_data)
         return profile

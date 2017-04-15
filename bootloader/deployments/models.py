@@ -11,6 +11,7 @@ from django.db import models
 
 from django_fsm import FSMField, transition
 
+from deployments.managers import ProfileManager
 from servers.models import Server
 
 
@@ -26,6 +27,8 @@ class Profile(models.Model):
     name = models.CharField(max_length=255)
     version = models.CharField(max_length=255)
     profile = JSONField(default={})
+
+    objects = ProfileManager()
 
     class Meta:
         unique_together = (('name', 'version'),)
