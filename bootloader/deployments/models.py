@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 import hashlib
+import json
 import random
 import string
+import yaml
 
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
@@ -33,6 +35,24 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return self.__str__()
+
+    def link_webui(self):
+        return '/deployments/profiles/%s/%s.html' % (
+            self.name,
+            self.version)
+
+    def json(self):
+        return json.dumps(self.profile, indent=4)
+
+    def yaml(self):
+        return yaml.safe_dump(
+            self.profile,
+            encoding='utf-8',
+            default_flow_style=False,
+            default_style=False,
+            explicit_start=True,
+            explicit_end=True,
+            tags=False)
 
 
 class Deployment(models.Model):

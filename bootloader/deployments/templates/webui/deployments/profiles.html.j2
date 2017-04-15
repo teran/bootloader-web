@@ -66,7 +66,7 @@
             </tr>
             {% for profile in profiles %}
             <tr>
-              <td><a href="{{ server.link_webui }}">{{ profile.name }}</a></td>
+              <td><a href="{{ profile.link_webui }}">{{ profile.name }}</a></td>
               <td>{{ profile.version }}</td>
               <td>
                 {% if server.ipmi_host and server.ipmi_browser_proto %}
