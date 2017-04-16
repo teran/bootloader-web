@@ -35,3 +35,8 @@ def evaluate_configuring(*args, **kwargs):
 @app.task
 def evaluate_postconfiguring(*args, **kwargs):
     pass
+
+
+@app.task
+def evaluate_error(*args, **kwargs):
+    pass
