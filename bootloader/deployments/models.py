@@ -39,13 +39,13 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.__str__()
 
+    def json(self):
+        return json.dumps(self.profile, indent=4)
+
     def link_webui(self):
         return '/deployments/profiles/%s/%s.html' % (
             self.name,
             self.version)
-
-    def json(self):
-        return json.dumps(self.profile, indent=4)
 
     def yaml(self):
         return yaml.safe_dump(
