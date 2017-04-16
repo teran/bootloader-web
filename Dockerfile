@@ -1,21 +1,28 @@
 FROM alpine:latest
 
+EXPOSE 80
+EXPOSE 443
+
+ENV DJANGO_SETTINGS_MODULE=bootloader.settings
+
+RUN adduser -SDHh /opt/bootloader/web -s /bin/sh bootloader
+
 RUN apk --update --no-cache add \
       ca-certificates \
       libpq \
       mailcap \
+      nginx \
       python \
       py2-pip \
       openssl && \
-    rm -vf /var/cache/apk/* && \
+    rm -f /var/cache/apk/* && \
+    rm -f /etc/nginx/conf.d/default.conf && \
     update-ca-certificates
 
 RUN pip install --no-cache-dir --upgrade pip && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
-ADD uwsgi.yaml /etc/bootloader/uwsgi.yaml
-
-ADD bootloader /srv/bootloader
+ADD bootloader /opt/bootloader/web
 
 RUN apk add --update --no-cache \
       freetype-dev \
@@ -25,7 +32,7 @@ RUN apk add --update --no-cache \
       pkgconfig \
       postgresql-dev \
       python-dev && \
-    pip install --no-cache-dir --upgrade -r /srv/bootloader/requirements.txt && \
+    pip install --no-cache-dir --upgrade -r /opt/bootloader/web/requirements.txt && \
     pip install --no-cache-dir --upgrade uwsgi && \
     find / -name '*.pyc' -or -name '*.pyo' -delete && \
     apk del --update --purge --no-cache \
@@ -37,8 +44,13 @@ RUN apk add --update --no-cache \
       postgresql-dev \
       python-dev
 
-WORKDIR "/srv/bootloader"
+WORKDIR "/opt/bootloader/web"
 
-EXPOSE 8000
+ADD docker/entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["uwsgi", "-y", "/etc/bootloader/uwsgi.yaml"]
+ADD docker/uwsgi.yaml /etc/bootloader/uwsgi.yaml
+ADD docker/nginx-http.conf /etc/bootloader/nginx-http.conf
+ADD docker/nginx-ssl.conf /etc/bootloader/nginx-ssl.conf
+ADD docker/nginx-http-redirect.conf /etc/bootloader/nginx-http-redirect.conf
+
+ENTRYPOINT ["/entrypoint.sh"]
