@@ -16,7 +16,7 @@ class DeploymentSerializer(serializers.Serializer):
         model = Deployment
 
     def create(self, validated_data):
-        deployment = Deployment.objects.create(**validated_data)
+        deployment = Deployment.objects.create_deployment(**validated_data)
 
         return deployment
 

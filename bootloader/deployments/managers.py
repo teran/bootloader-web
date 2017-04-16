@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from deployments import tasks
+
 
 class ProfileManager(models.Manager):
     def create_profile(self, *args, **kwargs):
@@ -16,3 +18,14 @@ class ProfileManager(models.Manager):
             name=kwargs.get('profile').get('name'),
             version=kwargs.get('profile').get('version'),
             profile=kwargs.get('profile'))
+
+
+class DeploymentManager(models.Manager):
+    def create_deployment(self, *args, **kwargs):
+        deployment = self.create(**kwargs)
+
+        tasks.deployment_created.apply_async(
+            args=(deployment.pk,),
+            queue=deployment.server.location.queue_name())
+
+        return deployment

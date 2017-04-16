@@ -11,7 +11,7 @@ from django.db import models
 
 from django_fsm import FSMField, transition
 
-from deployments.managers import ProfileManager
+from deployments.managers import DeploymentManager, ProfileManager
 from servers.models import Server
 
 
@@ -64,6 +64,8 @@ class Deployment(models.Model):
     status = FSMField(default='new')
     parameters = JSONField(default={})
     token = models.CharField(max_length=64, default=_generate_token)
+
+    objects = DeploymentManager()
 
     def __str__(self):
         return '%s@%s' % (self.profile, self.server)

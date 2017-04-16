@@ -7,10 +7,7 @@ app.conf.update(**settings.CELERY_SETTINGS)
 
 
 @app.task
-def deployment_start(deployment):
-    pass
+def deployment_created(deployment):
+    d = Deployment.objects.get(pk=deployment)
 
-
-@app.task
-def download_file(URL, target):
-    pass
+    d.profile.profile.get('workflow').get('new')
