@@ -42,7 +42,7 @@ workflow:
       source:
         type: template
         contents: rclocal
-  post-configuring:
+  postconfiguring:
     - action: expect_callback
       name: post_configuring_callback
   cleanup: {}
