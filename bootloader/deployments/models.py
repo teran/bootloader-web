@@ -15,6 +15,7 @@ from deployments.managers import DeploymentManager, ProfileManager
 from servers.models import Server
 from tools.models import BaseModel
 
+
 def _generate_token():
     return hashlib.sha256(
         ''.join(
