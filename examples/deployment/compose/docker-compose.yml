@@ -1,0 +1,36 @@
+version: '3'
+networks:
+  bootloader:
+    driver: bridge
+services:
+  postgres:
+    image: postgres
+    networks:
+      - bootloader
+    volumes:
+      - /srv/data/postgres/bootloader:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq
+    networks:
+      - bootloader
+  bootloader-web:
+    build: ../../..
+    image: teran/bootloader-web
+    environment:
+      - DEBUG=True
+      - DB_HOST=postgres
+    networks:
+      - bootloader
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+      - rabbitmq
+  bootloader-agent:
+    environment:
+      - DEBUG=True
+    image: teran/bootloader-agent
+    networks:
+      - bootloader
+    depends_on:
+      - bootloader-web
