@@ -13,7 +13,7 @@ from django_fsm import FSMField, transition
 
 from deployments.managers import DeploymentManager, ProfileManager
 from servers.models import Server
-
+from tools.models import BaseModel
 
 def _generate_token():
     return hashlib.sha256(
@@ -23,7 +23,7 @@ def _generate_token():
         ).hexdigest()
 
 
-class Profile(models.Model):
+class Profile(BaseModel):
     name = models.CharField(max_length=255)
     version = models.CharField(max_length=255)
     profile = JSONField(default={})
@@ -58,7 +58,7 @@ class Profile(models.Model):
             tags=False)
 
 
-class Deployment(models.Model):
+class Deployment(BaseModel):
     server = models.ForeignKey(Server, related_name='deployments')
     profile = models.ForeignKey(Profile, related_name='deployments')
     status = FSMField(default='new')

@@ -4,6 +4,7 @@ import re
 from django.utils.text import slugify
 from django.db import models
 
+from tools.models import BaseModel
 
 IPMI_BROWSER_PROTO_CHOICES = (
     (None, 'None'),
@@ -12,11 +13,11 @@ IPMI_BROWSER_PROTO_CHOICES = (
 )
 
 
-class Label(models.Model):
+class Label(BaseModel):
     name = models.CharField(max_length=255, unique=True)
 
 
-class Location(models.Model):
+class Location(BaseModel):
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
@@ -29,7 +30,7 @@ class Location(models.Model):
         return slugify('deployment_%s_%s' % (self.pk, self.name))
 
 
-class Server(models.Model):
+class Server(BaseModel):
     fqdn = models.CharField(max_length=255, unique=True)
     location = models.ForeignKey(
         Location, null=True, blank=True, related_name='servers')
@@ -64,7 +65,7 @@ class Server(models.Model):
             self.ipmi_host)
 
 
-class Interface(models.Model):
+class Interface(BaseModel):
     name = models.CharField(max_length=16)
     mac = models.CharField(max_length=17, unique=True)
     server = models.ForeignKey(Server, related_name='interfaces')
