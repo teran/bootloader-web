@@ -11,21 +11,23 @@ workflow:
       filename: 'images/ubuntu/16.04/kernel'
       source:
         type: url
-        contents: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/linux'
+        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/linux'
     - action: serve_file
       via: http
       filename: 'images/ubuntu/16.04/initrd'
       source:
         type: url
-        contents: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/initrd.gz'
+        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/initrd.gz'
     - action: serve_file
       via: tftp
       filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
       source:
         type: template
-        contents: pxelinux.cfg
+        name: pxelinux.cfg
     - action: ipmi_command
-      command: reboot
+      command: 'chassis bootdev pxe'
+    - action: ipmi_command
+      command: 'power reset'
   installing:
     - action: delete_file
       on: tftp
@@ -35,13 +37,13 @@ workflow:
       via: http
       source:
         type: template
-        contents: preseed.cfg
+        name: preseed.cfg
   configuring:
     - action: serve_file
       via: http
       source:
         type: template
-        contents: rclocal
+        name: rclocal
   postconfiguring:
     - action: expect_callback
       name: post_configuring_callback
