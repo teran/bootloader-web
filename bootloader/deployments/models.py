@@ -74,6 +74,18 @@ class Deployment(BaseModel):
     def __unicode__(self):
         return self.__str__()
 
+    def color_class_css(self):
+        classes = {
+            'new': '',
+            'preparing': 'info',
+            'installing': 'info',
+            'configuring': 'info',
+            'postconfiguring': 'info',
+            'complete': 'success',
+            'error': 'danger',
+        }
+        return classes[self.status]
+
     def file_export_url(self):
         return '%sexport/file/%s/%s/%s/%s/' % (
             settings.BOOTLOADER_URL,

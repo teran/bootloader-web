@@ -66,7 +66,7 @@
               <th>Controls</th>
             </tr>
             {% for deployment in deployments %}
-            <tr>
+            <tr class="{{ deployment.color_class_css }}">
               <td><a href="{{ deployment.link_webui }}">{{ deployment.server }}</a></td>
               <td>{{ deployment.profile }}</td>
               <td>{{ deployment.status }}</td>
