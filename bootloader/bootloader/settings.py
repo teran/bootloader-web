@@ -111,6 +111,7 @@ CELERY_SETTINGS = {
         Queue('default', routing_key='task.#'),
         Queue('deployment', routing_key='deployment.#'),
     ),
+    'CELERY_RESULT_BACKEND': 'rpc://',
     'CELERY_ROUTES': {
             'tasks.deployment_created': {
                 'queue': 'deployment',
