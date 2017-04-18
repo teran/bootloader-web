@@ -68,6 +68,9 @@ class Deployment(BaseModel):
 
     objects = DeploymentManager()
 
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return '%s@%s' % (self.profile, self.server)
 
