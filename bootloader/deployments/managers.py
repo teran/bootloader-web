@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from deployments import tasks
+from deployments.tasks import EventBasedTasks
 
 
 class ProfileManager(models.Manager):
@@ -24,8 +24,7 @@ class DeploymentManager(models.Manager):
     def create_deployment(self, *args, **kwargs):
         deployment = self.create(**kwargs)
 
-        tasks.deployment_created.apply_async(
-            args=(deployment.pk,),
-            queue=deployment.server.location.queue_name())
+        EventBasedTasks.deployment_created.apply_async(
+            args=(deployment.pk,), queue='bootloader_tasks')
 
         return deployment

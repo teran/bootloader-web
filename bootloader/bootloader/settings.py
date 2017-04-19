@@ -107,6 +107,12 @@ CELERY_SETTINGS = {
     'CELERY_DEFAULT_EXCHANGE': 'tasks',
     'CELERY_DEFAULT_EXCHANGE_TYPE': 'topic',
     'CELERY_DEFAULT_ROUTING_KEY': 'task.default',
+    'CELERY_IMPORTS': (
+        'deployments.tasks',
+        'deployments.tasks.AgentTasks',
+        'deployments.tasks.ControllerTasks',
+        'deployments.tasks.EventBasedTasks'
+    ),
     'CELERY_QUEUES': (
         Queue('default', routing_key='task.#'),
         Queue('deployment', routing_key='deployment.#'),

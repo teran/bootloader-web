@@ -41,7 +41,7 @@ mkdir -p /run/celery
 chown bootloader:nobody /run/celery
 
 /usr/bin/celery worker \
-  -A deployments.tasks \
+  --app deployments.tasks \
   --queues bootloader_tasks \
   --logfile /var/log/celery.log \
   --pidfile=/run/celery/celery.pid \

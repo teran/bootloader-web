@@ -7,6 +7,16 @@
               <div>Status: {{ deployment.status }}</div>
               <div>Profile: <a href="{{ deployment.profile.link_webui }}">{{ deployment.profile }}</a></div>
               <div>Server: <a href="{{ deployment.server.link_webui }}">{{ deployment.server }}</a></div>
+              <p>
+                <table class="table">
+                  {% for entry in deployment.logs.all %}
+                  <tr class="{{ entry.color_class_css }}">
+                    <td class="col-md-3">{{ entry.created|date:"m/d/Y H:i:s" }}</td>
+                    <td class="col-md-1">{{ entry.level }}</td>
+                    <td>{{ entry.message }}</td>
+                  </tr>
+                  {% endfor %}
+              </p>
             </div>
           </div>
 {% endblock %}

@@ -11,7 +11,9 @@ from django.db import models
 
 from django_fsm import FSMField, transition
 
+from deployments import workflow
 from deployments.managers import DeploymentManager, ProfileManager
+
 from servers.models import Server
 from tools.models import BaseModel
 
@@ -103,10 +105,79 @@ class Deployment(BaseModel):
             self.server.fqdn,
             self.profile.name)
 
-    @transition(field=status, source='*', target='error')
-    def set_error_state(self):
-        pass
+    def evaluate(self, target):
+        self.status = target
+        self.save()
 
-    @transition(field=status, source='new', target='preparing')
-    def set_preparing_state(self):
-        pass
+    @transition(
+        field=status,
+        source='new',
+        target='preparing',
+        on_error='error')
+    def evaluate_new(self):
+        self.evaluate(target='preparing')
+
+    @transition(
+        field=status,
+        source='preparing',
+        target='installing',
+        on_error='error')
+    def evaluate_preparing(self):
+        self.evaluate(target='installing')
+
+    @transition(
+        field=status,
+        source='installing',
+        target='configuring',
+        on_error='error')
+    def evaluate_installing(self):
+        self.evaluate(target='configuring')
+
+    @transition(
+        field=status,
+        source='configuring',
+        target='postconfiguring',
+        on_error='error')
+    def evaluate_configuring(self):
+        self.evaluate(target='postconfiguring')
+
+    @transition(
+        field=status,
+        source='postconfiguring',
+        target='complete',
+        on_error='error')
+    def evaluate_postconfiguring(self):
+        self.evaluate(target='complete')
+
+
+class LogEntry(BaseModel):
+    LEVEL_CHOICES = (
+        ('DEBUG', 'DEBUG',),
+        ('INFO', 'INFO',),
+        ('WARNING', 'WARNING',),
+        ('CRITICAL', 'CRITICAL',),
+    )
+    deployment = models.ForeignKey(Deployment, related_name='logs')
+    level = models.CharField(
+        max_length=8, choices=LEVEL_CHOICES, default='INFO')
+    message = models.TextField()
+
+    class Meta:
+        ordering = ['pk']
+
+
+    def __str__(self):
+        return '%s  %s  %s' % (self.created, self.level, self.message)
+
+    def __unicode__(self):
+        return self.__str__()
+
+    def color_class_css(self):
+        classes = {
+            'DEBUG': '',
+            'INFO': 'info',
+            'WARNING': 'warning',
+            'CRITICAL': 'danger',
+        }
+
+        return classes[self.level]
