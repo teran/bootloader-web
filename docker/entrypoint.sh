@@ -24,12 +24,14 @@ else
 fi
 
 touch /var/log/uwsgi.log
-chown nobody:nogroup /var/log/uwsgi.log
+mkdir -p /run/uwsgi
+chown nobody:nogroup /var/log/uwsgi.log /run/uwsgi
 chmod 0600 /var/log/uwsgi.log
 
 uwsgi \
   -y /etc/bootloader/uwsgi.yaml \
-  --daemonize2 /var/log/uwsgi.log
+  --daemonize2 /var/log/uwsgi.log \
+  --pidfile2 /run/uwsgi/uwsgi.pid
 
 mkdir -p /run/nginx
 nginx -t && nginx
@@ -48,5 +50,12 @@ chown bootloader:nobody /run/celery
   --uid 100 \
   --gid 65533 \
   --detach
+
+trap 'echo "Killing processes..." ; \
+      kill $(cat /run/celery/celery.pid) ; \
+      kill -SIGINT $(cat /run/uwsgi/uwsgi.pid) ; \
+      kill $(cat /run/nginx/nginx.pid) ; \
+      sleep 2' \
+  SIGINT SIGTERM
 
 tail -f /var/log/uwsgi.log /var/log/nginx/* /var/log/celery.log
