@@ -22,7 +22,7 @@ RUN apk --update --no-cache add \
 RUN pip install --no-cache-dir --upgrade pip && \
     find / -name '*.pyc' -or -name '*.pyo' -delete
 
-ADD bootloader /opt/bootloader/web
+ADD bootloader/requirements.txt /opt/bootloader/web/requirements.txt
 
 RUN apk add --update --no-cache \
       freetype-dev \
@@ -46,11 +46,12 @@ RUN apk add --update --no-cache \
 
 WORKDIR "/opt/bootloader/web"
 
-ADD docker/entrypoint.sh /entrypoint.sh
-
 ADD docker/uwsgi.yaml /etc/bootloader/uwsgi.yaml
 ADD docker/nginx-http.conf /etc/bootloader/nginx-http.conf
 ADD docker/nginx-ssl.conf /etc/bootloader/nginx-ssl.conf
 ADD docker/nginx-http-redirect.conf /etc/bootloader/nginx-http-redirect.conf
 
+ADD docker/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+
+ADD bootloader /opt/bootloader/web
