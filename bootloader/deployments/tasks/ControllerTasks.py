@@ -1,12 +1,9 @@
-from celery import chain
-
 from deployments.tasks import app
 
 
 @app.task
 def evaluate_deployment(deployment):
     from deployments.models import Deployment, LogEntry
-    from deployments.workflow import Step
 
     d = Deployment.objects.get(pk=deployment)
 
@@ -17,22 +14,21 @@ def evaluate_deployment(deployment):
             d.pk, d.server, d.profile)
     ).save()
 
-    #chain(
     evaluate_step.apply_async(
-        args=(d.pk,'new',),queue='bootloader_tasks') | \
-    evaluate_step.apply_async(
-        args=(d.pk,'preparing',),queue='bootloader_tasks') | \
-    evaluate_step.apply_async(
-        args=(d.pk,'installing',),queue='bootloader_tasks') | \
-    evaluate_step.apply_async(
-        args=(d.pk,'configuring',),queue='bootloader_tasks') | \
-    evaluate_step.apply_async(
-        args=(d.pk,'postconfiguring',),queue='bootloader_tasks') 
+        args=(d.pk, 'new',), queue='bootloader_tasks') | \
+        evaluate_step.apply_async(
+            args=(d.pk, 'preparing',), queue='bootloader_tasks') | \
+        evaluate_step.apply_async(
+            args=(d.pk, 'installing',), queue='bootloader_tasks') | \
+        evaluate_step.apply_async(
+            args=(d.pk, 'configuring',), queue='bootloader_tasks') | \
+        evaluate_step.apply_async(
+            args=(d.pk, 'postconfiguring',),     queue='bootloader_tasks')
+
 
 @app.task
 def evaluate_step(deployment, step):
     from deployments.models import Deployment, LogEntry
-    from deployments.tasks import AgentTasks
     from deployments.workflow import Step
 
     d = Deployment.objects.get(pk=deployment)

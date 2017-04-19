@@ -11,7 +11,6 @@ from django.db import models
 
 from django_fsm import FSMField, transition
 
-from deployments import workflow
 from deployments.managers import DeploymentManager, ProfileManager
 
 from servers.models import Server
@@ -164,7 +163,6 @@ class LogEntry(BaseModel):
 
     class Meta:
         ordering = ['pk']
-
 
     def __str__(self):
         return '%s  %s  %s' % (self.created, self.level, self.message)

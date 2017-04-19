@@ -1,5 +1,6 @@
 from deployments.tasks import app
 
+
 @app.task
 def deployment_created(deployment):
     from deployments.models import Deployment, LogEntry
