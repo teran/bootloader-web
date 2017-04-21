@@ -1,0 +1,18 @@
+{% extends 'common/layout.html.j2' %}
+
+{% block content %}
+          <div class="col-sm-10 col-sm-offset-4 col-md-6 col-md-offset-3 main">
+            <table class="table">
+              <tr>
+                <th>Key</th>
+                <th>Created</th>
+              </tr>
+              {% for key in request.user.ssh_authorized_keys.all %}
+              <tr>
+                <td>{{ key.key }}</td>
+                <td>{{ key.created }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+{% endblock %}

@@ -109,3 +109,14 @@ def user_tokens(request):
             context={
                 'tokens': tokens
             })
+
+
+@login_required
+def user_ssh_authorized_keys(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render(
+            request,
+            'webui/users/ssh_authorized_keys.html.j2',
+            context={})

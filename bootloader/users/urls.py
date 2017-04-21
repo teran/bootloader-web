@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^logout\.html$', views.user_logout),
     url(r'^profile\.html$', views.user_profile),
     url(r'^register\.html$', views.user_register),
+    url(r'^sshkeys\.html$', views.user_ssh_authorized_keys),
     url(r'^tokens\.html$', views.user_tokens),
 ]
