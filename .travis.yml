@@ -1,9 +1,10 @@
 dist: trusty
 language: python
-sudo: false
+sudo: required
 
 services:
   - postgresql
+  - rabbitmq
 
 addons:
   postgresql: "9.6"
