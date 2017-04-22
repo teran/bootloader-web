@@ -162,7 +162,7 @@ class LogEntry(BaseModel):
     message = models.TextField()
 
     class Meta:
-        ordering = ['pk']
+        ordering = ['-pk']
 
     def __str__(self):
         return '%s  %s  %s' % (self.created, self.level, self.message)
