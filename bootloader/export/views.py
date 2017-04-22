@@ -6,6 +6,8 @@ from deployments.models import Deployment
 
 
 def file(request, deployment, token, profile, version, file):
+    from deployments.workflow import deployment_context
+
     deployment = get_object_or_404(
         Deployment,
         pk=deployment,
@@ -19,11 +21,7 @@ def file(request, deployment, token, profile, version, file):
     except KeyError:
         raise Http404
 
-    context = Context({
-        'profile': deployment.profile,
-        'server': deployment.server,
-        'export_base': deployment.file_export_url,
-    })
+    context = deployment_context(deployment.pk)
     template = Template(contents)
 
     return HttpResponse(template.render(context), content_type='text/plain')

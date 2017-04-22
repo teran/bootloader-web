@@ -1,6 +1,24 @@
 import os
 
 
+def deployment_context(deployment):
+    from django.template import Context
+    from deployments.models import Deployment
+
+    d = Deployment.objects.get(pk=deployment)
+
+    context = Context({
+        'fqdn': d.server.fqdn,
+        'profile': d.profile.name,
+        'ipmi_host': d.server.ipmi_host,
+        'mac_address': d.server.interfaces.all()[0].mac,
+        'mac_address_dashed': d.server.interfaces.all()[0].mac_address_dashed(),
+        'interface_name': d.server.interfaces.all()[0].name,
+        'export_base': d.file_export_url(),
+    })
+
+    return context
+
 class Step():
     def __init__(self, deployment, step):
         self.step = step
