@@ -10,7 +10,7 @@
               {% for key in request.user.ssh_authorized_keys.all %}
               <tr>
                 <td>{{ key.key }}</td>
-                <td>{{ key.created }}</td>
+                <td>{{ key.timestamp }}</td>
               </tr>
               {% endfor %}
             </table>

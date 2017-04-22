@@ -165,7 +165,7 @@ class LogEntry(BaseModel):
         ordering = ['-pk']
 
     def __str__(self):
-        return '%s  %s  %s' % (self.created, self.level, self.message)
+        return '%s  %s  %s' % (self.timestamp, self.level, self.message)
 
     def __unicode__(self):
         return self.__str__()

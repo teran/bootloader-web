@@ -11,9 +11,9 @@
                 <table class="table">
                   {% for entry in deployment.logs.all %}
                   <tr class="{{ entry.color_class_css }}">
-                    <td class="col-md-3">{{ entry.created|date:"m/d/Y H:i:s" }}</td>
+                    <td class="col-md-2">{{ entry.timestamp }}</td>
                     <td class="col-md-1">{{ entry.level }}</td>
-                    <td>{{ entry.message }}</td>
+                    <td class="col-md-6">{{ entry.message }}</td>
                   </tr>
                   {% endfor %}
               </p>
