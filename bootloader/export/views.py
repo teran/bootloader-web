@@ -17,7 +17,7 @@ def file(request, deployment, token, profile, version, file):
     profile = deployment.profile
 
     try:
-        contents = profile.profile.get('files').get(file).get('contents')
+        contents = profile.profile['templates'][file]['contents']
     except KeyError:
         raise Http404
 
