@@ -1,0 +1,24 @@
+---
+kind: Profile
+apiVersion: v1alpha1
+name: echo
+version: 0.1
+workflow:
+  new:
+    - action: echo
+      message: 'echo-new'
+  preparing:
+    - action: echo
+      message: 'echo-preparing'
+  installing:
+    - action: echo
+      message: 'echo-installing'
+  configuring:
+    - action: echo
+      message: 'echo-configuring'
+  postconfiguring:
+    - action: echo
+      message: 'echo-postconfiguring'
+  complete:
+    - action: echo
+      message: 'echo-complete'
