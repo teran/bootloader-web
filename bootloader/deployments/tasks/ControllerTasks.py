@@ -2,6 +2,13 @@ from deployments.tasks import app
 
 
 @app.task
+def echo(message):
+    print('Task echo: %s' % (message,))
+
+    return True
+
+
+@app.task
 def evaluate_deployment(deployment):
     from deployments.models import Deployment, LogEntry
 
