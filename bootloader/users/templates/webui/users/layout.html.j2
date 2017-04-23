@@ -1,0 +1,11 @@
+{% extends 'common/layout.html.j2' %}
+
+{% block navigation %}
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li{% if subview == "profile" %} class="active"{% endif %}><a href="/user/profile.html">Profile</a></li>
+            <li{% if subview == "apitokens" %} class="active"{% endif %}><a href="/user/tokens.html">API tokens</a></li>
+            <li{% if subview == "sshkeys" %} class="active"{% endif %}><a href="/user/sshkeys.html">SSH keys</a></li>
+          </ul>
+        </div>
+{% endblock %}

@@ -40,7 +40,13 @@ def user_logout(request):
 
 @login_required
 def user_profile(request):
-    return render(request, 'webui/users/profile.html.j2')
+    return render(
+        request,
+        'webui/users/profile.html.j2',
+        context={
+            'view': 'user',
+            'subview': 'profile',
+        })
 
 
 def user_register(request):
@@ -107,6 +113,8 @@ def user_tokens(request):
             request,
             'webui/users/tokens.html.j2',
             context={
+                'view': 'user',
+                'subview': 'apitokens',
                 'tokens': tokens
             })
 
@@ -119,4 +127,7 @@ def user_ssh_authorized_keys(request):
         return render(
             request,
             'webui/users/ssh_authorized_keys.html.j2',
-            context={})
+            context={
+                'view': 'user',
+                'subview': 'sshkeys',
+            })

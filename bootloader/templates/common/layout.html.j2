@@ -47,13 +47,14 @@
           </ul>
           {% if user.is_authenticated %}
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
+            <li{% if view == "user" %} class="active"{% endif %} class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 {{ user.username }} {% autoescape off %}{% gravatar user.email 17 %}{% endautoescape %}
               </a>
               <ul class="dropdown-menu">
-                <li><a href="/user/tokens.html">API tokens</a></li>
                 <li><a href="/user/profile.html">Profile</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/user/tokens.html">API tokens</a></li>
                 <li><a href="/user/sshkeys.html">SSH Keys</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/user/logout.html">Logout</a></li>
