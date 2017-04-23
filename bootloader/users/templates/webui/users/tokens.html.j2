@@ -10,7 +10,7 @@
               {% for token in tokens %}
               <tr>
                 <td>{{ token.key }}</td>
-                <td>{{ token.created }}</td>
+                <td>{{ token.created|timesince }} ago</td>
               </tr>
               {% endfor %}
             </table>
