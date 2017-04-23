@@ -28,6 +28,8 @@ workflow:
       command: 'chassis bootdev pxe'
     - action: ipmi_command
       command: 'power reset'
+    - action: expect_callback
+      name: preparing-callback
   installing:
     - action: delete_file
       on: tftp
@@ -38,6 +40,8 @@ workflow:
       source:
         type: template
         name: preseed.cfg
+    - action: expect_callback
+      name: installing-callback
   configuring:
     - action: serve_file
       via: http
