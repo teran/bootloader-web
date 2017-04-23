@@ -33,7 +33,7 @@ workflow:
       on: tftp
       filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
     - action: serve_file
-      name: preseed_cfg
+      filename: 'preseeds/{{ fqdn }}.cfg'
       via: http
       source:
         type: template
@@ -41,13 +41,15 @@ workflow:
   configuring:
     - action: serve_file
       via: http
+      filename: 'contrib/{{ fqdn }}.rclocal'
       source:
         type: template
         name: rclocal
   postconfiguring:
     - action: expect_callback
-      name: post_configuring_callback
+      name: postconfiguring_callback
   cleanup: {}
+  complete: {}
   error: {}
 templates:
   pxelinux.cfg:
@@ -548,6 +550,6 @@ templates:
       #!/bin/bash
 
       # Setting a mark on bootloader about step completion
-      curl -s '{{ post_configuring_callback_url }}'
+      curl -s '{{ callback_url }}/postconfiguring_callback'
 
       exit 0
