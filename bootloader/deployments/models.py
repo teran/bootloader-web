@@ -34,6 +34,7 @@ class Profile(BaseModel):
 
     class Meta:
         unique_together = (('name', 'version'),)
+        ordering = ['-created']
 
     def __str__(self):
         return '%s==%s' % (self.name, self.version)
