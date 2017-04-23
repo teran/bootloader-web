@@ -76,5 +76,5 @@ class Interface(BaseModel):
     def __unicode__(self):
         return self.__str__()
 
-    def mac_address_dashed(self):
+    def mac_dashed(self):
         return re.sub(':', '-', self.mac.lower())

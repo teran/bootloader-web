@@ -15,6 +15,5 @@ def deployment_created(deployment):
             d.pk, d.server, d.profile)
     ).save()
 
-    result = ControllerTasks.evaluate_deployment.apply_async(
+    ControllerTasks.evaluate_deployment.apply_async(
         args=(d.pk,), queue='bootloader_tasks')
-    print(result)
