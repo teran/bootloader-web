@@ -1,10 +1,6 @@
 import os
 
 from celery import chain
-from celery.utils.log import get_task_logger
-
-
-logger = get_task_logger(__name__)
 
 
 def DeploymentContext(deployment):
@@ -36,7 +32,7 @@ class Step():
 
         tasks = []
         for s in self.step:
-            logger.info('Task %s added to queue' % (s))
+            print('Task %s added to queue' % (s))
             tasks.append(signature(getattr(self, s['action'])(**s)))
 
         chain(tasks)
@@ -65,7 +61,7 @@ class Step():
             ).save()
             d.evaluate(target='error')
             d.save()
-            logger.error(
+            print(
                 'WorkflowException raised on step serve_file(%s, %s)' % (
                     args, kwargs))
             raise WorkflowException(
@@ -88,7 +84,7 @@ class Step():
                 ).save()
                 d.evaluate(target='error')
                 d.save()
-                logger.error(
+                print(
                     'WorkflowException raised on step serve_file(%s, %s)' % (
                         args, kwargs))
                 raise WorkflowException(
@@ -144,7 +140,7 @@ class Step():
             queue='bootloader_tasks')
 
     def expect_callback(self, *args, **kwargs):
-        logger.info('expect_callback: %s, %s' % (args, kwargs))
+        print('expect_callback: %s, %s' % (args, kwargs))
         from deployments.models import Deployment, LogEntry
         from deployments.tasks import app
 
@@ -156,13 +152,17 @@ class Step():
             message='Sending task expect_callback(%s)' % (kwargs['name'])
         ).save()
 
-        return app.send_task(
+        task = app.send_task(
             'deployments.tasks.AgentTasks.expect_callback',
             args=(d.pk, kwargs['name']),
             queue=d.server.location.queue_name())
 
+        print('expect_callback tasks sent')
+
+        return task
+
     def ipmi_command(self, *args, **kwargs):
-        logger.info('ipmi_command: %s, %s' % (args, kwargs))
+        print('ipmi_command: %s, %s' % (args, kwargs))
 
 
 class WorkflowException(Exception):
