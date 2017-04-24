@@ -14,15 +14,11 @@ class InterfaceViewSet(viewsets.ModelViewSet):
     serializer_class = InterfaceSerializer
 
     def get_queryset(self):
-        queryset = Interface.objects.all()
+        filterq = {}
+        for item in self.request.query_params.keys():
+            filterq[item] = self.request.query_params.get(item)
 
-        fqdn = self.request.query_params.get('server', None)
-        if fqdn is not None:
-            try:
-                server = Server.objects.get(fqdn=fqdn)
-            except ObjectDoesNotExist:
-                return []
-            queryset = Interface.objects.filter(server=server.pk)
+        queryset = Server.objects.filter(**filterq)
 
         return queryset
 
