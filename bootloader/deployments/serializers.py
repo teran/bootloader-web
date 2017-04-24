@@ -22,6 +22,7 @@ class DeploymentSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.Serializer):
+    pk = serializers.IntegerField(required=False)
     profile = serializers.JSONField(binary=True)
 
     class Meta:

@@ -8,7 +8,7 @@ try:
     API_TOKEN = os.environ['API_TOKEN']
     BOOTLOADER_URL = os.environ['BOOTLOADER_URL']
     SERVER_NAME = os.environ['SERVER_NAME']
-    PROFILE_ID = os.environ['PROFILE_ID']
+    PROFILE = os.environ['PROFILE'].split('==')
 except KeyError as e:
     print("""
     API_TOKEN and BOOTLOADER_URL must be passed as environment variables
@@ -19,7 +19,7 @@ except KeyError as e:
     export API_TOKEN=<token>
     export BOOTLOADER_URL=<bootloaderurl>
     export SERVER_NAME=<hostname>
-    export PROFILE_ID=<profile>
+    export PROFILE=<name>==<version>
     %s
     """ % __file__)
     sys.exit(1)
@@ -29,12 +29,18 @@ headers = {
     'Authorization': 'Token %s' % (API_TOKEN,),
 }
 
+r = requests.get(
+    '%s/api/v1alpha1/profiles/?name=%s&version=%s' % (
+        BOOTLOADER_URL, PROFILE[0], PROFILE[1],),
+    headers=headers,
+).json()[0]
+
 r = requests.post(
     '%s/api/v1alpha1/deployments/' % (BOOTLOADER_URL,),
     headers=headers,
     data={
         'server': SERVER_NAME,
-        'profile': PROFILE_ID,
+        'profile': r['pk'],
     })
 
 print(r.content)
