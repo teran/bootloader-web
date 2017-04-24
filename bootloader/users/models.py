@@ -5,7 +5,7 @@ from tools.models import BaseModel
 
 
 class SSHAuthorizedKey(BaseModel):
-    key = models.TextField
+    key = models.TextField()
     user = models.ForeignKey(User, related_name='ssh_authorized_keys')
 
     def __str__(self):

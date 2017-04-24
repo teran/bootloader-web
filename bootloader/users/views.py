@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 
 from rest_framework.authtoken.models import Token
 
+from users.models import SSHAuthorizedKey
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -122,7 +124,13 @@ def user_tokens(request):
 @login_required
 def user_ssh_authorized_keys(request):
     if request.method == 'POST':
-        pass
+        key = request.POST.get('ssh-key')
+        SSHAuthorizedKey.objects.create(
+            key=key,
+            user=request.user
+        ).save()
+
+        return redirect('/user/sshkeys.html')
     else:
         return render(
             request,
