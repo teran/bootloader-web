@@ -12,6 +12,7 @@ router.register(r'interfaces', servers.api.InterfaceViewSet)
 router.register(r'locations', servers.api.LocationViewSet)
 router.register(r'profiles', deployments.api.ProfileViewSet)
 router.register(r'servers', servers.api.ServerViewSet)
+router.register(r'ssh_authorized_keys', users.api.SSHAuthorizedKeyViewSet),
 router.register(r'users', users.api.UserViewSet)
 
 urlpatterns = [

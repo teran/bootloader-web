@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 
 from rest_framework import serializers
 
+from users.models import SSHAuthorizedKey
+
 
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
@@ -31,3 +33,13 @@ class UserSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+
+class SSHAuthorizedKeySerializer(serializers.Serializer):
+    key = serializers.CharField()
+
+    class Meta:
+        model = SSHAuthorizedKey
+
+    def create(self, validated_data):
+        return SSHAuthorizedKey.objects.create(**validated_data)
