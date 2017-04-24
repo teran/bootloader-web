@@ -24,8 +24,9 @@ def DeploymentContext(deployment):
 
 class Step():
     def __init__(self, deployment, step):
+        from deployments.models import Deployment
         self.step = step
-        self.deployment = deployment
+        self.deployment = Deployment.objects.get(pk=deployment)
 
     def evaluate(self):
         from celery import signature
@@ -40,13 +41,11 @@ class Step():
     def serve_file(self, *args, **kwargs):
         from django.template import Template
 
-        from deployments.models import Deployment, LogEntry
+        from deployments.models import LogEntry
         from deployments.tasks import app
 
-        d = Deployment.objects.get(pk=self.deployment)
-
         LogEntry(
-            deployment=d,
+            deployment=self.deployment,
             level='DEBUG',
             message='serve_file instruction: %s ; %s' % (args, kwargs)
         ).save()
@@ -55,18 +54,18 @@ class Step():
             serve_type = kwargs['source']['type']
         except KeyError as e:
             LogEntry(
-                deployment=d,
+                deployment=self.deployment,
                 level='CRITICAL',
                 message='Profile error! serve_file.source.type: %s' % (e)
             ).save()
-            d.evaluate(target='error')
-            d.save()
+            self.deployment.evaluate(target='error')
+            self.deployment.save()
             print(
                 'WorkflowException raised on step serve_file(%s, %s)' % (
                     args, kwargs))
             raise WorkflowException(
                 "Profile error! serve_file.source.type ; p=%s ; d=%s" % (
-                    d.profile.pk, d.pk))
+                    self.deployment.profile.pk, self.deployment.pk))
 
         prefixes = {
             'http': '/var/lib/http',
@@ -78,58 +77,56 @@ class Step():
                 source = kwargs['source']['url']
             except Exception as e:
                 LogEntry(
-                    deployment=d,
+                    deployment=self.deployment,
                     level='CRITICAL',
                     message='Profile error! serve_file.url: %s' % (e)
                 ).save()
-                d.evaluate(target='error')
-                d.save()
+                self.deployment.evaluate(target='error')
+                self.deployment.save()
                 print(
                     'WorkflowException raised on step serve_file(%s, %s)' % (
                         args, kwargs))
                 raise WorkflowException(
                     "Profile error! p=%s ; d=%s ; e=%s" % (
-                        d.profile.pk, d.pk, e))
+                        self.deployment.profile.pk, self.deployment.pk, e))
         elif serve_type == 'template':
             name = kwargs['source']['name']
-            source = os.path.join(d.file_export_url(), name)
+            source = os.path.join(self.deployment.file_export_url(), name)
 
         filename_raw = os.path.join(
             prefixes[kwargs['via']], kwargs['filename'])
 
         template = Template(filename_raw)
-        context = DeploymentContext(d.pk)
+        context = DeploymentContext(self.deployment.pk)
         filename = template.render(context)
 
         LogEntry(
-            deployment=d,
+            deployment=self.deployment,
             level='INFO',
             message='Sending task download_file( %s, %s )' % (source, filename)
         ).save()
 
         return app.send_task(
             'deployments.tasks.AgentTasks.download_file',
-            args=(d.pk, source, filename,),
-            queue=d.server.location.queue_name())
+            args=(self.deployment.pk, source, filename,),
+            queue=self.deployment.server.location.queue_name())
 
     def delete_file(self, *args, **kwargs):
-        from deployments.models import Deployment, LogEntry
+        from deployments.models import LogEntry
         from deployments.tasks import app
-
-        d = Deployment.objects.get(pk=self.deployment)
 
         filename = kwargs['filename']
 
         LogEntry(
-            deployment=d,
+            deployment=self.deployment,
             level='INFO',
             message='Sending task delete_file( %s )' % (filename)
         ).save()
 
         return app.send_task(
             'deployments.tasks.AgentTasks.delete_file',
-            args=(d.pk, filename),
-            queue=d.server.location.queue_name())
+            args=(self.deployment.pk, filename),
+            queue=self.deployment.server.location.queue_name())
 
     def echo(self, *args, **kwargs):
         from deployments.tasks import app
@@ -141,25 +138,19 @@ class Step():
 
     def expect_callback(self, *args, **kwargs):
         print('expect_callback: %s, %s' % (args, kwargs))
-        from deployments.models import Deployment, LogEntry
+        from deployments.models import LogEntry
         from deployments.tasks import app
 
-        d = Deployment.objects.get(pk=self.deployment)
-
         LogEntry(
-            deployment=d,
+            deployment=self.deployment,
             level='INFO',
             message='Sending task expect_callback(%s)' % (kwargs['name'])
         ).save()
 
-        task = app.send_task(
+        return app.send_task(
             'deployments.tasks.AgentTasks.expect_callback',
-            args=(d.pk, kwargs['name']),
-            queue=d.server.location.queue_name())
-
-        print('expect_callback tasks sent')
-
-        return task
+            args=(self.deployment.pk, kwargs['name']),
+            queue=self.deployment.server.location.queue_name())
 
     def ipmi_command(self, *args, **kwargs):
         print('ipmi_command: %s, %s' % (args, kwargs))
