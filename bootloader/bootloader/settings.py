@@ -110,7 +110,6 @@ CELERY_SETTINGS = {
     'CELERY_DEFAULT_ROUTING_KEY': 'task.default',
     'CELERY_IMPORTS': (
         'deployments.tasks',
-        'deployments.tasks.ControllerTasks',
         'deployments.tasks.EventBasedTasks'
     ),
     'CELERY_QUEUES': (

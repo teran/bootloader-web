@@ -1,5 +1,3 @@
-from django.core.exceptions import ObjectDoesNotExist
-
 from rest_framework import viewsets
 
 from servers.models import Interface, Location, Server

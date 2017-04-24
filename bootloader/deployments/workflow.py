@@ -1,6 +1,14 @@
 import os
 
-from celery import chain
+
+STATUSES = (
+    'new',
+    'preparing',
+    'installing',
+    'configuring',
+    'postconfiguring',
+    'complete',
+)
 
 
 def DeploymentContext(deployment):
@@ -29,20 +37,21 @@ class Step():
         self.deployment = Deployment.objects.get(pk=deployment)
 
     def evaluate(self):
-        from celery import signature
-
+        from deployments.tasks import app
         tasks = []
         for s in self.step:
             print('Task %s added to queue' % (s))
-            tasks.append(signature(getattr(self, s['action'])(**s)))
+            tasks.append(getattr(self, s['action'])(**s))
 
-        chain(tasks)
+        return app.send_task(
+            'deployments.tasks.AgentTasks.evaluate',
+            args=(self.deployment.pk, tasks),
+            queue=self.deployment.server.location.queue_name())
 
     def serve_file(self, *args, **kwargs):
         from django.template import Template
 
         from deployments.models import LogEntry
-        from deployments.tasks import app
 
         LogEntry(
             deployment=self.deployment,
@@ -106,14 +115,15 @@ class Step():
             message='Sending task download_file( %s, %s )' % (source, filename)
         ).save()
 
-        return app.send_task(
-            'deployments.tasks.AgentTasks.download_file',
-            args=(self.deployment.pk, source, filename,),
-            queue=self.deployment.server.location.queue_name())
+        return {
+            'action': 'download_file',
+            'deployment': self.deployment.pk,
+            'source': source,
+            'destination': filename,
+        }
 
     def delete_file(self, *args, **kwargs):
         from deployments.models import LogEntry
-        from deployments.tasks import app
 
         filename = kwargs['filename']
 
@@ -123,23 +133,21 @@ class Step():
             message='Sending task delete_file( %s )' % (filename)
         ).save()
 
-        return app.send_task(
-            'deployments.tasks.AgentTasks.delete_file',
-            args=(self.deployment.pk, filename),
-            queue=self.deployment.server.location.queue_name())
+        return {
+            'action': 'delete_file',
+            'deployment': self.deployment.pk,
+            'filename': filename,
+        }
 
     def echo(self, *args, **kwargs):
-        from deployments.tasks import app
-
-        return app.send_task(
-            'deployments.tasks.ControllerTasks.echo',
-            args=(kwargs['message'],),
-            queue='bootloader_tasks')
+        return {
+            'action': 'echo',
+            'message': kwargs['message'],
+        }
 
     def expect_callback(self, *args, **kwargs):
         print('expect_callback: %s, %s' % (args, kwargs))
         from deployments.models import LogEntry
-        from deployments.tasks import app
 
         LogEntry(
             deployment=self.deployment,
@@ -147,13 +155,18 @@ class Step():
             message='Sending task expect_callback(%s)' % (kwargs['name'])
         ).save()
 
-        return app.send_task(
-            'deployments.tasks.AgentTasks.expect_callback',
-            args=(self.deployment.pk, kwargs['name']),
-            queue=self.deployment.server.location.queue_name())
+        return {
+            'action': 'expect_callback',
+            'deployment': self.deployment.pk,
+            'callback_name': kwargs['name'],
+        }
 
     def ipmi_command(self, *args, **kwargs):
-        print('ipmi_command: %s, %s' % (args, kwargs))
+        return {
+            'action': 'ipmi_command',
+            'deployment': self.deployment.pk,
+            'command': kwargs['command']
+        }
 
 
 class WorkflowException(Exception):

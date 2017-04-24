@@ -106,48 +106,71 @@ class Deployment(BaseModel):
             self.profile.name)
 
     def evaluate(self, target):
-        self.status = target
-        self.save()
+        from celery.result import allow_join_result
+        from deployments.workflow import Step
+
+        getattr(self, 'set_%s' % (target,))()
+
+        workflow = self.profile.profile['workflow']
+
+        if target in workflow and workflow[target] != {}:
+            with allow_join_result():
+                Step(
+                    self.pk,
+                    self.profile.profile['workflow'][target]
+                ).evaluate().wait()
 
     @transition(
         field=status,
         source='new',
         target='preparing',
         on_error='error')
-    def evaluate_new(self):
-        self.evaluate(target='preparing')
+    def set_new(self):
+        self.status = 'preparing'
+        self.save()
 
     @transition(
         field=status,
         source='preparing',
         target='installing',
         on_error='error')
-    def evaluate_preparing(self):
-        self.evaluate(target='installing')
+    def set_preparing(self):
+        self.status = 'installing'
+        self.save()
 
     @transition(
         field=status,
         source='installing',
         target='configuring',
         on_error='error')
-    def evaluate_installing(self):
-        self.evaluate(target='configuring')
+    def set_installing(self):
+        self.status = 'configuring'
+        self.save()
 
     @transition(
         field=status,
         source='configuring',
         target='postconfiguring',
         on_error='error')
-    def evaluate_configuring(self):
-        self.evaluate(target='postconfiguring')
+    def set_configuring(self):
+        self.status = 'postconfiguring'
+        self.save()
 
     @transition(
         field=status,
         source='postconfiguring',
         target='complete',
         on_error='error')
-    def evaluate_postconfiguring(self):
-        self.evaluate(target='complete')
+    def set_postconfiguring(self):
+        self.status = 'complete'
+        self.save()
+
+    @transition(
+        field=status,
+        source='complete',
+        on_error='error')
+    def set_complete(self):
+        pass
 
 
 class LogEntry(BaseModel):

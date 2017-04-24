@@ -4,7 +4,7 @@ from deployments.tasks import app
 @app.task
 def deployment_created(deployment):
     from deployments.models import Deployment, LogEntry
-    from deployments.tasks import ControllerTasks
+    from deployments.workflow import STATUSES
 
     d = Deployment.objects.get(pk=deployment)
 
@@ -15,5 +15,5 @@ def deployment_created(deployment):
             d.pk, d.server, d.profile)
     ).save()
 
-    ControllerTasks.evaluate_deployment.apply_async(
-        args=(d.pk,), queue='bootloader_tasks')
+    for step in STATUSES:
+        d.evaluate(target=step)
