@@ -37,6 +37,8 @@ class UserSerializer(serializers.Serializer):
 
 class SSHAuthorizedKeySerializer(serializers.Serializer):
     key = serializers.CharField()
+    user = serializers.SlugRelatedField(
+        queryset=User.objects.all(), slug_field='username')
 
     class Meta:
         model = SSHAuthorizedKey

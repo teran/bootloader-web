@@ -2,34 +2,34 @@
 
 {% block content %}
           <div class="col-sm-9 col-sm-offset-2 col-md-10 col-md-offset-2 main">
-            <div class="modal fade" tabindex="-1" role="dialog" id="ssh-key-add-form-modal">
+            <div class="modal fade" tabindex="-1" role="dialog" id="sshkey-create-form-modal">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                  <form method="post" id="new-key-form">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">Add SSH Key</h4>
-                    </div>
-                    <div class="modal-body">
-                      <p>
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add SSH key</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>
+                      <form method="post" id="new-sshkey-form" onsubmit="return false;">
                         <div class="form-group">
-                          <textarea name="ssh-key" style="width:100%"></textarea>
+                          <textarea name="key" id="key" style="width:100%;"></textarea>
+                          <input type="hidden" name="user" id="user" value="{{ request.user.username }}">
                         </div>
-                      </p>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Add key</button>
-                    </div>
-                  </form>
+                      </form>
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary send-form" form-id="new-sshkey-form" post-action-url="/user/sshkeys.html" api-handler="ssh_authorized_keys/">Add key</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div>
-              <button class="btn btn-success btn-xs modal-action-button" modal-id="ssh-key-add-form-modal" modal-action="show">
+              <button class="btn btn-success btn-xs modal-action-button" modal-id="sshkey-create-form-modal" modal-action="show">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                New SSH key
+                New key
               </button>
             </div>
             <table class="table">
