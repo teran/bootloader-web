@@ -4,11 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.template import Template
 
 from deployments.models import Deployment
+from deployments.workflow import DeploymentContext
 
 
 def file(request, deployment, token, profile, version, file):
-    from deployments.workflow import DeploymentContext
-
     deployment = get_object_or_404(
         Deployment,
         pk=deployment,
