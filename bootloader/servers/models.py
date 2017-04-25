@@ -44,6 +44,9 @@ class Server(BaseModel):
         choices=IPMI_BROWSER_PROTO_CHOICES, null=True)
     ipmi_browser_port = models.IntegerField(default=80)
 
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return self.fqdn
 

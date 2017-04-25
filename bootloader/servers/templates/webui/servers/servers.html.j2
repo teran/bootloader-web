@@ -75,19 +75,19 @@
               </div>
             </div>
           </div>
-          <div>
+          <p>
             <button class="btn btn-success btn-xs modal-action-button" modal-id="server-create-form-modal" modal-action="show">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
               New server
             </button>
-          </div>
+          </p>
           <table class="table">
             <tr>
               <th>Server FQDN</th>
               <th>Location</th>
               <th>Controls</th>
             </tr>
-            {% for server in servers %}
+            {% for server in servers.object_list %}
             <tr>
               <td><a href="{{ server.link_webui }}">{{ server.fqdn }}</a></td>
               <td>{{ server.location.name }}</td>
@@ -108,5 +108,36 @@
             </tr>
             {% endfor %}
           </table>
+          <div class="page-navigation">
+            {% if servers.has_other_pages %}
+            <nav aria-label="page navigation">
+              <ul class="pagination">
+                {% if servers.has_previous %}
+                <li>
+                  <a href="/servers/servers.html?page={{ servers.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+                {% for page in servers.paginator.page_range %}
+                <li{% if page == servers.number %} class="active"{% endif %}><a href="/servers/servers.html?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                {% if servers.has_next %}
+                <li>
+                  <a href="/servers/servers.html?page={{ servers.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% else %}
+            <ul class="pagination">
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+              <li class="active"><a href="/servers/servers.html?page=1">1</a></li>
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span>
+            </ul>
+            {% endif %}
+          </div>
         </div>
 {% endblock %}

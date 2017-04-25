@@ -60,3 +60,6 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+.page-navigation {
+  text-align: center;
+}

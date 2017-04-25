@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
@@ -16,11 +17,21 @@ def servers(request):
     filterq = {}
     try:
         for param in request.GET.keys():
-            filterq[filter_options[param]] = request.GET.get(param)
+            if param in filter_options.keys():
+                filterq[filter_options[param]] = request.GET.get(param)
 
         servers = Server.objects.filter(**filterq)
     except KeyError:
         servers = []
+
+    paginator = Paginator(servers, 15)
+
+    try:
+        pages = paginator.page(request.GET.get('page'))
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
 
     locations = Location.objects.all()
 
@@ -29,7 +40,7 @@ def servers(request):
         'webui/servers/servers.html.j2',
         context={
             'locations': locations,
-            'servers': servers,
+            'servers': pages,
             'view': 'servers',
             'subview': 'servers',
         })
