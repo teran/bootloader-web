@@ -36,11 +36,17 @@
               <tr>
                 <th>Key</th>
                 <th>Created</th>
+                <th>Controls</th>
               </tr>
               {% for key in request.user.ssh_authorized_keys.all %}
               <tr>
                 <td>{{ key|truncatechars:50 }}</td>
                 <td>{{ key.timestamp }}</td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ key.pk }}" object-name="{{ key|truncatechars:20 }}" object-type="ssh_authorized_key" object-action="delete" action-method="DELETE" post-action-url="/user/sshkeys.html">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
+                  </button>
+                </td>
               </tr>
               {% endfor %}
             </table>

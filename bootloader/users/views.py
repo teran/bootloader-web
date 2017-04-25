@@ -123,19 +123,10 @@ def user_tokens(request):
 
 @login_required
 def user_ssh_authorized_keys(request):
-    if request.method == 'POST':
-        key = request.POST.get('ssh-key')
-        SSHAuthorizedKey.objects.create(
-            key=key,
-            user=request.user
-        ).save()
-
-        return redirect('/user/sshkeys.html')
-    else:
-        return render(
-            request,
-            'webui/users/ssh_authorized_keys.html.j2',
-            context={
-                'view': 'user',
-                'subview': 'sshkeys',
-            })
+    return render(
+        request,
+        'webui/users/ssh_authorized_keys.html.j2',
+        context={
+            'view': 'user',
+            'subview': 'sshkeys',
+        })
