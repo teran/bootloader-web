@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
@@ -30,13 +31,22 @@ def deployments(request):
     servers = Server.objects.all()
     profiles = Profile.objects.all()
 
+    paginator = Paginator(deployments, 15)
+
+    try:
+        pages = paginator.page(request.GET.get('page'))
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
     return render(
         request,
         'webui/deployments/deployments.html.j2',
         context={
             'view': 'deployments',
             'subview': 'deployments',
-            'deployments': deployments,
+            'deployments': pages,
             'servers': servers,
             'profiles': profiles,
         })

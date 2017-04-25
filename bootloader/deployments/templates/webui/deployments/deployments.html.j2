@@ -78,5 +78,36 @@
             </tr>
             {% endfor %}
           </table>
+          <div class="page-navigation">
+            {% if deployments.has_other_pages %}
+            <nav aria-label="page navigation">
+              <ul class="pagination">
+                {% if deployments.has_previous %}
+                <li>
+                  <a href="/deployments/deployments.html?page={{ deployments.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+                {% for page in deployments.paginator.page_range %}
+                <li{% if page == deployments.number %} class="active"{% endif %}><a href="/deployments/deployments.html?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                {% if deployments.has_next %}
+                <li>
+                  <a href="/deployments/deployments.html?page={{ deployments.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% else %}
+            <ul class="pagination">
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+              <li class="active"><a href="/deployments/deployments.html?page=1">1</a></li>
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span>
+            </ul>
+            {% endif %}
+          </div>
         </div>
 {% endblock %}
