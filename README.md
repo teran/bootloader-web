@@ -130,6 +130,7 @@ libraries used in bootloader-web and their licenses:
 - [ ] IPMI commands
 - [ ] SSH keys export(to be able to place on node)
 - [ ] Pagination for views contain multiple items
+- [ ] Working and tested example profile for Ubuntu 16.04 LTS
 
 ## Alpha2 release features and requirements
 
