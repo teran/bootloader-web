@@ -7,8 +7,6 @@ from django.shortcuts import redirect
 
 from rest_framework.authtoken.models import Token
 
-from users.models import SSHAuthorizedKey
-
 
 def user_login(request):
     if request.method == 'POST':

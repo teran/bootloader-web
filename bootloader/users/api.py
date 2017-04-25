@@ -10,6 +10,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
 class SSHAuthorizedKeyViewSet(viewsets.ModelViewSet):
     queryset = SSHAuthorizedKey.objects.all()
     serializer_class = SSHAuthorizedKeySerializer
