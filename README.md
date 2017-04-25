@@ -122,12 +122,16 @@ libraries used in bootloader-web and their licenses:
  * [jQuery](https://jquery.com) - http://jquery.org/license
  * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
 
-# TODO
+# Pending releases
+## Alpha1 release features and requirements
 
-- [X] Custom authentication for API handlers used in deployment(short-life tokens linked to installation)
-- [ ] Client part to run some configuration gathering just after install
-- [X] WebUI to add servers
-- [ ] WebUI to edit servers
-- [X] Create a way to get queue name from location UI
-- [ ] Update deployments to be able to set parameters to profiles
-- [ ] Add working Kubernetes specs
+- [X] Deployment tasks are work synchronous
+- [X] Status updates are comes to UI
+- [ ] IPMI commands
+- [ ] SSH keys export(to be able to place on node)
+- [ ] Pagination for views contains multiple items
+
+## Beta1 release features and requirements
+
+- [ ] Errors are come to UI
+- [ ] Queue tests
