@@ -129,9 +129,9 @@ libraries used in bootloader-web and their licenses:
 - [X] Status updates are comes to UI
 - [ ] IPMI commands
 - [ ] SSH keys export(to be able to place on node)
-- [ ] Pagination for views contains multiple items
+- [ ] Pagination for views contain multiple items
 
-## Beta1 release features and requirements
+## Alpha2 release features and requirements
 
 - [ ] Errors are come to UI
 - [ ] Queue tests
