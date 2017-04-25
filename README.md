@@ -128,7 +128,7 @@ libraries used in bootloader-web and their licenses:
 - [X] Deployment tasks are work synchronous
 - [X] Status updates are comes to UI
 - [ ] IPMI commands
-- [ ] SSH keys export(to be able to place on node)
+- [X] SSH keys export(to be able to place on node)
 - [X] Pagination for views contain multiple items
 - [ ] Working and tested example profile for Ubuntu 16.04 LTS
 
