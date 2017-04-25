@@ -136,3 +136,9 @@ libraries used in bootloader-web and their licenses:
 
 - [ ] Errors are come to UI
 - [ ] Queue tests
+- [ ] Input validation with UI error displaying
+
+## Beta1 release features and requirements
+
+- [ ] All key parts are covered with tests
+- [ ] All the pipeline is manually tested
