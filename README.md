@@ -138,6 +138,11 @@ libraries used in bootloader-web and their licenses:
 - [ ] Queue tests
 - [ ] Input validation with UI error displaying
 
+## Alpha3
+
+- [ ] Slack and email notifications about deployments
+
+
 ## Beta1 release features and requirements
 
 - [ ] All key parts are covered with tests
