@@ -28,6 +28,7 @@ class APIv1alpha1TestCase(APITestCase):
             'locations',
             'profiles',
             'servers',
+            'ssh_authorized_keys',
             'users',
         ]
 
