@@ -6,7 +6,7 @@ from servers.models import Location, Server
 
 
 @login_required
-def index(request):
+def servers(request):
     filter_options = {}
     if request.GET.get('fqdn') is not None:
         filter_options['fqdn__contains'] = request.GET.get('fqdn')
