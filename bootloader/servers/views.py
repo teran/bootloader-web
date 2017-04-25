@@ -5,12 +5,6 @@ from django.shortcuts import render
 from servers.models import Location, Server
 
 
-def deployment_profiles(request):
-    return render(
-        request,
-        'webui/deployments/profiles.html.j2')
-
-
 @login_required
 def index(request):
     filter_options = {}
