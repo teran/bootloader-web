@@ -7,18 +7,21 @@ from servers.models import Location, Server
 
 @login_required
 def servers(request):
-    filter_options = {}
-    if request.GET.get('fqdn') is not None:
-        filter_options['fqdn__contains'] = request.GET.get('fqdn')
-    if request.GET.get('ipmi_host') is not None:
-        filter_options['ipmi_host'] = request.GET.get('ipmi_host')
-    if request.GET.get('location') is not None:
-        filter_options['location__name__contains'] = request.GET.get(
-            'location')
-    if request.GET.get('serial') is not None:
-        filter_options['serial'] = request.GET.get('serial')
+    filter_options = {
+        'fqdn': 'fqdn__contains',
+        'ipmi_host': 'ipmi_host',
+        'location': 'location__name__contains',
+        'serial': 'serial',
+    }
+    filterq = {}
+    try:
+        for param in request.GET.keys():
+            filterq[filter_options[param]] = request.GET.get(param)
 
-    servers = Server.objects.filter(**filter_options)
+        servers = Server.objects.filter(**filterq)
+    except KeyError:
+        servers = []
+
     locations = Location.objects.all()
 
     return render(
