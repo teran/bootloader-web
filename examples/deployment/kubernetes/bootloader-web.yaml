@@ -7,7 +7,6 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      targetPort: 8000
       protocol: TCP
       name: http
   selector:
@@ -31,11 +30,11 @@ spec:
           image: teran/bootloader-web:latest
           resources:
             requests:
-              memory: '128Mi'
-              cpu: '100m'
-            limits:
               memory: '256Mi'
-              cpu: '500m'
+              cpu: '300m'
+            limits:
+              memory: '1Gi'
+              cpu: '1000m'
           env:
             - name: BOOTLOADER_URL
               value: 'http://bootloader.services.svc.example.org/'
@@ -65,5 +64,5 @@ spec:
                   name: bootloader-keys
                   key: db_user
           ports:
-            - containerPort: 8000
+            - containerPort: 80
               name: http
