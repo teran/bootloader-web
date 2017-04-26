@@ -11,7 +11,7 @@ STATUSES = (
 )
 
 
-def DeploymentContext(deployment):
+def DeploymentContext(deployment, custom_fields={}):
     from django.template import Context
     from deployments.models import Deployment
 
@@ -21,11 +21,10 @@ def DeploymentContext(deployment):
         'fqdn': d.server.fqdn,
         'profile': d.profile.name,
         'ipmi_host': d.server.ipmi_host,
-        'mac_address': d.server.interfaces.all()[0].mac,
-        'mac_address_dashed': d.server.interfaces.all()[0].mac_dashed(),
-        'interface_name': d.server.interfaces.all()[0].name,
         'export_base': d.file_export_url(),
     })
+
+    context.update(custom_fields)
 
     return context
 
@@ -105,22 +104,28 @@ class Step():
         filename_raw = os.path.join(
             prefixes[kwargs['via']], kwargs['filename'])
 
-        template = Template(filename_raw)
-        context = DeploymentContext(self.deployment.pk)
-        filename = template.render(context)
+        tasks = []
+        for interface in self.deployment.server.interfaces.all():
+            template = Template(filename_raw)
+            context = DeploymentContext(self.deployment.pk, custom_fields={
+                'mac_address_dashed': interface.mac_dashed
+            })
+            filename = template.render(context)
 
-        LogEntry(
-            deployment=self.deployment,
-            level='INFO',
-            message='Sending task download_file( %s, %s )' % (source, filename)
-        ).save()
+            LogEntry(
+                deployment=self.deployment,
+                level='INFO',
+                message='Sending task download_file( %s, %s )' % (source, filename)
+            ).save()
 
-        return {
-            'action': 'download_file',
-            'deployment': self.deployment.pk,
-            'source': source,
-            'destination': filename,
-        }
+            tasks.append({
+                'action': 'download_file',
+                'deployment': self.deployment.pk,
+                'source': source,
+                'destination': filename,
+            })
+
+        return tasks
 
     def delete_file(self, *args, **kwargs):
         from deployments.models import LogEntry

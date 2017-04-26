@@ -113,12 +113,21 @@ class Deployment(BaseModel):
 
         workflow = self.profile.profile['workflow']
 
-        if target in workflow and workflow[target] != {}:
-            with allow_join_result():
-                Step(
-                    self.pk,
-                    self.profile.profile['workflow'][target]
-                ).evaluate().wait()
+        try:
+            if target in workflow and workflow[target] != {}:
+                with allow_join_result():
+                    Step(
+                        self.pk,
+                        self.profile.profile['workflow'][target]
+                    ).evaluate().wait()
+        except Exception as e:
+            LogEntry.objects.create(
+                deployment=self,
+                level='CRITICAL',
+                message=e.message,
+            ).save()
+            self.status = 'error'
+            self.save()
 
     @transition(
         field=status,
