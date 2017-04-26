@@ -131,6 +131,7 @@ libraries used in bootloader-web and their licenses:
 - [X] SSH keys export(to be able to place on node)
 - [X] Pagination for views contain multiple items
 - [ ] Working and tested example profile for Ubuntu 16.04 LTS
+- [ ] UI tested on Google Chrome, recent Firefox, Safari
 
 ## Alpha2 release features and requirements
 
@@ -141,7 +142,6 @@ libraries used in bootloader-web and their licenses:
 ## Alpha3
 
 - [ ] Slack and email notifications about deployments
-
 
 ## Beta1 release features and requirements
 
