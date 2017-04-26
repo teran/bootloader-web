@@ -7,9 +7,8 @@ from django.db import models
 from tools.models import BaseModel
 
 IPMI_BROWSER_PROTO_CHOICES = (
-    (None, 'None'),
-    (1, 'http'),
-    (2, 'https'),
+    ('http', 'http'),
+    ('https', 'https'),
 )
 
 
@@ -40,8 +39,10 @@ class Server(BaseModel):
     ipmi_host = models.CharField(max_length=255)
     ipmi_username = models.CharField(max_length=255, null=True)
     ipmi_password = models.CharField(max_length=255, null=True)
-    ipmi_browser_proto = models.IntegerField(
-        choices=IPMI_BROWSER_PROTO_CHOICES, null=True)
+    ipmi_browser_proto = models.CharField(
+        choices=IPMI_BROWSER_PROTO_CHOICES,
+        max_length=5,
+        default='http')
     ipmi_browser_port = models.IntegerField(default=80)
 
     class Meta:
@@ -60,11 +61,11 @@ class Server(BaseModel):
         return '/servers/%s/%s.html?action=edit' % (self.pk, self.fqdn)
 
     def link_api(self):
-        return '/api/servers/%s' % (self.pk)
+        return '/api/v1alpha1/servers/%s' % (self.pk)
 
     def link_ipmi_web(self):
         return '%s://%s' % (
-            IPMI_BROWSER_PROTO_CHOICES[self.ipmi_browser_proto][1],
+            self.ipmi_browser_proto,
             self.ipmi_host)
 
 

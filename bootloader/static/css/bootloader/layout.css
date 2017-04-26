@@ -63,3 +63,10 @@ body {
 .page-navigation {
   text-align: center;
 }
+
+.clearfix h3, .clearfix span {
+    display: inline-block;
+    vertical-align: baseline;
+    line-height: 100%;
+    padding: -50px;
+}
