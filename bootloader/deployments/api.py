@@ -4,11 +4,13 @@ from deployments.models import Deployment, Profile
 
 from deployments.serializers import ProfileSerializer
 from deployments.serializers import DeploymentSerializer
+from tools.api.permissions import StaffOrReadOnly
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = (StaffOrReadOnly,)
 
     def get_queryset(self):
         filterq = {}
@@ -23,3 +25,4 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class DeploymentViewSet(viewsets.ModelViewSet):
     queryset = Deployment.objects.all()
     serializer_class = DeploymentSerializer
+    permission_classes = (StaffOrReadOnly,)

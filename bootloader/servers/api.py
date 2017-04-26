@@ -6,10 +6,13 @@ from servers.serializers import InterfaceSerializer
 from servers.serializers import LocationSerializer
 from servers.serializers import ServerSerializer
 
+from tools.api.permissions import StaffOrReadOnly
+
 
 class InterfaceViewSet(viewsets.ModelViewSet):
     queryset = Interface.objects.all()
     serializer_class = InterfaceSerializer
+    permission_classes = (StaffOrReadOnly,)
 
     def get_queryset(self):
         filterq = {}
@@ -24,11 +27,13 @@ class InterfaceViewSet(viewsets.ModelViewSet):
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+    permission_classes = (StaffOrReadOnly,)
 
 
 class ServerViewSet(viewsets.ModelViewSet):
     queryset = Server.objects.all()
     serializer_class = ServerSerializer
+    permission_classes = (StaffOrReadOnly,)
 
     def get_queryset(self):
         queryset = Server.objects.all()
