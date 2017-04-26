@@ -115,7 +115,8 @@ class Step():
             LogEntry(
                 deployment=self.deployment,
                 level='INFO',
-                message='Sending task download_file( %s, %s )' % (source, filename)
+                message='Sending task download_file( %s, %s )' % (
+                    source, filename)
             ).save()
 
             tasks.append({
