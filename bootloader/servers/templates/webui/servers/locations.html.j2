@@ -2,6 +2,7 @@
 
 {% block content %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% if request.user.is_staff %}
           <div class="modal fade" tabindex="-1" role="dialog" id="location-create-form-modal">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -41,21 +42,24 @@
               New location
             </button>
           </div>
+          {% endif %}
           <table class="table">
             <tr>
               <th>Name</th>
               <th>Queue name</th>
-              <th>Actions</th>
+              {% if request.user.is_staff %}<th>Actions</th>{% endif %}
             </tr>
             {% for location in locations %}
             <tr>
               <td><a href="/servers/servers.html?location={{ location }}">{{ location }}</a></td>
               <td>{{ location.queue_name }}</td>
+              {% if request.user.is_staff %}
               <td>
                 <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ location.pk }}" object-name="{{ location.name }}" object-type="location" object-action="delete" action-method="DELETE" post-action-url="/servers/locations.html">
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
                 </button>
               </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </table>

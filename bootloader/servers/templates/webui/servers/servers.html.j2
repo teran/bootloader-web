@@ -2,6 +2,7 @@
 
 {% block content %}
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% if request.user.is_staff %}
           <div class="modal fade" tabindex="-1" role="dialog" id="server-create-form-modal">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -81,16 +82,18 @@
               New server
             </button>
           </p>
+          {% endif %}
           <table class="table">
             <tr>
               <th>Server FQDN</th>
               <th>Location</th>
-              <th>Controls</th>
+              {% if request.user.is_staff %}<th>Controls</th>{% endif %}
             </tr>
             {% for server in servers.object_list %}
             <tr>
               <td><a href="{{ server.link_webui }}">{{ server.fqdn }}</a></td>
               <td>{{ server.location.name }}</td>
+              {% if request.user.is_staff %}
               <td>
                 {% if server.ipmi_host and server.ipmi_browser_proto %}
                 <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
@@ -105,6 +108,7 @@
                   <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
                 </button>
               </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </table>
