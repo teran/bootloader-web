@@ -64,21 +64,11 @@ def locations(request):
 def server(request, pk, fqdn):
     server = get_object_or_404(Server, pk=pk, fqdn=fqdn)
 
-    if request.GET.get('action') == 'edit':
-        return render(
-            request,
-            'webui/servers/server-edit.html.j2',
-            context={
-                'server': server,
-                'view': 'servers',
-                'subview': 'servers',
-            })
-    else:
-        return render(
-            request,
-            'webui/servers/server.html.j2',
-            context={
-                'server': server,
-                'view': 'servers',
-                'subview': 'servers',
-            })
+    return render(
+        request,
+        'webui/servers/server.html.j2',
+        context={
+            'server': server,
+            'view': 'servers',
+            'subview': 'servers',
+        })
