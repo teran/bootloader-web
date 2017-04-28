@@ -13,5 +13,9 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def delete(self):
+        self.is_active = False
+        self.save()
+
     def timestamp(self):
         return self.created.strftime(settings.TIME_FORMAT)
