@@ -23,6 +23,8 @@ else
   cp /etc/bootloader/nginx-http.conf /etc/nginx/conf.d/nginx-http.conf
 fi
 
+su -c "/opt/bootloader/web/manage.py migrate" bootloader
+
 touch /var/log/uwsgi.log
 mkdir -p /run/uwsgi
 chown nobody:nogroup /var/log/uwsgi.log /run/uwsgi
