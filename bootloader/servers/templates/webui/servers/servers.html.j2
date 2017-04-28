@@ -95,15 +95,30 @@
               <td>{{ server.location.name }}</td>
               {% if request.user.is_staff %}
               <td>
-                {% if server.ipmi_host and server.ipmi_browser_proto %}
-                <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
-                  <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
-                  IPMI
-                </a>
-                {% endif %}
-                <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ server.pk }}" object-name="{{ server.fqdn }}" object-type="server" object-action="delete" action-method="DELETE" post-action-url="/servers/servers.html">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
-                </button>
+                <div class="row">
+                  <div class="form-group">
+                    <form class="form-inline" action="{{ server.link_ipmi_login_web }}" method="post" target="_blank">
+                      {% if server.ipmi_host and server.ipmi_browser_proto %}
+                        {% if server.ipmi_username and server.ipmi_password %}
+                          <input type="hidden" name="name" value="{{ server.ipmi_username }}">
+                          <input type="hidden" name="pwd" value="{{ server.ipmi_password }}">
+                          <button type="submit" class="btn btn-info btn-xs">
+                            <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
+                            IPMI
+                          </button>
+                        {% else %}
+                          <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
+                            <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                            IPMI
+                          </a>
+                        {% endif %}
+                      {% endif %}
+                      <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ server.pk }}" object-name="{{ server.fqdn }}" object-type="server" object-action="delete" action-method="DELETE" post-action-url="/servers/servers.html">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
               </td>
               {% endif %}
             </tr>
