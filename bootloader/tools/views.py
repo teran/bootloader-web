@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import yaml
 import json
+import yaml
 
 from django.http import HttpResponse
 
