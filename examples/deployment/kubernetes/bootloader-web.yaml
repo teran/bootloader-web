@@ -12,14 +12,17 @@ spec:
   selector:
     app: bootloader-web
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: ReplicationController
 metadata:
+  annotations:
+  labels:
+    app: bootloader-web
   name: bootloader-web
 spec:
-  strategy:
-    type: RollingUpdate
   replicas: 1
+  selector:
+      app: bootloader-web
   template:
     metadata:
       labels:
@@ -28,6 +31,7 @@ spec:
       containers:
         - name: bootloader-web
           image: teran/bootloader-web:latest
+          imagePullPolicy: Always
           resources:
             requests:
               memory: '256Mi'
