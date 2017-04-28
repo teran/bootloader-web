@@ -14,7 +14,9 @@ def servers(request):
         'location': 'location__name__contains',
         'serial': 'serial',
     }
-    filterq = {}
+    filterq = {
+        'is_active': True,
+    }
     try:
         for param in request.GET.keys():
             if param in filter_options.keys():
@@ -48,7 +50,7 @@ def servers(request):
 
 @login_required
 def locations(request):
-    locations = Location.objects.all()
+    locations = Location.objects.filter(is_active=True)
 
     return render(
         request,

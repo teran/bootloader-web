@@ -13,7 +13,8 @@ def deployment(request, pk, fqdn, profile):
         Deployment,
         pk=pk,
         server__fqdn=fqdn,
-        profile__name=profile)
+        profile__name=profile,
+        is_active=True)
 
     return render(
         request,
@@ -27,9 +28,9 @@ def deployment(request, pk, fqdn, profile):
 
 @login_required
 def deployments(request):
-    deployments = Deployment.objects.all()
-    servers = Server.objects.all()
-    profiles = Profile.objects.all()
+    deployments = Deployment.objects.filter(is_active=True)
+    servers = Server.objects.filter(is_active=True)
+    profiles = Profile.objects.filter(is_active=True)
 
     paginator = Paginator(deployments, 15)
 
@@ -54,7 +55,11 @@ def deployments(request):
 
 @login_required
 def profile(request, name, version):
-    profile = get_object_or_404(Profile, name=name, version=version)
+    profile = get_object_or_404(
+        Profile,
+        name=name,
+        version=version,
+        is_active=True)
 
     return render(
         request,
@@ -68,7 +73,7 @@ def profile(request, name, version):
 
 @login_required
 def profiles(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.filter(is_active=True)
 
     return render(
         request,
