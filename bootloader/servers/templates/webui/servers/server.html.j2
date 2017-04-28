@@ -17,7 +17,7 @@
               {% if request.user.is_staff %}
                 {% if server.ipmi_host and server.ipmi_browser_proto %}
                   {% if server.ipmi_username and server.ipmi_password %}
-                <form class="inline-block" action="{{ server.link_ipmi_web }}/cgi/login.cgi" method="post" target="_blank">
+                <form class="inline-block" action="{{ server.link_ipmi_login_web }}" method="post" target="_blank">
                   <input type="hidden" name="name" value="{{ server.ipmi_username }}">
                   <input type="hidden" name="pwd" value="{{ server.ipmi_password }}">
                   <button type="submit" class="btn btn-info">

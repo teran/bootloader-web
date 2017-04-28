@@ -68,6 +68,9 @@ class Server(BaseModel):
             self.ipmi_browser_proto,
             self.ipmi_host)
 
+    def link_ipmi_login_web(self):
+        return '%s/cgi/login.cgi' % (self.link_ipmi_web(),)
+
 
 class Interface(BaseModel):
     name = models.CharField(max_length=16)
