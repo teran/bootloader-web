@@ -33,7 +33,7 @@ class ServerSerializer(serializers.Serializer):
 
 
 class InterfaceSerializer(serializers.Serializer):
-    pk = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(required=False)
     name = serializers.CharField(max_length=16)
     mac = serializers.CharField(max_length=17)
     server = serializers.SlugRelatedField(
@@ -47,6 +47,7 @@ class InterfaceSerializer(serializers.Serializer):
 
 
 class LocationSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(
         required=True, allow_blank=False, max_length=255)
     servers = serializers.SlugRelatedField(

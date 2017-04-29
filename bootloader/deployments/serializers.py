@@ -5,7 +5,7 @@ from rest_framework import serializers
 
 
 class DeploymentSerializer(serializers.Serializer):
-    pk = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(required=False)
     server = serializers.SlugRelatedField(
         queryset=Server.objects.all(), slug_field='fqdn')
     profile = serializers.SlugRelatedField(
@@ -22,7 +22,7 @@ class DeploymentSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.Serializer):
-    pk = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(required=False)
     profile = serializers.JSONField(binary=True)
 
     class Meta:

@@ -6,6 +6,7 @@ from users.models import SSHAuthorizedKey
 
 
 class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(max_length=255)
     email = serializers.CharField(max_length=255)
     first_name = serializers.CharField(max_length=255)
@@ -36,6 +37,7 @@ class UserSerializer(serializers.Serializer):
 
 
 class SSHAuthorizedKeySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     key = serializers.CharField()
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(), slug_field='username')
