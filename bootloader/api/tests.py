@@ -14,6 +14,8 @@ class APIv1alpha1TestCase(APITestCase):
             password='testpassword')
         self.token = Token.objects.create(user=self.user)
 
+        self.noauth_client = APIClient()
+
         self.basic_auth_client = APIClient()
         self.basic_auth_client.login(
             username='testuser', password='testpassword')
@@ -31,6 +33,12 @@ class APIv1alpha1TestCase(APITestCase):
             'ssh_authorized_keys',
             'users',
         ]
+
+    def test_noauth(self):
+        result = self.noauth_client.get(
+            '/api/v1alpha1/', format='json').status_code
+
+        self.assertEqual(result, 401)
 
     def test_basic_auth(self):
         result = self.basic_auth_client.get(
