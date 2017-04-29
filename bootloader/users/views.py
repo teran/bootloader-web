@@ -1,4 +1,4 @@
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.admin.views.decorators import user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -85,7 +85,7 @@ def user_register(request):
 
 
 @login_required
-@staff_member_required
+@user_passes_test(lambda u: u.is_staff)
 def user_events(request):
     users = User.objects.all()
     return render(
