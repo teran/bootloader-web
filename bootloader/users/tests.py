@@ -4,7 +4,7 @@ from django.test import Client, TestCase
 
 class TestAuthentication(TestCase):
     def setUp(self):
-        self.urls = {
+        self.urls_noauth = {
             '/': 302,
             '/api/': 404,
             '/api/v1alpha1/': 401,
@@ -19,16 +19,79 @@ class TestAuthentication(TestCase):
             '/user/logout.html': 302,
             '/user/profile.html': 302,
             '/user/register.html': 200,
+            '/user/sshkeys.html': 302,
             '/user/tokens.html': 302,
         }
 
-    def test_unauthorized_access(self):
-        client = Client()
-        results = {
-            url: client.get(url).status_code for url in self.urls.keys()
+        self.urls_auth_nostaff = {
+            '/': 200,
+            '/api/': 404,
+            '/api/v1alpha1/': 200,
+            '/deployments/deployments.html': 200,
+            '/deployments/profiles.html': 200,
+            '/servers/index.html': 404,
+            '/servers/locations.html': 200,
+            '/servers/servers.html': 200,
+            '/tools/yaml2json': 200,
+            '/user/events.html': 302,
+            '/user/login.html': 200,
+            '/user/logout.html': 302,
+            '/user/profile.html': 200,
+            '/user/register.html': 200,
+            '/user/sshkeys.html': 200,
+            '/user/tokens.html': 200,
         }
 
-        self.assertEqual(results, self.urls)
+        self.urls_authstaff = {
+            '/': 200,
+            '/api/': 404,
+            '/api/v1alpha1/': 200,
+            '/deployments/deployments.html': 200,
+            '/deployments/profiles.html': 200,
+            '/servers/index.html': 404,
+            '/servers/locations.html': 200,
+            '/servers/servers.html': 200,
+            '/tools/yaml2json': 200,
+            '/user/events.html': 200,
+            '/user/login.html': 200,
+            '/user/logout.html': 302,
+            '/user/profile.html': 200,
+            '/user/register.html': 200,
+            '/user/sshkeys.html': 200,
+            '/user/tokens.html': 200,
+        }
+
+        User.objects.create_user('testuser', 'testuser@example.org', 'secret')
+        u = User.objects.create_user(
+            'teststaffuser', 'testuser@example.org', 'secret')
+        u.is_staff = True
+        u.save()
+
+    def test_unauthorized_access(self):
+        results = {}
+        for url in self.urls_noauth.keys():
+            client = Client()
+            results[url] = client.get(url).status_code
+
+        self.assertEqual(results, self.urls_noauth)
+
+    def test_authorized_access(self):
+        results = {}
+        for url in self.urls_auth_nostaff.keys():
+            client = Client()
+            client.login(username='testuser', password='secret')
+            results[url] = client.get(url).status_code
+
+        self.assertEqual(results, self.urls_auth_nostaff)
+
+    def test_authorized_access_with_staff_perm(self):
+        results = {}
+        for url in self.urls_authstaff.keys():
+            client = Client()
+            client.login(username='teststaffuser', password='secret')
+            results[url] = client.get(url).status_code
+
+        self.assertEqual(results, self.urls_authstaff)
 
 
 class TestUserActions(TestCase):
