@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'django_gravatar_tags',
 
     'api',
     'deployments',
@@ -198,6 +197,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+GRAVATAR_PROXY = ast.literal_eval(os.environ.get('GRAVATAR_PROXY', 'False'))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

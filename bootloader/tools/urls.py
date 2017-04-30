@@ -4,4 +4,5 @@ from tools import views
 
 urlpatterns = [
     url(r'^yaml2json$', views.yaml2json),
+    url(r'^gravatar$', views.gravatar)
 ]

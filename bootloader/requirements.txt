@@ -1,7 +1,7 @@
 Celery
 Django
 django-fsm
-django-gravatar-tags
 djangorestframework
 psycopg2
+requests
 PyYAML

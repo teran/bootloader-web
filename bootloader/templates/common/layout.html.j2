@@ -1,5 +1,4 @@
 {% load static %}
-{% load gravatar %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -49,7 +48,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li{% if view == "user" %} class="active"{% endif %} class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                {{ user.username }} {% autoescape off %}{% gravatar user.email 17 %}{% endautoescape %}
+                {{ user.username }} <img src="/tools/gravatar?size=17">
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/user/profile.html">Profile</a></li>
