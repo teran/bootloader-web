@@ -11,9 +11,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import ast
 import os
 from kombu import Queue
+
+from tools.helpers import string2bool
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dqg1c_%*v8-tr$(j5)=_ik6b%xpv$p^yecoj&hhm0rnc3dxe7u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'False'))
+DEBUG = string2bool(os.environ.get('DEBUG', 'False'))
 
 ALLOWED_HOSTS = ['*']
 
@@ -197,7 +198,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-GRAVATAR_PROXY = ast.literal_eval(os.environ.get('GRAVATAR_PROXY', 'False'))
+GRAVATAR_PROXY = string2bool(os.environ.get('GRAVATAR_PROXY', 'False'))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
