@@ -40,7 +40,7 @@ r = requests.post(
     headers=headers,
     data={
         'server': SERVER_NAME,
-        'profile': r['pk'],
+        'profile': r['id'],
     })
 
 print(r.content)

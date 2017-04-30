@@ -31,5 +31,5 @@ r = requests.get(
 for deployment in r:
     requests.delete(
         '%s/api/v1alpha1/deployments/%s/' % (
-            BOOTLOADER_URL, deployment['pk'],),
+            BOOTLOADER_URL, deployment['id'],),
         headers=headers)
