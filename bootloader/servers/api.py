@@ -10,7 +10,7 @@ from tools.api.permissions import StaffOrReadOnly
 
 
 class InterfaceViewSet(viewsets.ModelViewSet):
-    queryset = Interface.objects.all()
+    queryset = Interface.objects.filter(is_active=True)
     serializer_class = InterfaceSerializer
     permission_classes = (StaffOrReadOnly,)
 
@@ -25,13 +25,13 @@ class InterfaceViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.all()
+    queryset = Location.objects.filter(is_active=True)
     serializer_class = LocationSerializer
     permission_classes = (StaffOrReadOnly,)
 
 
 class ServerViewSet(viewsets.ModelViewSet):
-    queryset = Server.objects.all()
+    queryset = Server.objects.filter(is_active=True)
     serializer_class = ServerSerializer
     permission_classes = (StaffOrReadOnly,)
 

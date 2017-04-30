@@ -8,7 +8,7 @@ from tools.api.permissions import StaffOrReadOnly
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.filter(is_active=True)
     serializer_class = ProfileSerializer
     permission_classes = (StaffOrReadOnly,)
 
@@ -23,6 +23,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
 
 class DeploymentViewSet(viewsets.ModelViewSet):
-    queryset = Deployment.objects.all()
+    queryset = Deployment.objects.filter(is_active=True)
     serializer_class = DeploymentSerializer
     permission_classes = (StaffOrReadOnly,)

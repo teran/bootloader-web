@@ -8,12 +8,12 @@ from users.serializers import UserSerializer, SSHAuthorizedKeySerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes = (StaffOrReadOnly,)
 
 
 class SSHAuthorizedKeyViewSet(viewsets.ModelViewSet):
-    queryset = SSHAuthorizedKey.objects.all()
+    queryset = SSHAuthorizedKey.objects.filter(is_active=True)
     serializer_class = SSHAuthorizedKeySerializer
     permission_classes = (OwnerOrReadOnly,)
