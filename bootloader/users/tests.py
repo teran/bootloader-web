@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
+from rest_framework.test import APIClient
 
 
 class TestAuthentication(TestCase):
@@ -124,3 +125,49 @@ class TestUserActions(TestCase):
             '/user/profile.html',
             status_code=302,
             target_status_code=200)
+
+    def test_user_activation(self):
+        testuser = User.objects.create_user(
+            'testuser', 'testuser@example.org', 'secret')
+        testuser.is_active = False
+        testuser.save()
+
+        staffuser = User.objects.create_user(
+            'staffuser', 'testuser@example.org', 'secret')
+        staffuser.is_active = True
+        staffuser.is_staff = True
+        staffuser.save()
+
+        client = APIClient()
+        client.login(username='staffuser', password='secret')
+        result = client.patch(
+            '/api/v1alpha1/users/%s/' % (testuser.pk,),
+            data={
+                'is_active': True
+            },
+            format='json')
+
+        self.assertEqual(result.status_code, 200)
+
+    def test_user_staff(self):
+        testuser = User.objects.create_user(
+            'testuser', 'testuser@example.org', 'secret')
+        testuser.is_active = False
+        testuser.save()
+
+        staffuser = User.objects.create_user(
+            'staffuser', 'testuser@example.org', 'secret')
+        staffuser.is_active = True
+        staffuser.is_staff = True
+        staffuser.save()
+
+        client = APIClient()
+        client.login(username='staffuser', password='secret')
+        result = client.patch(
+            '/api/v1alpha1/users/%s/' % (testuser.pk,),
+            data={
+                'is_staff': True
+            },
+            format='json')
+
+        self.assertEqual(result.status_code, 200)
