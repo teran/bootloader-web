@@ -6,7 +6,7 @@ class TestAuthentication(TestCase):
     def setUp(self):
         self.urls_noauth = {
             '/': 302,
-            '/api/': 404,
+            '/api/': 401,
             '/api/v1alpha1/': 401,
             '/deployments/deployments.html': 302,
             '/deployments/profiles.html': 302,
@@ -25,7 +25,7 @@ class TestAuthentication(TestCase):
 
         self.urls_auth_nostaff = {
             '/': 200,
-            '/api/': 404,
+            '/api/': 200,
             '/api/v1alpha1/': 200,
             '/deployments/deployments.html': 200,
             '/deployments/profiles.html': 200,
@@ -44,7 +44,7 @@ class TestAuthentication(TestCase):
 
         self.urls_authstaff = {
             '/': 200,
-            '/api/': 404,
+            '/api/': 200,
             '/api/v1alpha1/': 200,
             '/deployments/deployments.html': 200,
             '/deployments/profiles.html': 200,

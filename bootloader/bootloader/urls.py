@@ -19,7 +19,8 @@ import servers.views
 
 urlpatterns = [
     url(r'^$', servers.views.servers),
-    url(r'^api/v1alpha1/', include('api.urls')),
+    url(r'^api/', include('api.v1alpha1.urls')),
+    url(r'^api/v1alpha1/', include('api.v1alpha1.urls')),
     url(r'^deployments/', include('deployments.urls')),
     url(r'^export/', include('export.urls')),
     url(r'^servers/', include('servers.urls')),
