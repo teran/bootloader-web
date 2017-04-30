@@ -65,13 +65,25 @@ def user_register(request):
             return render(
                 request,
                 template,
-                context={'message': 'All of the fields are required'})
+                context={
+                    'message': 'All of the fields are required',
+                    'username': username,
+                    'email': email,
+                    'firstname': firstname,
+                    'lastname': lastname,
+                })
 
         if password != password2:
             return render(
                 request,
                 template,
-                context={'message': 'Passwords are not the same'})
+                context={
+                    'message': 'Passwords are not the same',
+                    'username': username,
+                    'email': email,
+                    'firstname': firstname,
+                    'lastname': lastname,
+                })
 
         user = User.objects.create_user(username, email, password)
         user.first_name = firstname
