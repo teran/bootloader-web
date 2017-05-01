@@ -196,6 +196,9 @@ class Deployment(BaseModel):
     def progress_percents(self):
         return self.progres * 100
 
+    def queue(self):
+        return self.server.location.queue_name()
+
 
 class LogEntry(BaseModel):
     LEVEL_CHOICES = (
