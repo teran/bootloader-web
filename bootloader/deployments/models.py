@@ -188,6 +188,14 @@ class Deployment(BaseModel):
     def set_complete(self):
         self.progress = 100
 
+    def progress_class_css(self):
+        if self.status == 'error':
+            return 'progress-bar-danger'
+        return 'progress-bar-info progress-bar-striped active'
+
+    def progress_percents(self):
+        return self.progres * 100
+
 
 class LogEntry(BaseModel):
     LEVEL_CHOICES = (
