@@ -4,6 +4,13 @@
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h3>{{ deployment.profile }} @ {{ deployment.server }}</h3>
             <div>
+              <div class="progress">
+                <div class="progress-bar {{ deployment.progress_class_css }}" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                  <span class="sr-only">20% Complete</span>
+                </div>
+              </div>
+            </div>
+            <div>
               <div>Status: {{ deployment.status }}</div>
               <div>Profile: <a href="{{ deployment.profile.link_webui }}">{{ deployment.profile }}</a></div>
               <div>Server: <a href="{{ deployment.server.link_webui }}">{{ deployment.server }}</a></div>

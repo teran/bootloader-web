@@ -67,6 +67,7 @@ class Deployment(BaseModel):
     status = FSMField(default='new')
     parameters = JSONField(default={})
     token = models.CharField(max_length=64, default=_generate_token)
+    progress = models.FloatField(default=0.0)
 
     objects = DeploymentManager()
 
@@ -135,6 +136,7 @@ class Deployment(BaseModel):
         target='preparing',
         on_error='error')
     def set_new(self):
+        self.progress += 16.6
         self.status = 'preparing'
         self.save()
 
@@ -144,6 +146,7 @@ class Deployment(BaseModel):
         target='installing',
         on_error='error')
     def set_preparing(self):
+        self.progress += 16.6
         self.status = 'installing'
         self.save()
 
@@ -153,6 +156,7 @@ class Deployment(BaseModel):
         target='configuring',
         on_error='error')
     def set_installing(self):
+        self.progress += 16.6
         self.status = 'configuring'
         self.save()
 
@@ -162,6 +166,7 @@ class Deployment(BaseModel):
         target='postconfiguring',
         on_error='error')
     def set_configuring(self):
+        self.progress += 16.6
         self.status = 'postconfiguring'
         self.save()
 
@@ -171,6 +176,7 @@ class Deployment(BaseModel):
         target='complete',
         on_error='error')
     def set_postconfiguring(self):
+        self.progress += 16.6
         self.status = 'complete'
         self.save()
 
@@ -179,7 +185,7 @@ class Deployment(BaseModel):
         source='complete',
         on_error='error')
     def set_complete(self):
-        pass
+        self.progress = 100
 
 
 class LogEntry(BaseModel):

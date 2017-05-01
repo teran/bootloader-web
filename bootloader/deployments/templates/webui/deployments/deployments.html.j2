@@ -65,6 +65,7 @@
               <th>Server</th>
               <th>Profile</th>
               <th>Status</th>
+              <th>Progress</th>
               {% if request.user.is_staff %}<th>Controls</th>{% endif %}
             </tr>
             {% for deployment in deployments %}
@@ -72,6 +73,13 @@
               <td><a href="{{ deployment.link_webui }}">{{ deployment.server }}</a></td>
               <td>{{ deployment.profile }}</td>
               <td>{{ deployment.status }}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar {{ deployment.progress_class_css }}" role="progressbar" aria-valuenow="{{ deployment.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ deployment.progress }}%">
+                    <span class="sr-only">{{ deployment.progress }}% Complete (success)</span>
+                  </div>
+                </div>
+              </td>
               {% if request.user.is_staff %}
               <td>
                 <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ deployment.pk }}" object-name="{{ deployment }}" object-type="deployment" object-action="delete" action-method="DELETE" post-action-url="/deployments/deployments.html">
