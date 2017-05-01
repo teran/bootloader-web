@@ -129,6 +129,7 @@ class Deployment(BaseModel):
             ).save()
             self.status = 'error'
             self.save()
+            raise
 
     @transition(
         field=status,
