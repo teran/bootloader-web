@@ -2,7 +2,7 @@
 kind: Profile
 apiVersion: v1alpha1
 name: ubuntu-16.04-kubernetes
-version: 0.1-c
+version: 0.1-h
 workflow:
   new: {}
   preparing:
@@ -11,13 +11,13 @@ workflow:
       filename: 'images/ubuntu/16.04/kernel'
       source:
         type: url
-        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/linux'
+        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux'
     - action: serve_file
       via: http
       filename: 'images/ubuntu/16.04/initrd'
       source:
         type: url
-        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-arm64/current/images/netboot/ubuntu-installer/arm64/initrd.gz'
+        url: 'http://ports.ubuntu.com/ubuntu-ports/dists/xenial-updates/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz'
     - action: serve_file
       via: tftp
       filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
@@ -25,9 +25,11 @@ workflow:
         type: template
         name: pxelinux.cfg
     - action: ipmi_command
-      command: 'chassis bootdev pxe'
+      command: bootdev
+      parameters: pxe
     - action: ipmi_command
-      command: 'power reset'
+      command: power
+      parameters: reset
     - action: expect_callback
       name: preparing-callback
   installing:

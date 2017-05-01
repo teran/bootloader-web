@@ -1,4 +1,8 @@
+from celery import chain
+from celery.result import allow_join_result
 import os
+
+from deployments.tasks import app
 
 
 STATUSES = (
@@ -36,16 +40,14 @@ class Step():
         self.deployment = Deployment.objects.get(pk=deployment)
 
     def evaluate(self):
-        from deployments.tasks import app
-        tasks = []
-        for s in self.step:
-            print('Task %s added to queue' % (s))
-            tasks.append(getattr(self, s['action'])(**s))
-
-        return app.send_task(
-            'deployments.tasks.AgentTasks.evaluate',
-            args=(self.deployment.pk, tasks),
-            queue=self.deployment.server.location.queue_name())
+        # tasks = []
+        with allow_join_result():
+            for s in self.step:
+                print('Task %s added to queue' % (s))
+                getattr(self, s['action'])(**s).get(
+                    timeout=60*3,
+                    propagate=True,
+                    interval=1)
 
     def serve_file(self, *args, **kwargs):
         from django.template import Template
@@ -119,14 +121,17 @@ class Step():
                     source, filename)
             ).save()
 
-            tasks.append({
-                'action': 'download_file',
-                'deployment': self.deployment.pk,
-                'source': source,
-                'destination': filename,
-            })
+            tasks.append(
+                app.send_task(
+                    'deployments.tasks.AgentTasks.download_file',
+                    kwargs={
+                        'deployment': self.deployment.pk,
+                        'source': source,
+                        'destination': filename
+                    },
+                    queue=self.deployment.queue()))
 
-        return tasks
+        return chain(tasks)
 
     def delete_file(self, *args, **kwargs):
         from deployments.models import LogEntry
@@ -139,17 +144,16 @@ class Step():
             message='Sending task delete_file( %s )' % (filename)
         ).save()
 
-        return {
-            'action': 'delete_file',
-            'deployment': self.deployment.pk,
-            'filename': filename,
-        }
+        return app.send_task(
+            'deployments.tasks.AgentTasks.delete_file',
+            kwargs={'deployment': self.deployment.pk, 'filename': filename},
+            queue=self.deployment.queue()).apply_async()
 
     def echo(self, *args, **kwargs):
-        return {
-            'action': 'echo',
-            'message': kwargs['message'],
-        }
+        return app.send_task(
+            'deployments.tasks.AgentTasks.echo',
+            kwargs={'message': kwargs['message']},
+            queue=self.deployment.queue())
 
     def expect_callback(self, *args, **kwargs):
         print('expect_callback: %s, %s' % (args, kwargs))
@@ -161,18 +165,27 @@ class Step():
             message='Sending task expect_callback(%s)' % (kwargs['name'])
         ).save()
 
-        return {
-            'action': 'expect_callback',
-            'deployment': self.deployment.pk,
-            'callback_name': kwargs['name'],
-        }
+        return app.send_task(
+            'deployments.tasks.AgentTasks.expect_callback',
+            kwargs={
+                'deployment': self.deployment.pk,
+                'callback_name': kwargs['name']
+            },
+            queue=self.deployment.queue()).apply_async()
 
     def ipmi_command(self, *args, **kwargs):
-        return {
-            'action': 'ipmi_command',
-            'deployment': self.deployment.pk,
-            'command': kwargs['command']
-        }
+        try:
+            task = app.send_task(
+                'deployments.tasks.AgentTasks.ipmi_command',
+                kwargs={
+                    'deployment': self.deployment.pk,
+                    'command': kwargs['command'],
+                    'parameters': kwargs['parameters'],
+                },
+                queue=self.deployment.queue())
+        except Exception as e:
+            print('ERROR: %s' % e.message)
+        return task.apply_async()
 
 
 class WorkflowException(Exception):
