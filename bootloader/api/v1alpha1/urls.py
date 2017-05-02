@@ -4,9 +4,11 @@ from rest_framework import routers
 
 import deployments.api
 import servers.api
+import tools.api
 import users.api
 
 router = routers.DefaultRouter()
+router.register(r'credentials', tools.api.CredentialViewSet)
 router.register(r'deployments', deployments.api.DeploymentViewSet)
 router.register(r'interfaces', servers.api.InterfaceViewSet)
 router.register(r'locations', servers.api.LocationViewSet)

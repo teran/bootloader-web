@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 import re
 
 from django.utils.text import slugify
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
-from tools.models import BaseModel
+from tools.models import BaseModel, Credential
 
 IPMI_BROWSER_PROTO_CHOICES = (
     ('http', 'http'),
@@ -37,13 +38,15 @@ class Server(BaseModel):
     labels = models.ManyToManyField(Label, related_name='servers')
     serial = models.CharField(max_length=255, null=True)
     ipmi_host = models.CharField(max_length=255)
-    ipmi_username = models.CharField(max_length=255, null=True)
-    ipmi_password = models.CharField(max_length=255, null=True)
     ipmi_browser_proto = models.CharField(
         choices=IPMI_BROWSER_PROTO_CHOICES,
         max_length=5,
         default='http')
     ipmi_browser_port = models.IntegerField(default=80)
+    credentials = GenericRelation(
+        Credential,
+        object_id_field='object_id',
+        related_query_name='credentials')
 
     class Meta:
         ordering = ['-created']

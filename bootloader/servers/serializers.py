@@ -12,10 +12,6 @@ class ServerSerializer(serializers.Serializer):
         required=False, allow_blank=True, max_length=255)
     ipmi_host = serializers.CharField(
         required=False, allow_blank=True, max_length=255)
-    ipmi_username = serializers.CharField(
-        required=False, allow_blank=True, max_length=255)
-    ipmi_password = serializers.CharField(
-        required=False, allow_blank=True, max_length=255)
     interfaces = serializers.SlugRelatedField(
         required=False, read_only=True, many=True, slug_field='name')
 

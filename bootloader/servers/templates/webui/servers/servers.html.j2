@@ -46,24 +46,6 @@
                               <p class="help-block">IPMI host to use for links and access</p>
                             </td>
                           </tr>
-                          <tr>
-                            <td>
-                              <label for="server">IPMI username</label>
-                            </td>
-                            <td>
-                              <input type="text" name="ipmi_username" id="ipmi_username">
-                              <p class="help-block">Username to access IPMI</p>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <label for="server">IPMI password</label>
-                            </td>
-                            <td>
-                              <input type="text" name="ipmi_password" id="ipmi_password">
-                              <p class="help-block">Password to access IPMI</p>
-                            </td>
-                          </tr>
                         </table>
                       </div>
                     </form>
@@ -97,26 +79,13 @@
               <td>
                 <div class="row">
                   <div class="form-group">
-                    <form class="form-inline" action="{{ server.link_ipmi_login_web }}" method="post" target="_blank">
-                      {% if server.ipmi_host and server.ipmi_browser_proto %}
-                        {% if server.ipmi_username and server.ipmi_password %}
-                          <input type="hidden" name="name" value="{{ server.ipmi_username }}">
-                          <input type="hidden" name="pwd" value="{{ server.ipmi_password }}">
-                          <button type="submit" class="btn btn-info btn-xs">
-                            <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
-                            IPMI
-                          </button>
-                        {% else %}
-                          <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
-                            <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
-                            IPMI
-                          </a>
-                        {% endif %}
-                      {% endif %}
+                      <a href="{{ server.link_ipmi_web }}" class="btn btn-info btn-xs" target="_blank">
+                        <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
+                        IPMI
+                      </a>
                       <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ server.pk }}" object-name="{{ server.fqdn }}" object-type="server" object-action="delete" action-method="DELETE" post-action-url="/servers/servers.html">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
                       </button>
-                    </form>
                   </div>
                 </div>
               </td>

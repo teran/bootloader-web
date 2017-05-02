@@ -2,6 +2,8 @@ Celery
 Django
 django-fsm
 djangorestframework
+rest-framework-generic-relations
 psycopg2
+pycrypto
 requests
 PyYAML

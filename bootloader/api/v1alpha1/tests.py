@@ -12,6 +12,8 @@ class APIv1alpha1TestCase(APITestCase):
             username='testuser',
             email='testuser@example.org',
             password='testpassword')
+        self.user.is_staff = True
+        self.user.save()
         self.token = Token.objects.create(user=self.user)
 
         self.noauth_client = APIClient()
@@ -25,6 +27,7 @@ class APIv1alpha1TestCase(APITestCase):
             HTTP_AUTHORIZATION='Token ' + self.token.key)
 
         self.handlers = [
+            'credentials',
             'deployments',
             'interfaces',
             'locations',
