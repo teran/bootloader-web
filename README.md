@@ -23,6 +23,7 @@ Currently there's the way to configure the agent via environment variables:
  * `DB_NAME` - Database name, default is `'postgres'`
  * `DB_PASSWORD` - Password to access the database, default is `None`
  * `DB_USER` - Username to access the database, default is `'postgres'`
+ * `GRAVATAR_PROXY` - `<true|false>` - Enable or disable proxying gravatar requests
  * `SSL_CERTIFICATE_CONTENTS` - contents of SSL certificates to use for HTTPS
  * `SSL_ENABLE` - `<true|false>` Enable SSL support
  * `SSL_KEY_CONTENTS` - contents of SSL private key to use for HTTPS
