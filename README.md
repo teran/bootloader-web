@@ -128,11 +128,12 @@ libraries used in bootloader-web and their licenses:
 
 - [X] Deployment tasks are work synchronous
 - [X] Status updates are comes to UI
-- [ ] IPMI commands
+- [X] IPMI commands
 - [X] SSH keys export(to be able to place on node)
 - [X] Pagination for views contain multiple items
 - [ ] Working and tested example profile for Ubuntu 16.04 LTS
 - [ ] UI tested on Google Chrome, recent Firefox, Safari
+- [ ] UI-based workflow. i.e. it's possible to perform all the action from UI
 
 ## Alpha2 release features and requirements
 
