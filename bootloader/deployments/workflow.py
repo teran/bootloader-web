@@ -147,7 +147,7 @@ class Step():
         return app.send_task(
             'deployments.tasks.AgentTasks.delete_file',
             kwargs={'deployment': self.deployment.pk, 'filename': filename},
-            queue=self.deployment.queue()).apply_async()
+            queue=self.deployment.queue())
 
     def echo(self, *args, **kwargs):
         return app.send_task(
@@ -171,21 +171,17 @@ class Step():
                 'deployment': self.deployment.pk,
                 'callback_name': kwargs['name']
             },
-            queue=self.deployment.queue()).apply_async()
+            queue=self.deployment.queue())
 
     def ipmi_command(self, *args, **kwargs):
-        try:
-            task = app.send_task(
-                'deployments.tasks.AgentTasks.ipmi_command',
-                kwargs={
-                    'deployment': self.deployment.pk,
-                    'command': kwargs['command'],
-                    'parameters': kwargs['parameters'],
-                },
-                queue=self.deployment.queue())
-        except Exception as e:
-            print('ERROR: %s' % e.message)
-        return task.apply_async()
+        return app.send_task(
+            'deployments.tasks.AgentTasks.ipmi_command',
+            kwargs={
+                'deployment': self.deployment.pk,
+                'command': kwargs['command'],
+                'parameters': kwargs['parameters'],
+            },
+            queue=self.deployment.queue())
 
 
 class WorkflowException(Exception):
