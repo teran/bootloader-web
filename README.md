@@ -1,7 +1,8 @@
 # Bootloader
 
 [![Build Status](https://travis-ci.org/teran/bootloader-web.svg?branch=master)](https://travis-ci.org/teran/bootloader-web)
-![Layers size](https://images.microbadger.com/badges/image/teran/bootloader-web.svg)
+[![Layers size](https://images.microbadger.com/badges/image/teran/bootloader-web.svg)](https://hub.docker.com/r/teran/bootloader-web/)
+![Recent build commit](https://images.microbadger.com/badges/commit/teran/bootloader-web.svg)
 [![Docker Automated build](https://img.shields.io/docker/automated/teran/bootloader-web.svg)](https://hub.docker.com/r/teran/bootloader-web/)
 ![License](https://img.shields.io/github/license/teran/bootloader-web.svg)
 
