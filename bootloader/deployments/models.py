@@ -117,10 +117,12 @@ class Deployment(BaseModel):
         try:
             if target in workflow and workflow[target] != {}:
                 with allow_join_result():
-                    Step(
+                    step = Step(
                         self.pk,
                         self.profile.profile['workflow'][target]
-                    ).evaluate().wait()
+                    ).evaluate()
+                    if step is not None:
+                        step.wait()
         except Exception as e:
             LogEntry.objects.create(
                 deployment=self,
