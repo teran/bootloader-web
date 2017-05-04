@@ -1,8 +1,8 @@
-from celery import chain
+from celery import group
 from celery.result import allow_join_result
 import os
 
-from deployments.tasks import app
+from deployments.tasks import AgentTasks
 
 
 STATUSES = (
@@ -44,7 +44,7 @@ class Step():
         with allow_join_result():
             for s in self.step:
                 print('Task %s added to queue' % (s))
-                getattr(self, s['action'])(**s).get(
+                getattr(self, s['action'])(**s).apply_async().get(
                     timeout=60*3,
                     propagate=True,
                     interval=1)
@@ -121,17 +121,15 @@ class Step():
                     source, filename)
             ).save()
 
-            tasks.append(
-                app.send_task(
-                    'deployments.tasks.AgentTasks.download_file',
-                    kwargs={
-                        'deployment': self.deployment.pk,
-                        'source': source,
-                        'destination': filename
-                    },
-                    queue=self.deployment.queue()))
+            tasks.append(AgentTasks.download_file.signature(
+                args=(),
+                kwargs={
+                    'deployment': self.deployment.pk,
+                    'source': source,
+                    'destination': filename
+                }, queue=self.deployment.queue()))
 
-        return chain(tasks)
+        return group(tasks)
 
     def delete_file(self, *args, **kwargs):
         from deployments.models import LogEntry
@@ -144,14 +142,14 @@ class Step():
             message='Sending task delete_file( %s )' % (filename)
         ).save()
 
-        return app.send_task(
-            'deployments.tasks.AgentTasks.delete_file',
+        return AgentTasks.delete_file.signature(
+            args=(),
             kwargs={'deployment': self.deployment.pk, 'filename': filename},
             queue=self.deployment.queue())
 
     def echo(self, *args, **kwargs):
-        return app.send_task(
-            'deployments.tasks.AgentTasks.echo',
+        return AgentTasks.echo.signature(
+            args=(),
             kwargs={'message': kwargs['message']},
             queue=self.deployment.queue())
 
@@ -165,8 +163,8 @@ class Step():
             message='Sending task expect_callback(%s)' % (kwargs['name'])
         ).save()
 
-        return app.send_task(
-            'deployments.tasks.AgentTasks.expect_callback',
+        return AgentTasks.expect_callback.signature(
+            args=(),
             kwargs={
                 'deployment': self.deployment.pk,
                 'callback_name': kwargs['name']
@@ -174,8 +172,8 @@ class Step():
             queue=self.deployment.queue())
 
     def ipmi_command(self, *args, **kwargs):
-        return app.send_task(
-            'deployments.tasks.AgentTasks.ipmi_command',
+        return AgentTasks.ipmi_command.signature(
+            args=(),
             kwargs={
                 'deployment': self.deployment.pk,
                 'command': kwargs['command'],
