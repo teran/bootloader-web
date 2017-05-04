@@ -19,7 +19,7 @@ class InterfaceViewSet(viewsets.ModelViewSet):
         for item in self.request.query_params.keys():
             filterq[item] = self.request.query_params.get(item)
 
-        queryset = Server.objects.filter(**filterq)
+        queryset = Interface.objects.filter(**filterq)
 
         return queryset
 
