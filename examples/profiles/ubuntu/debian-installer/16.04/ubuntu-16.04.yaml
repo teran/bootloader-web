@@ -1,8 +1,8 @@
 ---
 kind: Profile
 apiVersion: v1alpha1
-name: ubuntu-16.04-kubernetes
-version: 0.1-h
+name: ubuntu-16.04
+version: 0.1-a
 workflow:
   new: {}
   preparing:
