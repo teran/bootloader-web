@@ -37,7 +37,8 @@ with open(sys.argv[1], 'r') as fp:
         headers=headers)
 
 if r.status_code == 201:
-    print('Profile %s uploaded successfully: %s' % (
+    print('Profile %s uploaded successfully: status code %s returned' % (
         sys.argv[1], r.status_code,))
 else:
-    print("Error uploading profile:\n\n%s" % (r.content))
+    print("Error uploading profile:\nstatus code: %s\n%s" % (
+        r.status_code, r.content,))
