@@ -44,6 +44,9 @@ workflow:
       filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
     - action: expect_callback
       name: installing-callback
+    - action: ipmi_command
+      command: bootdev
+      parameters: hd
   configuring:
     - action: serve_file
       via: http
@@ -547,7 +550,9 @@ templates:
       # directly, or use the apt-install and in-target commands to easily install
       # packages and run commands in the target system.
       d-i preseed/late_command string in-target mkdir -p /root/.ssh ; \
-                                      in-target wget -O /dev/null {{ callback_base }}configuring-callback
+                                      in-target wget -O /dev/null {{ callback_base }}configuring-callback ; \
+                                      in-target wget -O /etc/rc.local {{ agent_url }}/contrib/node22-frk1.infra.iiot.restr.im.rclocal
+
 
   rclocal:
     type: template
