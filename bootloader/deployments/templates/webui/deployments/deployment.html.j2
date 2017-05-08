@@ -5,8 +5,8 @@
             <h3>{{ deployment.profile }} @ {{ deployment.server }}</h3>
             <div>
               <div class="progress">
-                <div class="progress-bar {{ deployment.progress_class_css }}" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                  <span class="sr-only">20% Complete</span>
+                <div class="progress-bar {{ deployment.progress_class_css }}" role="progressbar" aria-valuenow="{{ deployment.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ deployment.progress }}%">
+                  <span class="sr-only">{{ deployment.progress }}% Complete</span>
                 </div>
               </div>
             </div>
