@@ -24,6 +24,12 @@ workflow:
       source:
         type: template
         name: pxelinux.cfg
+    - action: serve_file
+      via: http
+      filename: preseeds/{{ fqdn }}.cfg
+      source:
+        type: template
+        name: preseed.cfg
     - action: ipmi_command
       command: bootdev
       parameters: pxe
@@ -36,12 +42,6 @@ workflow:
     - action: delete_file
       on: tftp
       filename: 'pxelinux.cfg/01-{{ mac_address_dashed }}'
-    - action: serve_file
-      filename: 'preseeds/{{ fqdn }}.cfg'
-      via: http
-      source:
-        type: template
-        name: preseed.cfg
     - action: expect_callback
       name: installing-callback
   configuring:
@@ -51,6 +51,8 @@ workflow:
       source:
         type: template
         name: rclocal
+    - action: expect_callback
+      name: configuring-callback
   postconfiguring:
     - action: expect_callback
       name: postconfiguring_callback
@@ -65,9 +67,9 @@ templates:
       LABEL ubuntu1604
         MENU LABEL ^Ubuntu 16.04
         MENU default
-        KERNEL {{ agent_url }}/images/images/ubuntu/16.04/debian-installer/linux
-        INITRD {{ agent_url }}/images/images/ubuntu/16.04/debian-installer/initrd.gz
-        APPEND auto=true priority=critical keymap=us debian-installer/keymap=us netcfg/choose_interface=auto preseed/url={{ agent_url }}/images/{{ fqdn }}-preseed.cfg hostname={{ hostname }} domain={{ domain }} netcfg/disable_dhcp=true netcfg/get_ipaddress={{ ipaddress }} netcfg/get_netmask={{ netmask }} netcfg/get_gateway={{ gateway }} netcfg/get_nameservers={{ nameserver }}
+        KERNEL {{ agent_url }}/images/ubuntu/16.04/kernel
+        INITRD {{ agent_url }}/images/ubuntu/16.04/initrd.gz
+        APPEND auto=true priority=critical keymap=us debian-installer/keymap=us netcfg/choose_interface=auto preseed/url={{ agent_url }}/preseeds/{{ fqdn }}.cfg hostname={{ hostname }} domain={{ domain }} netcfg/disable_dhcp=true netcfg/get_ipaddress={{ ipaddress }} netcfg/get_netmask={{ netmask }} netcfg/get_gateway={{ gateway }} netcfg/get_nameservers={{ nameserver }}
   preseed.cfg:
     type: template
     contents: |
@@ -535,24 +537,33 @@ templates:
 
       # This first command is run as early as possible, just after
       # preseeding is read.
-      #d-i preseed/early_command string anna-install some-udeb
+      d-i preseed/early_command string wget -O /dev/null '{{ callback_base }}preparing-callback'
       # This command is run immediately before the partitioner starts. It may be
       # useful to apply dynamic partitioner preseeding that depends on the state
       # of the disks (which may not be visible when preseed/early_command runs).
-      #d-i partman/early_command \
-      #       string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
+      d-i partman/early_command string wget -O /dev/null '{{ callback_base }}installing-callback'
       # This command is run just before the install finishes, but when there is
       # still a usable /target directory. You can chroot to /target and use it
       # directly, or use the apt-install and in-target commands to easily install
       # packages and run commands in the target system.
       d-i preseed/late_command string in-target mkdir -p /root/.ssh ; \
-                                      in-target wget -O /root/.ssh/authorized_keys {{ agent_url }}/images/authorized_keys.txt
+                                      in-target wget -O /dev/null {{ callback_base }}configuring-callback
+
   rclocal:
     type: template
-    contents:
+    contents: |
       #!/bin/bash
 
+      set -e
+
+      # All actions required to be performed on just installed node should be placed bellow this line
+
+      # .... and above this one
+
+      # Seppoku because this script is for one-time actions only.
+      rm -f /etc/rc.local
+
       # Setting a mark on bootloader about step completion
-      curl -s '{{ callback_base }}/postconfiguring_callback'
+      wget -O /dev/null '{{ callback_base }}/postconfiguring_callback'
 
       exit 0
