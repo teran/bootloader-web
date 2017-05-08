@@ -1,8 +1,8 @@
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
-from tools.models import Credential
-from tools.serializers import CredentialSerializer
+from tools.models import Agent, Credential
+from tools.serializers import AgentSerializer, CredentialSerializer
 
 
 class CredentialViewSet(viewsets.ModelViewSet):
@@ -25,3 +25,9 @@ class CredentialViewSet(viewsets.ModelViewSet):
         queryset = Credential.objects.filter(**filterq)
 
         return queryset
+
+
+class AgentViewSet(viewsets.ModelViewSet):
+    queryset = Agent.objects.all()
+    serializer_class = AgentSerializer
+    permission_classes = (IsAdminUser,)

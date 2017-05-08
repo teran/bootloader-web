@@ -1,7 +1,8 @@
+from django.core.exceptions import ObjectDoesNotExist
 from generic_relations.relations import GenericRelatedField
 from rest_framework import serializers
 from servers.models import Server
-from tools.models import Credential
+from tools.models import Agent, Credential
 
 
 class CredentialSerializer(serializers.Serializer):
@@ -21,7 +22,6 @@ class CredentialSerializer(serializers.Serializer):
         model = Credential
 
     def create(self, validated_data):
-        print(validated_data)
         c = Credential.objects.create(
             name=validated_data['name'],
             content_object=validated_data['content_object'])
@@ -29,3 +29,25 @@ class CredentialSerializer(serializers.Serializer):
         c.save()
 
         return c
+
+
+class AgentSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    queue = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
+    agent_url = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
+
+    class Meta:
+        model = Agent
+
+    def create(self, validated_data):
+        try:
+            agent = Agent.objects.get(
+                queue=validated_data['queue'])
+            agent.agent_url = validated_data['agent_url']
+            agent.save()
+        except ObjectDoesNotExist:
+            agent = Agent.objects.create(**validated_data)
+
+        return agent

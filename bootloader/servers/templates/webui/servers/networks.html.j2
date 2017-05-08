@@ -1,0 +1,144 @@
+{% extends 'webui/servers/layout.html.j2' %}
+
+{% block content %}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% if request.user.is_staff %}
+          <div class="modal fade" tabindex="-1" role="dialog" id="network-create-form-modal">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Add profile</h4>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    <form method="post" id="new-network-form" onsubmit="return false;">
+                      <div class="form-group">
+                        <table class="table">
+                          <tr>
+                            <td>
+                              <label for="name">Network name</label>
+                            </td>
+                            <td>
+                              <input type="text" name="name" id="name">
+                              <p class="help-block">Meaning network name</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="network">Network</label>
+                            </td>
+                            <td>
+                              <input type="text" name="network" id="network">
+                              <p class="help-block">Network CIDR</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="location">Location</label>
+                            </td>
+                            <td>
+                              <select name="location" id="location-field">
+                                {% for location in locations %}
+                                <option value="{{ location.name }}">{{ location }}</option>
+                                {% endfor %}
+                              </select>
+                              <p class="help-block">Hardware location</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="gateway">Network gateway</label>
+                            </td>
+                            <td>
+                              <input type="text" name="gateway" id="gateway">
+                              <p class="help-block">Gateway address in the network</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <label for="gateway">Nameserver</label>
+                            </td>
+                            <td>
+                              <input type="text" name="nameserver" id="nameserver">
+                              <p class="help-block">DNS server to use in this network</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </form>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary send-form" form-id="new-network-form" post-action-url="/servers/networks.html" api-handler="networks/">Add server</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>
+            <button class="btn btn-success btn-xs modal-action-button" modal-id="network-create-form-modal" modal-action="show">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              New network
+            </button>
+          </p>
+          {% endif %}
+          <table class="table">
+            <tr>
+              <th>Network name</th>
+              <th>Network CIDR</th>
+              <th>Location</th>
+              {% if request.user.is_staff %}<th>Controls</th>{% endif %}
+            </tr>
+            {% for network in networks %}
+            <tr>
+              <td>{{ network.name }}</td>
+              <td>{{ network.network }}</td>
+              <td>{{ network.location }}</td>
+              {% if request.user.is_staff %}
+              <td>
+                <div class="row">
+                  <div class="form-group">
+                      <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ network.pk }}" object-name="{{ network.name }}" object-type="network" object-action="delete" action-method="DELETE" post-action-url="/servers/networks.html">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete
+                      </button>
+                  </div>
+                </div>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </table>
+          <div class="page-navigation">
+            {% if servers.has_other_pages %}
+            <nav aria-label="page navigation">
+              <ul class="pagination">
+                {% if servers.has_previous %}
+                <li>
+                  <a href="/servers/servers.html?page={{ servers.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+                {% for page in servers.paginator.page_range %}
+                <li{% if page == servers.number %} class="active"{% endif %}><a href="/servers/servers.html?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                {% if servers.has_next %}
+                <li>
+                  <a href="/servers/servers.html?page={{ servers.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% else %}
+            <ul class="pagination">
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+              <li class="active"><a href="/servers/servers.html?page=1">1</a></li>
+              <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+{% endblock %}

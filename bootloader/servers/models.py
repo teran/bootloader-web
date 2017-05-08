@@ -4,6 +4,8 @@ import re
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+import netaddr
+from netfields.fields import CidrAddressField, InetAddressField
 
 from tools.models import BaseModel, Credential
 
@@ -88,3 +90,22 @@ class Interface(BaseModel):
 
     def mac_dashed(self):
         return re.sub(':', '-', self.mac.lower())
+
+
+class Network(BaseModel):
+    name = models.CharField(max_length=255)
+    network = CidrAddressField(unique=True)
+    gateway = InetAddressField(unique=True, store_prefix_length=False)
+    nameserver = InetAddressField(store_prefix_length=False)
+    location = models.ForeignKey(
+        Location, null=True, blank=True, related_name='networks')
+
+    @property
+    def ipaddress(self):
+        ip = netaddr.IPNetwork(str(self.network))
+        return str(ip.network)
+
+    @property
+    def netmask(self):
+        ip = netaddr.IPNetwork(str(self.network))
+        return str(ip.netmask)

@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 
 from deployments.models import Server
-from tools.models import Credential
+from tools.models import Agent, Credential
 
 import random
 import string
@@ -70,3 +70,14 @@ class CredentialTestCase(TestCase):
         decrypted_string = c.decrypt()
 
         self.assertEqual(test_string, decrypted_string)
+
+
+class AgentTestCase(TestCase):
+    def test_create_agent(self):
+        Agent.objects.create(
+            queue='test_queue',
+            agent_url='http://blah')
+
+        agent = Agent.objects.get(queue='test_queue')
+        self.assertEqual(agent.queue, 'test_queue')
+        self.assertEqual(agent.agent_url, 'http://blah')

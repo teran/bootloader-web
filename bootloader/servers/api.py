@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 
-from servers.models import Interface, Location, Server
+from servers.models import Interface, Network, Location, Server
 
 from servers.serializers import InterfaceSerializer
 from servers.serializers import LocationSerializer
+from servers.serializers import NetworkSerializer
 from servers.serializers import ServerSerializer
 
 from tools.api.permissions import StaffOrReadOnly
@@ -22,6 +23,12 @@ class InterfaceViewSet(viewsets.ModelViewSet):
         queryset = Interface.objects.filter(**filterq)
 
         return queryset
+
+
+class NetworkViewSet(viewsets.ModelViewSet):
+    queryset = Network.objects.filter(is_active=True)
+    serializer_class = NetworkSerializer
+    permission_classes = (StaffOrReadOnly,)
 
 
 class LocationViewSet(viewsets.ModelViewSet):

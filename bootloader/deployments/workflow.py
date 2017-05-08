@@ -1,8 +1,11 @@
 from celery import group
 from celery.result import allow_join_result
 import os
+import socket
 
 from deployments.tasks import AgentTasks
+from servers.models import Network
+from tools.models import Agent
 
 
 STATUSES = (
@@ -18,14 +21,26 @@ STATUSES = (
 def DeploymentContext(deployment, custom_fields={}):
     from django.template import Context
     from deployments.models import Deployment
+    import netaddr
 
     d = Deployment.objects.get(pk=deployment)
+    ipaddress = netaddr.IPAddress(socket.gethostbyname(d.server.fqdn))
+    network = Network.objects.filter(network__net_contains=ipaddress)[0]
+    agent = Agent.objects.get(queue=d.queue())
 
     context = Context({
-        'fqdn': d.server.fqdn,
-        'profile': d.profile.name,
-        'ipmi_host': d.server.ipmi_host,
+        'agent_url': agent.url,
+        'callback_base': '%s/_callback/%s/' % (agent.agent_url, d.token,),
+        'domain': '.'.join(d.server.fqdn.split('.')[1:]),
         'export_base': d.file_export_url(),
+        'fqdn': d.server.fqdn,
+        'gateway': network.gateway,
+        'hostname': d.server.fqdn.split('.')[0],
+        'ipaddress': ipaddress,
+        'ipmi_host': d.server.ipmi_host,
+        'nameserver': network.nameserver,
+        'netmask': network.netmask,
+        'profile': d.profile.name,
     })
 
     context.update(custom_fields)

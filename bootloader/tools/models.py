@@ -24,6 +24,18 @@ class BaseModel(models.Model):
         return self.created.strftime(settings.TIME_FORMAT)
 
 
+class Agent(BaseModel):
+    # Location is unique because at the moment there's no way to schedule tasks
+    # properly between two agents in the same location. So here's limitation:
+    # The only agent could serve each location
+    queue = models.CharField(max_length=255, unique=True)
+    agent_url = models.CharField(max_length=255)
+
+    @property
+    def url(self):
+        return self.agent_url
+
+
 class Credential(models.Model):
     name = models.CharField(max_length=255)
     data = models.TextField(null=False, blank=False)

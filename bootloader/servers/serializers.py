@@ -1,4 +1,4 @@
-from servers.models import Interface, Server, Location
+from servers.models import Interface, Network, Server, Location
 from rest_framework import serializers
 
 
@@ -30,6 +30,26 @@ class ServerSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+
+class NetworkSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False),
+    name = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
+    network = serializers.CharField(
+        required=True, allow_blank=False)
+    gateway = serializers.IPAddressField(
+        protocol='both', required=True, allow_blank=False)
+    nameserver = serializers.IPAddressField(
+        protocol='both', required=True, allow_blank=False)
+    location = serializers.SlugRelatedField(
+        queryset=Location.objects.all(), slug_field='name')
+
+    class Meta:
+        model = Network
+
+    def create(self, validated_data):
+        return Network.objects.create(**validated_data)
 
 
 class InterfaceSerializer(serializers.Serializer):

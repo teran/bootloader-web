@@ -33,7 +33,7 @@ class Profile(BaseModel):
     objects = ProfileManager()
 
     class Meta:
-        unique_together = (('name', 'version'),)
+        unique_together = (('name', 'version', 'is_active'),)
         ordering = ['-created']
 
     def __str__(self):

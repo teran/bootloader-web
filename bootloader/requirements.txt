@@ -1,7 +1,9 @@
 Celery
 Django
 django-fsm
+django-netfields
 djangorestframework
+netaddr
 rest-framework-generic-relations
 psycopg2
 pycrypto

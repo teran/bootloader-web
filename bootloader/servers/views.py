@@ -3,7 +3,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
-from servers.models import Location, Server
+from servers.models import Location, Network, Server
 
 
 @login_required
@@ -59,6 +59,22 @@ def locations(request):
             'locations': locations,
             'view': 'servers',
             'subview': 'locations'
+        })
+
+
+@login_required
+def networks(request):
+    networks = Network.objects.all()
+    locations = Location.objects.all()
+
+    return render(
+        request,
+        'webui/servers/networks.html.j2',
+        context={
+            'networks': networks,
+            'locations': locations,
+            'view': 'servers',
+            'subview': 'networks'
         })
 
 

@@ -27,10 +27,12 @@ class APIv1alpha1TestCase(APITestCase):
             HTTP_AUTHORIZATION='Token ' + self.token.key)
 
         self.handlers = [
+            'agents',
             'credentials',
             'deployments',
             'interfaces',
             'locations',
+            'networks',
             'profiles',
             'servers',
             'ssh_authorized_keys',

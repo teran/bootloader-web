@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'generic_relations',
+    'netfields',
     'rest_framework',
     'rest_framework.authtoken',
 
