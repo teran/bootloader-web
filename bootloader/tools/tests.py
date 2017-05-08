@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 
-from deployments.models import Server
+from servers.models import Server
 from tools.models import Agent, Credential
 
 import random
