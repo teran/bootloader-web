@@ -34,6 +34,14 @@ ALLOWED_HOSTS = ['*']
 # Url of bootloader web application
 BOOTLOADER_URL = os.environ.get('BOOTLOADER_URL', 'http://127.0.0.1:8000/')
 
+NOTIFICATION_MODULES = [
+    'tools.notifications.slack'
+]
+
+SLACK_HOOK_URL = os.environ.get('SLACK_HOOK_URL')
+
+SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -124,6 +132,10 @@ CELERY_SETTINGS = {
                 'queue': 'deployment',
                 'routing_key': 'tasks.deployment_created',
             },
+            'tasks.deployment_completed': {
+                'queue': 'deployment',
+                'routing_key': 'tasks.deployment_created'
+            }
     },
     'CELERY_TASK_SERIALIZER': 'json',
 }

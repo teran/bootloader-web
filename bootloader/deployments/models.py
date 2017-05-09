@@ -45,6 +45,9 @@ class Profile(BaseModel):
     def json(self):
         return json.dumps(self.profile, indent=4)
 
+    def full_url(self):
+        return '%s%s' % (settings.BOOTLOADER_URL, self.link_webui(),)
+
     def link_webui(self):
         return '/deployments/profiles/%s/%s.html' % (
             self.name,
@@ -100,6 +103,9 @@ class Deployment(BaseModel):
             self.profile.name,
             self.profile.version)
 
+    def full_url(self):
+        return '%s%s' % (settings.BOOTLOADER_URL, self.link_webui(),)
+
     def link_webui(self):
         return '/deployments/%s/%s/%s.html' % (
             self.pk,
@@ -124,13 +130,7 @@ class Deployment(BaseModel):
                     if step is not None:
                         step.wait()
         except Exception as e:
-            LogEntry.objects.create(
-                deployment=self,
-                level='CRITICAL',
-                message=e.message,
-            ).save()
-            self.status = 'error'
-            self.save()
+            self.set_error(reason=e.message)
             raise
 
     @transition(
@@ -188,7 +188,30 @@ class Deployment(BaseModel):
         source='complete',
         on_error='error')
     def set_complete(self):
+        from deployments.tasks import EventBasedTasks
+
+        EventBasedTasks.deployment_completed.apply_async(
+            args=(self.pk,), queue='bootloader_tasks')
         self.progress = 100
+        self.save()
+
+    @transition(
+        field=status,
+        source='*',
+        target='error')
+    def set_error(self, reason=None):
+        from deployments.tasks import EventBasedTasks
+
+        LogEntry.objects.create(
+            deployment=self,
+            level='CRITICAL',
+            message=reason,
+        ).save()
+
+        EventBasedTasks.deployment_failed.apply_async(
+            args=(self.pk, reason,), queue='bootloader_tasks')
+
+        self.status = 'error'
         self.save()
 
     def progress_class_css(self):

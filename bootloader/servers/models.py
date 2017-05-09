@@ -7,6 +7,7 @@ from django.db import models
 import netaddr
 from netfields.fields import CidrAddressField, InetAddressField
 
+from django.conf import settings
 from tools.models import BaseModel, Credential
 
 IPMI_BROWSER_PROTO_CHOICES = (
@@ -58,6 +59,9 @@ class Server(BaseModel):
 
     def __unicode__(self):
         return self.__str__()
+
+    def full_url(self):
+        return '%s%s' % (settings.BOOTLOADER_URL, self.link_webui(),)
 
     def link_webui(self):
         return '/servers/%s/%s.html' % (self.pk, self.fqdn)
