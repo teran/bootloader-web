@@ -1,6 +1,7 @@
 from deployments.tasks import app
 from tools.notifications import Notification
 
+
 @app.task
 def deployment_created(deployment):
     from deployments.models import Deployment, LogEntry
@@ -17,12 +18,12 @@ def deployment_created(deployment):
 
     Notification(
         message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> created' % (
-        d.full_url(),
-        d.pk,
-        d.server.full_url(),
-        d.server,
-        d.profile.full_url(),
-        d.profile,))
+            d.full_url(),
+            d.pk,
+            d.server.full_url(),
+            d.server,
+            d.profile.full_url(),
+            d.profile,))
 
     for step in STATUSES:
         d.evaluate(target=step)
@@ -42,8 +43,13 @@ def deployment_completed(deployment):
     ).save()
 
     Notification(
-        message='<%s|Deployment#%s> for server %s with %s completed' % (
-        d.full_url(), d.pk, d.server, d.profile,))
+        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> created' % (
+            d.full_url(),
+            d.pk,
+            d.server.full_url(),
+            d.server,
+            d.profile.full_url(),
+            d.profile,))
 
 
 @app.task
@@ -60,5 +66,11 @@ def deployment_failed(deployment, reason=None):
     ).save()
 
     Notification(
-        message='<%s|Deployment#%s> for server %s with %s failed: %s' % (
-        d.full_url(), d.pk, d.server, d.profile, reason,))
+        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> created' % (
+            d.full_url(),
+            d.pk,
+            d.server.full_url(),
+            d.server,
+            d.profile.full_url(),
+            d.profile,
+            reason,))
