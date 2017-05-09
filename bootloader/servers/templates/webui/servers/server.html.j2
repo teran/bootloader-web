@@ -80,24 +80,28 @@
                   <tr>
                     <th>Interface</th>
                     <th>MAC address</th>
-                    <th>Controls</th>
+                    {% if user.is_staff %}<th>Controls</th>{% endif %}
                   </tr>
                   {% for interface in server.interfaces.all %}
                   <tr>
                     <td>{{ interface.name }}</td>
                     <td>{{ interface.mac }}</td>
+                    {% if user.is_staff %}
                     <td style="text-align: center;">
                       <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ interface.pk }}" object-name="{{ interface.name }}" object-type="interface" object-action="delete" action-method="DELETE" post-action-url="{{ server.link_webui }}">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                       </button>
                     </td>
+                    {% endif %}
                   </tr>
                   {% endfor %}
                 </table>
+                {% if user.is_staff %}
                 <button class="btn btn-xs btn-default modal-action-button" modal-id="interface-create-form-modal" modal-action="show">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                   Add interface
                 </button>
+                {% endif %}
               </div>
               <div class="col-md-3">
                 <table class="table">
