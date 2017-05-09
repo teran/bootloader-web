@@ -551,7 +551,7 @@ templates:
       # packages and run commands in the target system.
       d-i preseed/late_command string in-target mkdir -p /root/.ssh ; \
                                       in-target wget -O /dev/null {{ callback_base }}configuring-callback ; \
-                                      in-target wget -O /etc/rc.local {{ agent_url }}/contrib/node22-frk1.infra.iiot.restr.im.rclocal
+                                      in-target wget -O /etc/rc.local {{ agent_url }}/contrib/{{ fqdn }}.rclocal
 
 
   rclocal:
