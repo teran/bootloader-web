@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.admin.views.decorators import user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -29,7 +30,12 @@ def user_login(request):
                     'password': request.POST.get('password'),
                 })
     else:
-        return render(request, 'webui/users/login.html.j2')
+        return render(
+            request,
+            'webui/users/login.html.j2',
+            context={
+                'messages': messages.get_messages(request)
+            })
 
 
 @login_required
@@ -90,6 +96,15 @@ def user_register(request):
         user.last_name = lastname
         user.is_active = False
         user.save()
+
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            """
+            You have successfully registered, please wait while any staff
+            member will activate your account or ask them directly if you can
+            ;)
+            """)
 
         return redirect('/')
     else:
