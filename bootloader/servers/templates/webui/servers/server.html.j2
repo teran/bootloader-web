@@ -2,6 +2,51 @@
 
 {% block content %}
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% if user.is_staff %}
+            <div class="modal fade" tabindex="-1" role="dialog" id="interface-create-form-modal">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add interface</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>
+                      <form method="post" id="new-interface-form" onsubmit="return false;">
+                        <input type="hidden" name="server" value="{{ server.fqdn }}">
+                        <div class="form-group">
+                          <table class="table">
+                            <tr>
+                              <td>
+                                <label for="name">Name</label>
+                              </td>
+                              <td>
+                                <input type="text" name="name" id="name">
+                                <p class="help-block">Interface name, eth0 for instance</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <label for="mac">MAC address</label>
+                              </td>
+                              <td>
+                                <input type="text" name="mac" id="mac">
+                                <p class="help-block">MAC address of the interface</p>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </form>
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary send-form" form-id="new-interface-form" post-action-url="{{ server.link_webui }}" api-handler="interfaces/">Add interface</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
             <div class="row">
               <div class="col-md-12">
                 <div class="clearfix">
@@ -29,16 +74,42 @@
                 </form>
               </div>
             </div>
-            <table class="table">
-              <tr>
-                <th>Interface name</th>
-                <th>MAC address</th>
-              </tr>
-              {% for interface in server.interfaces.all %}
-              <tr>
-                <td>{{ interface.name }}</td>
-                <td>{{ interface.mac }}</td>
-              </tr>
-              {% endfor %}
+            <div class="row">
+              <div class="col-md-3">
+                <table class="table">
+                  <tr>
+                    <th>Interface</th>
+                    <th>MAC address</th>
+                    <th>Controls</th>
+                  </tr>
+                  {% for interface in server.interfaces.all %}
+                  <tr>
+                    <td>{{ interface.name }}</td>
+                    <td>{{ interface.mac }}</td>
+                    <td style="text-align: center;">
+                      <button type="button" class="btn btn-danger btn-xs object-action-button" object-id="{{ interface.pk }}" object-name="{{ interface.name }}" object-type="interface" object-action="delete" action-method="DELETE" post-action-url="{{ server.link_webui }}">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </table>
+                <button class="btn btn-xs btn-default modal-action-button" modal-id="interface-create-form-modal" modal-action="show">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  Add interface
+                </button>
+              </div>
+              <div class="col-md-3">
+                <table class="table">
+                  <tr>
+                    <th>Deployment profile</th>
+                  </tr>
+                  {% for deployment in server.deployments.all|slice:":10" %}
+                  <tr class="{{ deployment.color_class_css }}">
+                    <td><a href="{{ deployment.link_webui }}" data-toggle="tooltip" data-placement="right" title="{{ deployment.created|timesince }} ago">{{ deployment.profile.name }}=={{ deployment.profile.version }}</a></td>
+                  </tr>
+                  {% endfor %}
+                </table>
+              </div>
           </div>
 {% endblock %}

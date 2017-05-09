@@ -1,4 +1,7 @@
 $('document').ready(function() {
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
   function getCookie(name) {
       var cookieValue = null;
       if (document.cookie && document.cookie !== '') {
