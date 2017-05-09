@@ -189,6 +189,7 @@ class Deployment(BaseModel):
         on_error='error')
     def set_complete(self):
         self.progress = 100
+        self.save()
 
     def progress_class_css(self):
         if self.status == 'error':
