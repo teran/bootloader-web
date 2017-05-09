@@ -13,8 +13,7 @@ class StaffOrReadOnly(BasePermission):
 
 class OwnerOrReadOnly(BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_authenticated and \
-            request.method in SAFE_METHODS
+        return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
         if request.user.is_authenticated and request.method in SAFE_METHODS:
