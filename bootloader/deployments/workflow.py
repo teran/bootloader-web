@@ -25,7 +25,7 @@ def DeploymentContext(deployment, custom_fields={}):
 
     d = Deployment.objects.get(pk=deployment)
     ipaddress = netaddr.IPAddress(socket.gethostbyname(d.server.fqdn))
-    network = Network.objects.filter(network__net_contains=ipaddress)[0]
+    network = Network.objects.get(network__net_contains=ipaddress)
     agent = Agent.objects.get(queue=d.queue())
 
     context = Context({
