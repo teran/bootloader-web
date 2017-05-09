@@ -194,6 +194,8 @@ class Deployment(BaseModel):
     def progress_class_css(self):
         if self.status == 'error':
             return 'progress-bar-danger'
+        if self.status == 'success':
+            return 'progress-bar-success'
         return 'progress-bar-info progress-bar-striped active'
 
     def progress_percents(self):
