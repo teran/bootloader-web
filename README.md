@@ -132,7 +132,7 @@ libraries used in bootloader-web and their licenses:
 - [X] IPMI commands
 - [X] SSH keys export(to be able to place on node)
 - [X] Pagination for views contain multiple items
-- [ ] Working and tested example profile for Ubuntu 16.04 LTS
+- [X] Working and tested example profile for Ubuntu 16.04 LTS
 - [ ] UI tested on Google Chrome, recent Firefox, Safari
 - [ ] UI-based workflow. i.e. it's possible to perform all the action from UI
 
