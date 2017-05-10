@@ -134,7 +134,7 @@ libraries used in bootloader-web and their licenses:
 - [X] Pagination for views contain multiple items
 - [X] Working and tested example profile for Ubuntu 16.04 LTS
 - [X] UI tested on Google Chrome, recent Firefox, Safari
-- [ ] UI-based workflow. i.e. it's possible to perform all the action from UI
+- [X] UI-based workflow. i.e. it's possible to perform all the action from UI
 
 ## Alpha2 release features and requirements
 
