@@ -30,6 +30,23 @@ Currently there's the way to configure the agent via environment variables:
  * `SSL_KEY_CONTENTS` - contents of SSL private key to use for HTTPS
  * `SSL_SET_REDIRECT` - `<true|false>` enables redirect from HTTP to HTTPS
 
+# Installation
+
+All the releases and development versions are represented as docker images
+## The most stable release
+
+```
+docker pull teran/bootloader-web:0.0.1-alpha1
+docker pull teran/bootloader-agent:0.0.1-alpha1
+```
+
+### The most recent build (dangerous, could be totally unstable)
+
+```
+docker pull teran/bootloader-web:latest
+docker pull teran/bootloader-agent:latest
+```
+
 # Compatibility and guarantees
 
 ### Application status
