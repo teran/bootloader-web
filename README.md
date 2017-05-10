@@ -35,7 +35,7 @@ Currently there's the way to configure the agent via environment variables:
 ### Application status
 
 Current project state: Alpha
-Pending release number: 0.0.1-alpha1
+Pending release number: 0.0.1-alpha2
 
 All releases will be reflected as a git tag.
 
@@ -125,22 +125,13 @@ libraries used in bootloader-web and their licenses:
  * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
 
 # Pending releases
-## Alpha1 release features and requirements
-
-- [X] Deployment tasks are work synchronous
-- [X] Status updates are comes to UI
-- [X] IPMI commands
-- [X] SSH keys export(to be able to place on node)
-- [X] Pagination for views contain multiple items
-- [X] Working and tested example profile for Ubuntu 16.04 LTS
-- [X] UI tested on Google Chrome, recent Firefox, Safari
-- [X] UI-based workflow. i.e. it's possible to perform all the action from UI
-
 ## Alpha2 release features and requirements
 
 - [ ] Errors are come to UI
 - [ ] Queue tests
 - [ ] Input validation with UI error displaying
+- [ ] Handle JS errors without alert()
+- [ ] Update any object through WebUI
 
 ## Alpha3
 
