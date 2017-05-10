@@ -35,6 +35,7 @@ Currently there's the way to configure the agent via environment variables:
 ### Application status
 
 Current project state: Alpha
+
 Pending release number: 0.0.1-alpha2
 
 All releases will be reflected as a git tag.
