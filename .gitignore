@@ -97,3 +97,6 @@ ENV/
 # Databases
 *.sqlite3
 *.sqlite
+
+# OS specific service files
+.DS_Store
