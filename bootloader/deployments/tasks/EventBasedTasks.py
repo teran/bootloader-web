@@ -43,7 +43,7 @@ def deployment_completed(deployment):
     ).save()
 
     Notification(
-        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> created' % (
+        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> completed' % (
             d.full_url(),
             d.pk,
             d.server.full_url(),
@@ -66,7 +66,7 @@ def deployment_failed(deployment, reason=None):
     ).save()
 
     Notification(
-        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> created' % (
+        message='<%s|Deployment#%s> for <%s|%s> with <%s|%s> failed: %s' % (
             d.full_url(),
             d.pk,
             d.server.full_url(),
