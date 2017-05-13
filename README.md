@@ -157,6 +157,7 @@ libraries used in bootloader-web and their licenses:
 - [ ] One-click redeploy with "repeat" button
 - [ ] Make deployment timeouts configurable from profiles
 - [ ] Per-step timeouts for deployments
+- [ ] Implement delete_file action on agent
 - [ ] Errors are come to UI
 - [ ] Queue tests
 - [ ] Input validation with UI error displaying
