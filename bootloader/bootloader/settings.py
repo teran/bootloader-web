@@ -95,6 +95,8 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_THEME = os.environ.get('DEFAULT_THEME', 'bootstrap3')
+
 WSGI_APPLICATION = 'bootloader.wsgi.application'
 
 
