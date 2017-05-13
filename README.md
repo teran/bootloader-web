@@ -142,6 +142,7 @@ libraries used in bootloader-web and their licenses:
  * [html5shiv](https://github.com/aFarkas/html5shiv) - MIT/GPL2 Licensed
  * [jQuery](https://jquery.com) - http://jquery.org/license
  * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
+ * [BOOTSTRA.386](https://github.com/kristopolous/BOOTSTRA.386) - Licensed under Apache-2.0 licence
 
 # Pending releases
 ## Alpha2 release features and requirements
