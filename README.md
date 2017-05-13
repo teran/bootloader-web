@@ -150,10 +150,12 @@ libraries used in bootloader-web and their licenses:
 - [ ] Input validation with UI error displaying
 - [ ] Handle JS errors without alert()
 - [ ] Update any object through WebUI
+- [ ] Full REST API namespacing with properly namespaced tests
 
 ## Alpha3
 
 - [ ] Slack and email notifications about deployments
+- [ ] Profiles API namespacing
 
 ## Beta1 release features and requirements
 
