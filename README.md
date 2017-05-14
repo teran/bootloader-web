@@ -144,6 +144,7 @@ libraries used in bootloader-web and their licenses:
  * [respond](https://github.com/scottjehl/Respond) - Licensed under the MIT license
  * [BOOTSTRA.386](https://github.com/kristopolous/BOOTSTRA.386) - Licensed under Apache-2.0 licence
  * [Slate theme](https://github.com/thomaspark/bootswatch) - Lincenced under MIT licence
+ * [Yeti theme](https://github.com/thomaspark/bootswatch) - Lincenced under MIT licence
 
 # Pending releases
 ## Alpha2 release features and requirements
