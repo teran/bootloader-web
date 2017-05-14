@@ -21,6 +21,7 @@ body {
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    font-size: 11pt;
   }
 }
 
