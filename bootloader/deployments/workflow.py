@@ -60,7 +60,7 @@ class Step():
             for s in self.step:
                 print('Task %s added to queue' % (s))
                 getattr(self, s['action'])(**s).apply_async().get(
-                    timeout=60*10,
+                    timeout=60*20,
                     propagate=True,
                     interval=1)
 
