@@ -6,5 +6,6 @@ uwsgi:
   chdir: /opt/bootloader/web
   module: bootloader.wsgi:application
   master: True
+  processes: 4
   vacuum: True
   max-requests: 5000
