@@ -149,6 +149,7 @@ libraries used in bootloader-web and their licenses:
 # Pending releases
 ## Alpha2 release features and requirements
 
+- [ ] Make deployment timeouts configurable from profiles
 - [ ] Errors are come to UI
 - [ ] Queue tests
 - [ ] Input validation with UI error displaying
