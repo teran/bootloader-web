@@ -135,7 +135,7 @@ This version list means bootloader-web tests against them but here are some "but
 
 bootloader is licenced under GPLv2 licence.
 
-However some parts of the software uses third-part code, here's the list of JS
+However some parts of the software uses third-party code, here's the list of JS
 libraries used in bootloader-web and their licenses:
 
  * [Bootstrap](http://getbootstrap.com) - Licensed under the MIT license
