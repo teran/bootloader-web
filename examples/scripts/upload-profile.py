@@ -32,7 +32,7 @@ with open(sys.argv[1], 'r') as fp:
     profile = yaml.load(fp)
     payload = json.dumps({'profile': json.dumps(profile)})
     r = requests.post(
-        '%s/api/v1alpha1/profiles/' % (BOOTLOADER_URL,),
+        '%s/api/v1alpha2/profiles/' % (BOOTLOADER_URL,),
         data=payload,
         headers=headers)
 

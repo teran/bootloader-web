@@ -8,7 +8,7 @@ class TestAuthentication(TestCase):
         self.urls_noauth = {
             '/': 302,
             '/api/': 401,
-            '/api/v1alpha1/': 401,
+            '/api/v1alpha2/': 401,
             '/deployments/deployments.html': 302,
             '/deployments/profiles.html': 302,
             '/servers/index.html': 404,
@@ -27,7 +27,7 @@ class TestAuthentication(TestCase):
         self.urls_auth_nostaff = {
             '/': 200,
             '/api/': 200,
-            '/api/v1alpha1/': 200,
+            '/api/v1alpha2/': 200,
             '/deployments/deployments.html': 200,
             '/deployments/profiles.html': 200,
             '/servers/index.html': 404,
@@ -46,7 +46,7 @@ class TestAuthentication(TestCase):
         self.urls_authstaff = {
             '/': 200,
             '/api/': 200,
-            '/api/v1alpha1/': 200,
+            '/api/v1alpha2/': 200,
             '/deployments/deployments.html': 200,
             '/deployments/profiles.html': 200,
             '/servers/index.html': 404,
@@ -141,7 +141,7 @@ class TestUserActions(TestCase):
         client = APIClient()
         client.login(username='staffuser', password='secret')
         result = client.patch(
-            '/api/v1alpha1/users/%s/' % (testuser.pk,),
+            '/api/v1alpha2/users/%s/' % (testuser.pk,),
             data={
                 'is_active': True
             },
@@ -164,7 +164,7 @@ class TestUserActions(TestCase):
         client = APIClient()
         client.login(username='staffuser', password='secret')
         result = client.patch(
-            '/api/v1alpha1/users/%s/' % (testuser.pk,),
+            '/api/v1alpha2/users/%s/' % (testuser.pk,),
             data={
                 'is_staff': True
             },

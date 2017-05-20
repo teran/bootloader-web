@@ -2,8 +2,8 @@ from rest_framework import viewsets
 
 from deployments.models import Deployment, Profile
 
-from deployments.serializers import ProfileSerializer
-from deployments.serializers import DeploymentSerializer
+from deployments.api.v1alpha2.serializers import ProfileSerializer
+from deployments.api.v1alpha2.serializers import DeploymentSerializer
 from tools.api.permissions import StaffOrReadOnly
 
 

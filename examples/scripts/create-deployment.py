@@ -30,13 +30,13 @@ headers = {
 }
 
 r = requests.get(
-    '%s/api/v1alpha1/profiles/?name=%s&version=%s' % (
+    '%s/api/v1alpha2/profiles/?name=%s&version=%s' % (
         BOOTLOADER_URL, PROFILE[0], PROFILE[1],),
     headers=headers,
 ).json()[0]
 
 r = requests.post(
-    '%s/api/v1alpha1/deployments/' % (BOOTLOADER_URL,),
+    '%s/api/v1alpha2/deployments/' % (BOOTLOADER_URL,),
     headers=headers,
     data={
         'server': SERVER_NAME,

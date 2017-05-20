@@ -25,11 +25,11 @@ headers = {
 }
 
 r = requests.get(
-    '%s/api/v1alpha1/deployments/' % BOOTLOADER_URL,
+    '%s/api/v1alpha2/deployments/' % BOOTLOADER_URL,
     headers=headers).json()
 
 for deployment in r:
     requests.delete(
-        '%s/api/v1alpha1/deployments/%s/' % (
+        '%s/api/v1alpha2/deployments/%s/' % (
             BOOTLOADER_URL, deployment['id'],),
         headers=headers)

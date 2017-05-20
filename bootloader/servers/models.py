@@ -70,7 +70,7 @@ class Server(BaseModel):
         return '/servers/%s/%s.html?action=edit' % (self.pk, self.fqdn)
 
     def link_api(self):
-        return '/api/v1alpha1/servers/%s' % (self.pk)
+        return '/api/v1alpha2/servers/%s' % (self.pk)
 
     def link_ipmi_web(self):
         return '%s://%s' % (
