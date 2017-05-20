@@ -168,4 +168,4 @@ libraries used in bootloader-web and their licenses:
 ## Beta1 release features and requirements
 
 - [ ] All key parts are covered with tests
-- [ ] All the pipeline is manually tested
+- [ ] All the pipelines are manually tested
