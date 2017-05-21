@@ -156,7 +156,7 @@ libraries used in bootloader-web and their licenses:
 - [ ] Errors are come to UI
 - [ ] Queue tests
 - [ ] Input validation with UI error displaying
-- [ ] Handle JS errors without alert()
+- [X] Handle JS errors without alert()
 - [ ] Update any object through WebUI
 - [ ] Full REST API namespacing with properly namespaced tests
 

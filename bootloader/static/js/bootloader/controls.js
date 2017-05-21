@@ -65,7 +65,7 @@ $('document').ready(function() {
           }
         },
         error: function(result, status, error) {
-          alert("Error performing an action: "+status)
+          console.error("Error performing an action: "+status)
         }
       });
     });
@@ -90,7 +90,7 @@ $('document').ready(function() {
         $(location).attr("href", postActionURL)
       },
       error: function(result, status, error) {
-        alert("status: "+status+" ; "+JSON.stringify(result));
+        console.error("status: "+status+" ; "+JSON.stringify(result));
       }
     });
   });
@@ -109,7 +109,7 @@ $('document').ready(function() {
       contentType: false,
       processData: false,
       type: 'POST',
-      success: function(data){
+      success: function(data) {
           var profileObject = {
             'name': profileName,
             'version': profileVersion,
@@ -123,12 +123,12 @@ $('document').ready(function() {
               $(location).attr("href", "/deployments/profiles.html")
             },
             error: function(result, status, error) {
-              alert("status: "+status+" ; "+JSON.stringify(result));
+              console.error("status: "+status+" ; "+JSON.stringify(result));
             }
           });
       },
       error: function(result, status, error) {
-        alert("status: "+status+" ; "+JSON.stringify(result));
+        console.error("status: "+status+" ; "+JSON.stringify(result));
       }
     });
   });
