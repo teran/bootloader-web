@@ -1,7 +1,4 @@
 $('document').ready(function() {
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  });
   function getCookie(name) {
       var cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -17,6 +14,13 @@ $('document').ready(function() {
       }
       return cookieValue;
   }
+  function errorMessageToUI(message) {
+    $(".alertbox").html(
+      '<div class="alert alert-danger" role="alert">' + message + '</div>');
+  }
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
   function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -66,6 +70,7 @@ $('document').ready(function() {
         },
         error: function(result, status, error) {
           console.error("Error performing an action: "+status)
+          errorMessageToUI("Error sending form");
         }
       });
     });
@@ -91,6 +96,7 @@ $('document').ready(function() {
       },
       error: function(result, status, error) {
         console.error("status: "+status+" ; "+JSON.stringify(result));
+        errorMessageToUI("Error sending form");
       }
     });
   });
@@ -124,11 +130,13 @@ $('document').ready(function() {
             },
             error: function(result, status, error) {
               console.error("status: "+status+" ; "+JSON.stringify(result));
+              errorMessageToUI("Error accessing profiles");
             }
           });
       },
       error: function(result, status, error) {
         console.error("status: "+status+" ; "+JSON.stringify(result));
+        errorMessageToUI("Error accesing yaml2json tool");
       }
     });
   });
@@ -146,6 +154,7 @@ $('document').ready(function() {
         },
         error: function(result, status, error) {
           console.error("status: "+status+" ; "+JSON.stringify(result));
+          errorMessageToUI("Error requesting deployment data");
         }
       });
     }, 3000);
