@@ -132,4 +132,22 @@ $('document').ready(function() {
       }
     });
   });
+  $("div.deployment-progress-dynamic").css("width", function() {
+    var deploymentID = $(this).attr("deployment-id");
+    setInterval(function() {
+      $.ajax({
+        url: '/api/v1alpha2/deployments/'+deploymentID,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function(data){
+          $("div#deployment-"+deploymentID).css("width", data["progress"]+"%");
+          $("div#deployment-"+deploymentID).attr("aria-valuenow", data["progress"]);
+        },
+        error: function(result, status, error) {
+          console.error("status: "+status+" ; "+JSON.stringify(result));
+        }
+      });
+    }, 3000);
+  });
 });

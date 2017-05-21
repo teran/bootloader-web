@@ -149,7 +149,7 @@ libraries used in bootloader-web and their licenses:
 # Pending releases
 ## Alpha2 release features and requirements
 
-- [ ] Interactive progress bars for deployments in non-finite states
+- [X] Interactive progress bars for deployments in non-finite states
 - [ ] One-click redeploy with "repeat" button
 - [ ] Make deployment timeouts configurable from profiles
 - [ ] Per-step timeouts for deployments

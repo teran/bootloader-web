@@ -5,7 +5,7 @@
             <h3>{{ deployment.profile }} @ {{ deployment.server }}</h3>
             <div>
               <div class="progress">
-                <div class="progress-bar {{ deployment.progress_class_css }}" role="progressbar" aria-valuenow="{{ deployment.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ deployment.progress }}%">
+                <div class="progress-bar {{ deployment.progress_class_css }}{% if deployment.status != "complete" and deployment.status != "error" %} deployment-progress-dynamic{% endif %}" deployment-id="{{ deployment.pk }}" id="deployment-{{ deployment.pk }}" role="progressbar" aria-valuenow="{{ deployment.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ deployment.progress }}%">
                   <span class="sr-only">{{ deployment.progress }}% Complete</span>
                 </div>
               </div>
