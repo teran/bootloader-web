@@ -75,6 +75,9 @@ issues.
 
 ### API status
 The most stable current API version: `v1alpha1`
+
+The latest dev API version: `v1alpha2`
+
 Any incompatible changes will be marked as dedicated API version.
 
 #### API Alpha versions
@@ -96,8 +99,9 @@ Supported during two stable releases.
 #### API versions lifecycle
 
 Normally it should work the following way:
-v1alpha1 - the first initial version shows what could we need from API.
-It will become v1alpha2 as only it would have incompatible changes.
+`v1alpha1` - the first initial version shows what could we need from API.
+It will become `v1alpha2` as only it would have incompatible changes, i.e.
+new fields/removed fields or changed data types.
 
 In addition the most recent version of Alpha API will be forked to v1beta1 on first
 alpha-release, and the most recent beta-version to stable on stable application release.
