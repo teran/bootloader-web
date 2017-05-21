@@ -88,6 +88,12 @@
       {% block navigation %}
       {% endblock %}
 
+      <div class="alertbox col-sm-10 col-sm-offset-4 col-md-6 col-md-offset-3">
+        {% for message in messages %}
+        <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+        {% endfor %}
+      </div>
+
       {% block content %}
       {% endblock %}
       </div>
