@@ -167,6 +167,9 @@ libraries used in bootloader-web and their licenses:
 
 ## Alpha3
 
+- [ ] App specific API access-tokens
+- [ ] Metrics export(Prometheus format?)
+- [ ] Liveness and readiness check handlers
 - [ ] Slack and email notifications about deployments
 - [ ] Profiles API namespacing
 
