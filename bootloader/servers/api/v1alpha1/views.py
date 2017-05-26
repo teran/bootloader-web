@@ -2,10 +2,10 @@ from rest_framework import viewsets
 
 from servers.models import Interface, Network, Location, Server
 
-from servers.serializers import InterfaceSerializer
-from servers.serializers import LocationSerializer
-from servers.serializers import NetworkSerializer
-from servers.serializers import ServerSerializer
+from servers.api.v1alpha1.serializers import InterfaceSerializer
+from servers.api.v1alpha1.serializers import LocationSerializer
+from servers.api.v1alpha1.serializers import NetworkSerializer
+from servers.api.v1alpha1.serializers import ServerSerializer
 
 from tools.api.permissions import StaffOrReadOnly
 
