@@ -11,6 +11,7 @@ class DeploymentSerializer(serializers.Serializer):
     profile = serializers.SlugRelatedField(
         queryset=Profile.objects.all(), slug_field='pk')
     token = serializers.CharField(max_length=64, required=False)
+    status = serializers.CharField(max_length=16, required=False)
     progress = serializers.IntegerField(required=False)
 
     class Meta:
