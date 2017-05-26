@@ -4,7 +4,8 @@ from rest_framework import viewsets
 
 from tools.api.permissions import OwnerOrReadOnly, StaffOrReadOnly
 from users.models import SSHAuthorizedKey
-from users.serializers import UserSerializer, SSHAuthorizedKeySerializer
+from users.api.v1alpha2.serializers import UserSerializer
+from users.api.v1alpha2.serializers import SSHAuthorizedKeySerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
