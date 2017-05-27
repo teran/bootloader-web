@@ -1,4 +1,4 @@
-from servers.models import Interface, Network, Server, Location
+from servers.models import Interface, Network, Server, Label, Location
 from rest_framework import serializers
 
 
@@ -64,6 +64,19 @@ class InterfaceSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Interface.objects.create(**validated_data)
+
+
+class LabelSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(
+        required=True, allow_blank=False, max_length=255)
+
+    class Meta:
+        model = Label
+        fields = ('name',)
+
+    def create(self, validated_data):
+        return Label.objects.create(**validated_data)
 
 
 class LocationSerializer(serializers.Serializer):

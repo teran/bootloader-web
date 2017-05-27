@@ -13,6 +13,7 @@ router.register(r'credentials', tools.api.CredentialViewSet)
 router.register(
     r'deployments', deployments.api.v1alpha2.views.DeploymentViewSet)
 router.register(r'interfaces', servers.api.v1alpha2.views.InterfaceViewSet)
+router.register(r'labels', servers.api.v1alpha2.views.LabelViewSet)
 router.register(r'locations', servers.api.v1alpha2.views.LocationViewSet)
 router.register(r'networks', servers.api.v1alpha2.views.NetworkViewSet)
 router.register(r'profiles', deployments.api.v1alpha2.views.ProfileViewSet)
