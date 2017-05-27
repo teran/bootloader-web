@@ -7,5 +7,5 @@ netaddr
 rest-framework-generic-relations
 psycopg2
 pycrypto
-requests
+requests==2.15.1
 PyYAML
