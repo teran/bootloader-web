@@ -31,6 +31,7 @@ class APIv1alpha2TestCase(APITestCase):
             'credentials',
             'deployments',
             'interfaces',
+            'labels',
             'locations',
             'networks',
             'profiles',
