@@ -33,7 +33,7 @@ class ServerSerializer(serializers.Serializer):
 
 
 class NetworkSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=False),
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(
         required=True, allow_blank=False, max_length=255)
     network = serializers.CharField(
@@ -53,7 +53,7 @@ class NetworkSerializer(serializers.Serializer):
 
 
 class InterfaceSerializer(serializers.Serializer):
-    id = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=16)
     mac = serializers.CharField(max_length=17)
     server = serializers.SlugRelatedField(
@@ -73,7 +73,6 @@ class LabelSerializer(serializers.Serializer):
 
     class Meta:
         model = Label
-        fields = ('name',)
 
     def create(self, validated_data):
         return Label.objects.create(**validated_data)
@@ -88,7 +87,6 @@ class LocationSerializer(serializers.Serializer):
 
     class Meta:
         model = Location
-        fields = ('name',)
 
     def create(self, validated_data):
         return Location.objects.create(**validated_data)
