@@ -6,12 +6,14 @@ if [[ -n "${SSL_CERTIFICATE_CONTENTS}" ]] ; then
   echo "${SSL_CERTIFICATE_CONTENTS}" > /etc/bootloader/certificate.pem
   chown root:root /etc/bootloader/certificate.pem
   chmod 0400 /etc/bootloader/certificate.pem
+  unset SSL_CERTIFICATE_CONTENTS
 fi
 
 if [[ -n "${SSL_KEY_CONTENTS}" ]] ; then
   echo "${SSL_KEY_CONTENTS}" > /etc/bootloader/key.pem
   chown root:root /etc/bootloader/key.pem
   chmod 0400 /etc/bootloader/key.pem
+  unset SSL_KEY_CONTENTS
 fi
 
 if [[ "${SSL_ENABLE}" == "true" ]] ; then
