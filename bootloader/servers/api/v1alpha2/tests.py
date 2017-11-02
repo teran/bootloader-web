@@ -39,9 +39,9 @@ class LocationTestCase(TestCase):
         Location.objects.create(name='Location2')
 
     def test_location_create(self):
-        l = Location.objects.create(name='Location3')
+        loc = Location.objects.create(name='Location3')
 
-        self.assertEqual(l.name, 'Location3')
+        self.assertEqual(loc.name, 'Location3')
 
     def test_location_consistency(self):
         location1 = Location.objects.get(name='Location1')
